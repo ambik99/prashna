@@ -84,7 +84,7 @@ Coverage column: the ticket whose tests cover the item.
 | [ ] | The current Paper is saved on the device automatically after every change ("Auto-saved"), and is there after closing and reopening. | #2 |
 | [ ] | "Save Paper (.json)" downloads the Paper as a file named after the class and subject. | #2 |
 | [ ] | "Load Paper" opens a saved Paper file and replaces the current Paper ("Loaded from file"); an invalid file shows "Invalid paper file" or "Could not read JSON". *(quirk: no confirmation before replacing)* | #2 (load), #3 (errors) |
-| [ ] | Load a Template: Starter Sample (8 Marks), Unit Test-II Format (20 Marks), Unit Test Pattern (40 Marks), Board Pattern Starter (Class X). *(quirk: Templates are patterns with a few example Questions, so they don't reach their named marks: 8, 6, 12 and 16 marks)* *(quirk: replaces the current Paper with no confirmation)* | #2, #3 |
+| [ ] | Load a Template: Starter Sample (8 Marks), Unit Test-II Format (20 Marks), Unit Test Pattern (40 Marks), Board Pattern Starter (Class X). *(quirk: each Template holds only a few example Questions, so it doesn't reach its named marks: 8, 6, 12 and 16 marks)* *(quirk: replaces the current Paper with no confirmation)* | #2, #3 |
 | [ ] | "Reset Sample" replaces the current Paper with the Starter Sample. *(quirk: no confirmation)* | #3 |
 
 ## Question Bank
