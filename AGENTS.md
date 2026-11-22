@@ -2,6 +2,13 @@
 
 Prashna is a free web app for CBSE teachers to design question papers and marking schemes. See `CONTEXT.md` for the project's vocabulary.
 
+## Working on tickets
+
+- One branch per ticket, named `<issue-number>-<short-slug>` (for example `2-test-harness-and-core-paper-tests`), branched from `main`. Never work directly on `main`.
+- One pull request per ticket, with `Closes #<issue-number>` in the description. The sole developer merges it; there is no review step.
+- No AI attribution in commits, pull requests or issues.
+- Run the browser tests with `npm test` (see `tests/README.md`). They must pass before a ticket is done.
+
 ## Agent skills
 
 ### Issue tracker

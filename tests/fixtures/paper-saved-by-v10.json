@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "school": "Fixture High School, Jalpaiguri",
+    "exam": "Pre-Board Examination (2026–27)",
+    "classLevel": "Class 10",
+    "subject": "Science",
+    "time": "3 Hours",
+    "showWatermark": true,
+    "targetMarks": 80,
+    "instructions": "This question paper consists of 5 sections (A–E). Internal choices are provided in Sections B, C, D, and E.",
+    "sectionNotes": {
+      "Section A": "Objective type / Multiple Choice Questions (1 mark each).",
+      "Section B": "Very Short Answer questions (2 marks each).",
+      "Section C": "Short Answer questions (3 marks each).",
+      "Section D": "Long Answer questions (5 marks each).",
+      "Section E": "Case-Study / Source-Based questions (4 marks each)."
+    },
+    "sectionMarks": {
+      "Section A": 1,
+      "Section B": 2,
+      "Section C": 3,
+      "Section D": 5,
+      "Section E": 4
+    },
+    "sectionCounts": {
+      "Section A": 20,
+      "Section B": 5,
+      "Section C": 6,
+      "Section D": 4,
+      "Section E": 3
+    },
+    "divisionMode": "Combined",
+    "divisionMarks": {
+      "Physics": 25,
+      "Chemistry": 25,
+      "Biology": 30
+    }
+  },
+  "questions": [
+    {
+      "id": 1,
+      "section": "Section A",
+      "type": "mcq",
+      "text": "Which of the following is an amphoteric oxide?",
+      "options": [
+        "Na2O",
+        "Al2O3",
+        "CO2",
+        "MgO"
+      ],
+      "subQuestions": [],
+      "assertion": "",
+      "reason": "",
+      "imageData": "",
+      "orText": "",
+      "answer": "(b) Al2O3",
+      "marks": 1
+    },
+    {
+      "id": 2,
+      "section": "Section A",
+      "type": "ar",
+      "text": "",
+      "options": [],
+      "subQuestions": [],
+      "assertion": "Silver chloride turns grey in sunlight.",
+      "reason": "Decomposition of silver chloride into silver and chlorine takes place by sunlight.",
+      "imageData": "",
+      "orText": "",
+      "answer": "(a) Both A and R are true and R is the correct explanation of A.",
+      "marks": 1
+    },
+    {
+      "id": 3,
+      "section": "Section B",
+      "type": "standard",
+      "text": "Why does dry HCl gas not change the colour of dry litmus paper?",
+      "options": [],
+      "subQuestions": [],
+      "assertion": "",
+      "reason": "",
+      "imageData": "",
+      "orText": "",
+      "answer": "H+ ions are produced only in aqueous solution.",
+      "marks": 2
+    },
+    {
+      "id": 4,
+      "section": "Section C",
+      "type": "standard",
+      "text": "Define power of a lens and write its SI unit. Find the power of a convex lens of focal length 25 cm.",
+      "options": [],
+      "subQuestions": [],
+      "assertion": "",
+      "reason": "",
+      "imageData": "",
+      "orText": "",
+      "answer": "P = 1/f (in m), SI unit Dioptre (D); P = +4 D.",
+      "marks": 3
+    },
+    {
+      "id": 5,
+      "section": "Section D",
+      "type": "standard",
+      "text": "What are homologous series? Explain with two examples and state three characteristics.",
+      "options": [],
+      "subQuestions": [],
+      "assertion": "",
+      "reason": "",
+      "imageData": "",
+      "orText": "Explain esterification and saponification reactions with balanced chemical equations.",
+      "answer": "Definition (1M) + 2 examples (1M) + 3 characteristics (3M).",
+      "marks": 5
+    },
+    {
+      "id": 6,
+      "section": "Section E",
+      "type": "case",
+      "text": "Mendel crossed tall pea plants (TT) with short pea plants (tt) and observed the F1 and F2 generations.",
+      "options": [],
+      "subQuestions": [
+        "(i) What was the phenotype of the F1 generation? (1 Mark)",
+        "(ii) Write the phenotypic ratio of the F2 generation. (1 Mark)",
+        "(iii) State Mendel's Law of Dominance. (2 Marks)"
+      ],
+      "assertion": "",
+      "reason": "",
+      "imageData": "",
+      "orText": "",
+      "answer": "(i) All tall (Tt). (ii) 3:1. (iii) Dominant allele expresses itself in heterozygous state.",
+      "marks": 4
+    }
+  ],
+  "nextId": 7
+}
