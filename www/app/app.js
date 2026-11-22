@@ -516,7 +516,7 @@ function saveDraft() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(getPaperData()));
     saveStatus.textContent = "Auto-saved";
-    saveStatus.style.color = "#15803d";
+    saveStatus.style.color = "var(--color-success)";
   } catch (e) {
     saveStatus.textContent = "Session only";
   }
@@ -688,14 +688,14 @@ function handleImportFile(event) {
         saveDraft();
         renderPaper();
         saveStatus.textContent = "Loaded from file";
-        saveStatus.style.color = "#1d4ed8";
+        saveStatus.style.color = "var(--color-accent)";
       } else {
         saveStatus.textContent = "Invalid paper file";
-        saveStatus.style.color = "#b91c1c";
+        saveStatus.style.color = "var(--color-danger)";
       }
     } catch (err) {
       saveStatus.textContent = "Could not read JSON";
-      saveStatus.style.color = "#b91c1c";
+      saveStatus.style.color = "var(--color-danger)";
     }
     importFileInput.value = "";
   };
@@ -719,7 +719,7 @@ function saveQuestionToBank(q) {
   saveBank();
   renderBank();
   saveStatus.textContent = "Saved to Bank";
-  saveStatus.style.color = "#15803d";
+  saveStatus.style.color = "var(--color-success)";
 }
 
 function insertFromBank(bankId) {
@@ -761,7 +761,7 @@ async function fetchOnlineQuestionBank() {
   const customUrl = fetchUrlInput.value.trim();
   fetchBankBtn.disabled = true;
   fetchStatus.textContent = "Fetching questions...";
-  fetchStatus.style.color = "#475569";
+  fetchStatus.style.color = "var(--color-text-muted)";
 
   let added = 0;
   if (customUrl) {
@@ -794,13 +794,13 @@ async function fetchOnlineQuestionBank() {
         saveBank();
         renderBank();
         fetchStatus.textContent = "Fetched " + added + " question(s) from URL!";
-        fetchStatus.style.color = "#15803d";
+        fetchStatus.style.color = "var(--color-success)";
         fetchBankBtn.disabled = false;
         return;
       }
     } catch (err) {
       fetchStatus.textContent = "URL unreachable or blocked by browser CORS; loaded built-in " + cls + " " + subj + " bank instead.";
-      fetchStatus.style.color = "#b45309";
+      fetchStatus.style.color = "var(--color-warning)";
     }
   }
 
@@ -814,7 +814,7 @@ async function fetchOnlineQuestionBank() {
   renderBank();
   if (!customUrl) {
     fetchStatus.textContent = "Loaded " + added + " curated CBSE " + cls + " " + subj + " questions into your bank.";
-    fetchStatus.style.color = "#15803d";
+    fetchStatus.style.color = "var(--color-success)";
   }
   fetchBankBtn.disabled = false;
 }

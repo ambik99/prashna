@@ -1,0 +1,142 @@
+/*
+ * Prashna design values. Every colour, type size, spacing step, radius and
+ * shadow in the app comes from here. Components use the semantic names
+ * (--color-surface, --color-accent ...), never raw colours.
+ *
+ * The interface follows the device's light or dark mode. The Paper preview
+ * carries the .theme-light class, so it always uses the light values and
+ * stays white like real paper.
+ */
+
+:root,
+.theme-light {
+  color-scheme: light;
+
+  /* Surfaces: warm off-white page, white cards */
+  --color-bg: #f6f4ef;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f1eee7;
+  --color-border: #e3dfd5;
+  --color-border-strong: #8c8576;
+
+  /* Text */
+  --color-text: #1b2030;
+  --color-text-muted: #4b5262;
+  --color-text-subtle: #5f6676;
+
+  /* Ink navy, the single accent */
+  --color-accent: #1e2a4a;
+  --color-accent-hover: #2b3a63;
+  --color-accent-soft: #e6e9f1;
+  --color-accent-soft-hover: #d8ddea;
+  --color-accent-soft-text: #1e2a4a;
+  --color-on-accent: #ffffff;
+
+  /* Status. Red is only for errors and destructive actions. */
+  --color-danger: #b42318;
+  --color-danger-soft: #fbe9e7;
+  --color-danger-soft-hover: #f6d6d2;
+  --color-success: #1d6b38;
+  --color-success-soft: #e5f2e8;
+  --color-success-soft-hover: #d3e9d9;
+  --color-warning: #7a4f00;
+  --color-warning-soft: #f8eed6;
+  --color-warning-border: #ecd9a6;
+
+  --color-focus: #2f4a8a;
+  --color-overlay: rgba(17, 19, 24, 0.5);
+
+  --shadow-sm: 0 1px 2px rgba(27, 32, 48, 0.05);
+  --shadow-md: 0 4px 16px rgba(27, 32, 48, 0.06);
+  --shadow-lg: 0 20px 48px rgba(27, 32, 48, 0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --color-bg: #111318;
+    --color-surface: #191c23;
+    --color-surface-muted: #20242d;
+    --color-border: #2c313c;
+    --color-border-strong: #6b7385;
+
+    --color-text: #eceef2;
+    --color-text-muted: #b4bac6;
+    --color-text-subtle: #9aa1af;
+
+    --color-accent: #a9bbea;
+    --color-accent-hover: #c0cdf0;
+    --color-accent-soft: #232c44;
+    --color-accent-soft-hover: #2c3753;
+    --color-accent-soft-text: #c6d2f2;
+    --color-on-accent: #111318;
+
+    --color-danger: #f0857a;
+    --color-danger-soft: #3a1d1b;
+    --color-danger-soft-hover: #4a2522;
+    --color-success: #7fd39a;
+    --color-success-soft: #16301f;
+    --color-success-soft-hover: #1d3d28;
+    --color-warning: #e8c072;
+    --color-warning-soft: #33290f;
+    --color-warning-border: #4d3e17;
+
+    --color-focus: #a9bbea;
+    --color-overlay: rgba(0, 0, 0, 0.6);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.5);
+  }
+}
+
+:root {
+  /* The printed Paper: always black ink on white */
+  --paper-bg: #ffffff;
+  --paper-ink: #000000;
+  --paper-ink-muted: #4b5563;
+  --paper-rule: #d1d5db;
+  --paper-rule-strong: #999999;
+
+  /* Type */
+  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-paper: "Newsreader", "Noto Sans Devanagari", "Noto Sans Bengali", Georgia, "Times New Roman", serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-md: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.375rem;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --duration-fast: 150ms;
+
+  --content-width: 1120px;
+}
