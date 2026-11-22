@@ -1,8 +1,15 @@
-const CACHE_NAME = "cbse-paper-designer-v11-pwa";
+const CACHE_NAME = "cbse-paper-designer-v12-pwa";
 const ASSETS = [
   "./",
   "./index.html",
+  "./fonts.css",
+  "./tokens.css",
   "./styles.css",
+  "./fonts/inter.woff2",
+  "./fonts/newsreader.woff2",
+  "./fonts/newsreader-italic.woff2",
+  "./fonts/noto-sans-devanagari.woff2",
+  "./fonts/noto-sans-bengali.woff2",
   "./app.js",
   "./manifest.json",
   "./icon-192.png",
