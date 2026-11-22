@@ -1748,31 +1748,7 @@ insertBengaliTranslitBtn.addEventListener("click", () => {
   bengaliTranslitPreview.textContent = "বাংলা প্রিভিউ...";
 });
 
-// PWA Install & Offline Service Worker
-let deferredInstallPrompt = null;
-const installAppBtn = document.getElementById("installAppBtn");
-const installModal = document.getElementById("installModal");
-const closeInstallModalBtn = document.getElementById("closeInstallModalBtn");
-
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredInstallPrompt = e;
-});
-
-installAppBtn.addEventListener("click", async () => {
-  if (deferredInstallPrompt) {
-    deferredInstallPrompt.prompt();
-    await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt = null;
-  } else {
-    installModal.classList.remove("hidden");
-  }
-});
-
-closeInstallModalBtn.addEventListener("click", () => {
-  installModal.classList.add("hidden");
-});
-
+// Offline Service Worker (see sw.js)
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./sw.js").catch(() => {});

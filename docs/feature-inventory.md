@@ -105,7 +105,7 @@ Coverage column: the ticket whose tests cover the item.
 | | Feature | Tests |
 |---|---|---|
 | [ ] | On narrow screens, "Editor" and "Paper Preview" tabs switch between the two panels. | #4 |
-| [ ] | "Install App" shows instructions for adding the app to an Android or iPhone home screen. | #4 |
+| [ ] | "Get the App" opens the install prompt where the browser offers one, shows the two-step Add to Home Screen guide on iPhone and iPad Safari, suggests Chrome or Safari in other browsers, and is hidden once Prashna is installed. | #16 |
 | [ ] | Works offline after the first visit, and can be added to a phone's home screen. | #14 |
 
 ## Notes from the maker
