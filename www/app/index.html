@@ -90,18 +90,18 @@
       <div class="step" data-step>
         <h2 class="step-heading"><button type="button" class="step-toggle" aria-expanded="true" aria-controls="stepPaperDetails"><span>1. Paper Details</span></button></h2>
         <div id="stepPaperDetails" class="step-body">
-      <div class="field">
-        <label for="schoolInput">School Name</label>
-        <input type="text" id="schoolInput" value="Caesar School, Anandapally, Mal" />
-      </div>
-      <div class="field">
-        <label for="examInput">Examination Title</label>
-        <input type="text" id="examInput" value="Half-Yearly Examination (2026–27)" />
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="classInput">Class</label>
-          <select id="classInput">
+          <div class="field">
+            <label for="schoolInput">School Name</label>
+            <input type="text" id="schoolInput" value="Caesar School, Anandapally, Mal" autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label for="examInput">Examination Title</label>
+            <input type="text" id="examInput" value="Half-Yearly Examination (2026–27)" />
+          </div>
+          <div class="field-row field-row-3">
+            <div class="field">
+              <label for="classInput">Class</label>
+              <select id="classInput">
             <option value="Nur">Nur</option>
             <option value="LKG">LKG</option>
             <option value="UKG">UKG</option>
@@ -117,167 +117,235 @@
             <option value="Class 10" selected>Class 10</option>
             <option value="Class 11">Class 11</option>
             <option value="Class 12">Class 12</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="subjectInput">Subject</label>
-          <input type="text" id="subjectInput" value="Science" />
-        </div>
-      </div>
-      <div class="field">
-        <label for="timeInput">Time Allowed</label>
-        <input type="text" id="timeInput" value="3 Hours" />
-      </div>
-      <label class="checkbox-label">
-        <input type="checkbox" id="watermarkCheckbox" checked />
-        Show School Crest Watermark
-      </label>
-      <div id="scienceDivisionBox" class="field hidden">
-        <label for="divisionModeSelect">Science Division (Class 9 &amp; 10)</label>
-        <select id="divisionModeSelect">
-          <option value="Combined">Combined (Physics + Chemistry + Biology)</option>
-          <option value="Physics">Physics Only</option>
-          <option value="Chemistry">Chemistry Only</option>
-          <option value="Biology">Biology Only</option>
-        </select>
-        <div class="field-row" style="grid-template-columns: 1fr 1fr 1fr; margin-top: 0.55rem;">
-          <div>
-            <label for="divPhyMarks">Physics (M)</label>
-            <input type="number" id="divPhyMarks" min="0" max="100" value="25" />
+              </select>
+            </div>
+            <div class="field">
+              <label for="subjectInput">Subject</label>
+              <input type="text" id="subjectInput" value="Science" />
+            </div>
+            <div class="field">
+              <label for="timeInput">Time Allowed</label>
+              <input type="text" id="timeInput" value="3 Hours" />
+            </div>
           </div>
-          <div>
-            <label for="divChemMarks">Chem (M)</label>
-            <input type="number" id="divChemMarks" min="0" max="100" value="25" />
+          <div class="field">
+            <label for="instructionsInput">General Instructions</label>
+            <textarea id="instructionsInput" rows="3">All questions are compulsory. However, internal choices have been provided in some questions. Marks for each question are indicated against it.</textarea>
           </div>
-          <div>
-            <label for="divBioMarks">Bio (M)</label>
-            <input type="number" id="divBioMarks" min="0" max="100" value="30" />
-          </div>
-        </div>
-      </div>
-      <div class="field">
-        <label for="instructionsInput">General Instructions</label>
-        <textarea id="instructionsInput">All questions are compulsory. However, internal choices have been provided in some questions. Marks for each question are indicated against it.</textarea>
-      </div>
+          <label class="checkbox-label">
+            <input type="checkbox" id="watermarkCheckbox" checked />
+            Show School Crest Watermark
+          </label>
 
+          <fieldset id="scienceDivisionBox" class="form-group hidden">
+            <legend>Science Division</legend>
+            <p class="form-hint">For Class 9 and 10 Science Papers.</p>
+            <div class="field">
+              <label for="divisionModeSelect">Science Division (Class 9 &amp; 10)</label>
+              <select id="divisionModeSelect">
+                <option value="Combined">Combined (Physics + Chemistry + Biology)</option>
+                <option value="Physics">Physics Only</option>
+                <option value="Chemistry">Chemistry Only</option>
+                <option value="Biology">Biology Only</option>
+              </select>
+            </div>
+            <div class="field-row field-row-3">
+              <div>
+                <label for="divPhyMarks">Physics marks</label>
+                <input type="number" id="divPhyMarks" min="0" max="100" value="25" inputmode="numeric" />
+              </div>
+              <div>
+                <label for="divChemMarks">Chemistry marks</label>
+                <input type="number" id="divChemMarks" min="0" max="100" value="25" inputmode="numeric" />
+              </div>
+              <div>
+                <label for="divBioMarks">Biology marks</label>
+                <input type="number" id="divBioMarks" min="0" max="100" value="30" inputmode="numeric" />
+              </div>
+            </div>
+          </fieldset>
         </div>
       </div>
       <div class="step" data-step>
         <h2 class="step-heading"><button type="button" class="step-toggle" aria-expanded="true" aria-controls="stepSections"><span>2. Sections</span></button></h2>
         <div id="stepSections" class="step-body">
-        <div class="sections-grid">
-          <div class="section-grid-head" style="display: grid; grid-template-columns: 1fr 76px 88px; gap: 0.4rem; font-size: 0.72rem; font-weight: 600; margin-bottom: 0.4rem;">
-            <span>Section</span><span>Marks/Q</span><span>No. of Qs</span>
-          </div>
-          <div class="field">
-            <div style="display: grid; grid-template-columns: 1fr 76px 88px; gap: 0.4rem; align-items: center; margin-bottom: 0.3rem;">
-              <label for="noteA" style="margin-bottom: 0;">Section A</label>
-              <select id="distA" aria-label="Section A marks per question" style="padding: 0.25rem 0.3rem; font-size: 0.78rem;">
-                <option value="0">Custom</option><option value="1" selected>1M/Q</option><option value="2">2M/Q</option><option value="3">3M/Q</option><option value="4">4M/Q</option><option value="5">5M/Q</option><option value="6">6M/Q</option><option value="8">8M/Q</option><option value="10">10M/Q</option>
-              </select>
-              <select id="countA" aria-label="Section A number of questions" style="padding: 0.25rem 0.3rem; font-size: 0.78rem;">
-                <option value="0">Not in use</option><option value="1">1 Qs</option><option value="2">2 Qs</option><option value="3">3 Qs</option><option value="4">4 Qs</option><option value="5">5 Qs</option><option value="6">6 Qs</option><option value="7">7 Qs</option><option value="8">8 Qs</option><option value="9">9 Qs</option><option value="10">10 Qs</option><option value="11">11 Qs</option><option value="12">12 Qs</option><option value="13">13 Qs</option><option value="14">14 Qs</option><option value="15">15 Qs</option><option value="16">16 Qs</option><option value="17">17 Qs</option><option value="18">18 Qs</option><option value="19">19 Qs</option><option value="20" selected>20 Qs</option><option value="21">21 Qs</option><option value="22">22 Qs</option><option value="23">23 Qs</option><option value="24">24 Qs</option><option value="25">25 Qs</option>
-              </select>
+          <p class="form-hint">Set each Section's marks and number of questions. Choose "Not in use" to leave a Section off the Paper.</p>
+          <fieldset class="section-row">
+            <legend id="legendA">Section A</legend>
+            <div class="section-row-fields">
+              <div>
+                <label id="distLabelA" for="distA">Marks per question</label>
+                <select id="distA" aria-labelledby="legendA distLabelA">
+                  <option value="0">Custom</option><option value="1" selected>1M/Q</option><option value="2">2M/Q</option><option value="3">3M/Q</option><option value="4">4M/Q</option><option value="5">5M/Q</option><option value="6">6M/Q</option><option value="8">8M/Q</option><option value="10">10M/Q</option>
+                </select>
+              </div>
+              <div>
+                <label id="countLabelA" for="countA">Number of questions</label>
+                <select id="countA" aria-labelledby="legendA countLabelA">
+                  <option value="0">Not in use</option><option value="1">1 Qs</option><option value="2">2 Qs</option><option value="3">3 Qs</option><option value="4">4 Qs</option><option value="5">5 Qs</option><option value="6">6 Qs</option><option value="7">7 Qs</option><option value="8">8 Qs</option><option value="9">9 Qs</option><option value="10">10 Qs</option><option value="11">11 Qs</option><option value="12">12 Qs</option><option value="13">13 Qs</option><option value="14">14 Qs</option><option value="15">15 Qs</option><option value="16">16 Qs</option><option value="17">17 Qs</option><option value="18">18 Qs</option><option value="19">19 Qs</option><option value="20" selected>20 Qs</option><option value="21">21 Qs</option><option value="22">22 Qs</option><option value="23">23 Qs</option><option value="24">24 Qs</option><option value="25">25 Qs</option>
+                </select>
+              </div>
             </div>
-            <input type="text" id="noteA" value="Objective type / Multiple Choice Questions (1 mark each)." />
-          </div>
-          <div class="field">
-            <div style="display: grid; grid-template-columns: 1fr 76px 88px; gap: 0.4rem; align-items: center; margin-bottom: 0.3rem;">
-              <label for="noteB" style="margin-bottom: 0;">Section B</label>
-              <select id="distB" aria-label="Section B marks per question" style="padding: 0.25rem 0.3rem; font-size: 0.78rem;">
-                <option value="0">Custom</option><option value="1">1M/Q</option><option value="2" selected>2M/Q</option><option value="3">3M/Q</option><option value="4">4M/Q</option><option value="5">5M/Q</option><option value="6">6M/Q</option><option value="8">8M/Q</option><option value="10">10M/Q</option>
-              </select>
-              <select id="countB" aria-label="Section B number of questions" style="padding: 0.25rem 0.3rem; font-size: 0.78rem;">
-                <option value="0">Not in use</option><option value="1">1 Qs</option><option value="2">2 Qs</option><option value="3">3 Qs</option><option value="4">4 Qs</option><option value="5" selected>5 Qs</option><option value="6">6 Qs</option><option value="7">7 Qs</option><option value="8">8 Qs</option><option value="9">9 Qs</option><option value="10">10 Qs</option><option value="11">11 Qs</option><option value="12">12 Qs</option><option value="13">13 Qs</option><option value="14">14 Qs</option><option value="15">15 Qs</option><option value="16">16 Qs</option><option value="17">17 Qs</option><option value="18">18 Qs</option><option value="19">19 Qs</option><option value="20">20 Qs</option><option value="21">21 Qs</option><option value="22">22 Qs</option><option value="23">23 Qs</option><option value="24">24 Qs</option><option value="25">25 Qs</option>
-              </select>
+            <label id="noteLabelA" for="noteA">Note printed under the heading</label>
+            <input type="text" id="noteA" value="Objective type / Multiple Choice Questions (1 mark each)." aria-labelledby="legendA noteLabelA" />
+          </fieldset>
+          <fieldset class="section-row">
+            <legend id="legendB">Section B</legend>
+            <div class="section-row-fields">
+              <div>
+                <label id="distLabelB" for="distB">Marks per question</label>
+                <select id="distB" aria-labelledby="legendB distLabelB">
+                  <option value="0">Custom</option><option value="1">1M/Q</option><option value="2" selected>2M/Q</option><option value="3">3M/Q</option><option value="4">4M/Q</option><option value="5">5M/Q</option><option value="6">6M/Q</option><option value="8">8M/Q</option><option value="10">10M/Q</option>
+                </select>
+              </div>
+              <div>
+                <label id="countLabelB" for="countB">Number of questions</label>
+                <select id="countB" aria-labelledby="legendB countLabelB">
+                  <option value="0">Not in use</option><option value="1">1 Qs</option><option value="2">2 Qs</option><option value="3">3 Qs</option><option value="4">4 Qs</option><option value="5" selected>5 Qs</option><option value="6">6 Qs</option><option value="7">7 Qs</option><option value="8">8 Qs</option><option value="9">9 Qs</option><option value="10">10 Qs</option><option value="11">11 Qs</option><option value="12">12 Qs</option><option value="13">13 Qs</option><option value="14">14 Qs</option><option value="15">15 Qs</option><option value="16">16 Qs</option><option value="17">17 Qs</option><option value="18">18 Qs</option><option value="19">19 Qs</option><option value="20">20 Qs</option><option value="21">21 Qs</option><option value="22">22 Qs</option><option value="23">23 Qs</option><option value="24">24 Qs</option><option value="25">25 Qs</option>
+                </select>
+              </div>
             </div>
-            <input type="text" id="noteB" value="Very Short Answer questions (2 marks each)." />
-          </div>
-          <div class="field">
-            <div style="display: grid; grid-template-columns: 1fr 76px 88px; gap: 0.4rem; align-items: center; margin-bottom: 0.3rem;">
-              <label for="noteC" style="margin-bottom: 0;">Section C</label>
-              <select id="distC" aria-label="Section C marks per question" style="padding: 0.25rem 0.3rem; font-size: 0.78rem;">
-                <option value="0">Custom</option><option value="1">1M/Q</option><option value="2">2M/Q</option><option value="3" selected>3M/Q</option><option value="4">4M/Q</option><option value="5">5M/Q</option><option value="6">6M/Q</option><option value="8">8M/Q</option><option value="10">10M/Q</option>
-              </select>
-              <select id="countC" aria-label="Section C number of questions" style="padding: 0.25rem 0.3rem; font-size: 0.78rem;">
-                <option value="0">Not in use</option><option value="1">1 Qs</option><option value="2">2 Qs</option><option value="3">3 Qs</option><option value="4">4 Qs</option><option value="5">5 Qs</option><option value="6" selected>6 Qs</option><option value="7">7 Qs</option><option value="8">8 Qs</option><option value="9">9 Qs</option><option value="10">10 Qs</option><option value="11">11 Qs</option><option value="12">12 Qs</option><option value="13">13 Qs</option><option value="14">14 Qs</option><option value="15">15 Qs</option><option value="16">16 Qs</option><option value="17">17 Qs</option><option value="18">18 Qs</option><option value="19">19 Qs</option><option value="20">20 Qs</option><option value="21">21 Qs</option><option value="22">22 Qs</option><option value="23">23 Qs</option><option value="24">24 Qs</option><option value="25">25 Qs</option>
-              </select>
+            <label id="noteLabelB" for="noteB">Note printed under the heading</label>
+            <input type="text" id="noteB" value="Very Short Answer questions (2 marks each)." aria-labelledby="legendB noteLabelB" />
+          </fieldset>
+          <fieldset class="section-row">
+            <legend id="legendC">Section C</legend>
+            <div class="section-row-fields">
+              <div>
+                <label id="distLabelC" for="distC">Marks per question</label>
+                <select id="distC" aria-labelledby="legendC distLabelC">
+                  <option value="0">Custom</option><option value="1">1M/Q</option><option value="2">2M/Q</option><option value="3" selected>3M/Q</option><option value="4">4M/Q</option><option value="5">5M/Q</option><option value="6">6M/Q</option><option value="8">8M/Q</option><option value="10">10M/Q</option>
+                </select>
+              </div>
+              <div>
+                <label id="countLabelC" for="countC">Number of questions</label>
+                <select id="countC" aria-labelledby="legendC countLabelC">
+                  <option value="0">Not in use</option><option value="1">1 Qs</option><option value="2">2 Qs</option><option value="3">3 Qs</option><option value="4">4 Qs</option><option value="5">5 Qs</option><option value="6" selected>6 Qs</option><option value="7">7 Qs</option><option value="8">8 Qs</option><option value="9">9 Qs</option><option value="10">10 Qs</option><option value="11">11 Qs</option><option value="12">12 Qs</option><option value="13">13 Qs</option><option value="14">14 Qs</option><option value="15">15 Qs</option><option value="16">16 Qs</option><option value="17">17 Qs</option><option value="18">18 Qs</option><option value="19">19 Qs</option><option value="20">20 Qs</option><option value="21">21 Qs</option><option value="22">22 Qs</option><option value="23">23 Qs</option><option value="24">24 Qs</option><option value="25">25 Qs</option>
+                </select>
+              </div>
             </div>
-            <input type="text" id="noteC" value="Short Answer questions (3 marks each)." />
-          </div>
-          <div class="field">
-            <div style="display: grid; grid-template-columns: 1fr 76px 88px; gap: 0.4rem; align-items: center; margin-bottom: 0.3rem;">
-              <label for="noteD" style="margin-bottom: 0;">Section D</label>
-              <select id="distD" aria-label="Section D marks per question" style="padding: 0.25rem 0.3rem; font-size: 0.78rem;">
-                <option value="0">Custom</option><option value="1">1M/Q</option><option value="2">2M/Q</option><option value="3">3M/Q</option><option value="4">4M/Q</option><option value="5" selected>5M/Q</option><option value="6">6M/Q</option><option value="8">8M/Q</option><option value="10">10M/Q</option>
-              </select>
-              <select id="countD" aria-label="Section D number of questions" style="padding: 0.25rem 0.3rem; font-size: 0.78rem;">
-                <option value="0">Not in use</option><option value="1">1 Qs</option><option value="2">2 Qs</option><option value="3">3 Qs</option><option value="4" selected>4 Qs</option><option value="5">5 Qs</option><option value="6">6 Qs</option><option value="7">7 Qs</option><option value="8">8 Qs</option><option value="9">9 Qs</option><option value="10">10 Qs</option><option value="11">11 Qs</option><option value="12">12 Qs</option><option value="13">13 Qs</option><option value="14">14 Qs</option><option value="15">15 Qs</option><option value="16">16 Qs</option><option value="17">17 Qs</option><option value="18">18 Qs</option><option value="19">19 Qs</option><option value="20">20 Qs</option><option value="21">21 Qs</option><option value="22">22 Qs</option><option value="23">23 Qs</option><option value="24">24 Qs</option><option value="25">25 Qs</option>
-              </select>
+            <label id="noteLabelC" for="noteC">Note printed under the heading</label>
+            <input type="text" id="noteC" value="Short Answer questions (3 marks each)." aria-labelledby="legendC noteLabelC" />
+          </fieldset>
+          <fieldset class="section-row">
+            <legend id="legendD">Section D</legend>
+            <div class="section-row-fields">
+              <div>
+                <label id="distLabelD" for="distD">Marks per question</label>
+                <select id="distD" aria-labelledby="legendD distLabelD">
+                  <option value="0">Custom</option><option value="1">1M/Q</option><option value="2">2M/Q</option><option value="3">3M/Q</option><option value="4">4M/Q</option><option value="5" selected>5M/Q</option><option value="6">6M/Q</option><option value="8">8M/Q</option><option value="10">10M/Q</option>
+                </select>
+              </div>
+              <div>
+                <label id="countLabelD" for="countD">Number of questions</label>
+                <select id="countD" aria-labelledby="legendD countLabelD">
+                  <option value="0">Not in use</option><option value="1">1 Qs</option><option value="2">2 Qs</option><option value="3">3 Qs</option><option value="4" selected>4 Qs</option><option value="5">5 Qs</option><option value="6">6 Qs</option><option value="7">7 Qs</option><option value="8">8 Qs</option><option value="9">9 Qs</option><option value="10">10 Qs</option><option value="11">11 Qs</option><option value="12">12 Qs</option><option value="13">13 Qs</option><option value="14">14 Qs</option><option value="15">15 Qs</option><option value="16">16 Qs</option><option value="17">17 Qs</option><option value="18">18 Qs</option><option value="19">19 Qs</option><option value="20">20 Qs</option><option value="21">21 Qs</option><option value="22">22 Qs</option><option value="23">23 Qs</option><option value="24">24 Qs</option><option value="25">25 Qs</option>
+                </select>
+              </div>
             </div>
-            <input type="text" id="noteD" value="Long Answer questions (5 marks each)." />
-          </div>
-          <div class="field" style="margin-bottom: 0;">
-            <div style="display: grid; grid-template-columns: 1fr 76px 88px; gap: 0.4rem; align-items: center; margin-bottom: 0.3rem;">
-              <label for="noteE" style="margin-bottom: 0;">Section E</label>
-              <select id="distE" aria-label="Section E marks per question" style="padding: 0.25rem 0.3rem; font-size: 0.78rem;">
-                <option value="0">Custom</option><option value="1">1M/Q</option><option value="2">2M/Q</option><option value="3">3M/Q</option><option value="4" selected>4M/Q</option><option value="5">5M/Q</option><option value="6">6M/Q</option><option value="8">8M/Q</option><option value="10">10M/Q</option>
-              </select>
-              <select id="countE" aria-label="Section E number of questions" style="padding: 0.25rem 0.3rem; font-size: 0.78rem;">
-                <option value="0">Not in use</option><option value="1">1 Qs</option><option value="2">2 Qs</option><option value="3" selected>3 Qs</option><option value="4">4 Qs</option><option value="5">5 Qs</option><option value="6">6 Qs</option><option value="7">7 Qs</option><option value="8">8 Qs</option><option value="9">9 Qs</option><option value="10">10 Qs</option><option value="11">11 Qs</option><option value="12">12 Qs</option><option value="13">13 Qs</option><option value="14">14 Qs</option><option value="15">15 Qs</option><option value="16">16 Qs</option><option value="17">17 Qs</option><option value="18">18 Qs</option><option value="19">19 Qs</option><option value="20">20 Qs</option><option value="21">21 Qs</option><option value="22">22 Qs</option><option value="23">23 Qs</option><option value="24">24 Qs</option><option value="25">25 Qs</option>
-              </select>
+            <label id="noteLabelD" for="noteD">Note printed under the heading</label>
+            <input type="text" id="noteD" value="Long Answer questions (5 marks each)." aria-labelledby="legendD noteLabelD" />
+          </fieldset>
+          <fieldset class="section-row">
+            <legend id="legendE">Section E</legend>
+            <div class="section-row-fields">
+              <div>
+                <label id="distLabelE" for="distE">Marks per question</label>
+                <select id="distE" aria-labelledby="legendE distLabelE">
+                  <option value="0">Custom</option><option value="1">1M/Q</option><option value="2">2M/Q</option><option value="3">3M/Q</option><option value="4" selected>4M/Q</option><option value="5">5M/Q</option><option value="6">6M/Q</option><option value="8">8M/Q</option><option value="10">10M/Q</option>
+                </select>
+              </div>
+              <div>
+                <label id="countLabelE" for="countE">Number of questions</label>
+                <select id="countE" aria-labelledby="legendE countLabelE">
+                  <option value="0">Not in use</option><option value="1">1 Qs</option><option value="2">2 Qs</option><option value="3" selected>3 Qs</option><option value="4">4 Qs</option><option value="5">5 Qs</option><option value="6">6 Qs</option><option value="7">7 Qs</option><option value="8">8 Qs</option><option value="9">9 Qs</option><option value="10">10 Qs</option><option value="11">11 Qs</option><option value="12">12 Qs</option><option value="13">13 Qs</option><option value="14">14 Qs</option><option value="15">15 Qs</option><option value="16">16 Qs</option><option value="17">17 Qs</option><option value="18">18 Qs</option><option value="19">19 Qs</option><option value="20">20 Qs</option><option value="21">21 Qs</option><option value="22">22 Qs</option><option value="23">23 Qs</option><option value="24">24 Qs</option><option value="25">25 Qs</option>
+                </select>
+              </div>
             </div>
-            <input type="text" id="noteE" value="Case-Study / Source-Based questions (4 marks each)." />
-          </div>
-        </div>
+            <label id="noteLabelE" for="noteE">Note printed under the heading</label>
+            <input type="text" id="noteE" value="Case-Study / Source-Based questions (4 marks each)." aria-labelledby="legendE noteLabelE" />
+          </fieldset>
         </div>
       </div>
       <div class="step" data-step>
         <h2 class="step-heading"><button type="button" class="step-toggle" aria-expanded="true" aria-controls="stepAddQuestion"><span id="formHeading">3. Add a Question</span></button></h2>
         <div id="stepAddQuestion" class="step-body">
-      <div class="field-row">
-        <div class="field">
-          <label for="sectionInput">Section</label>
-          <select id="sectionInput">
-            <option value="Section A">Section A</option>
-            <option value="Section B">Section B</option>
-            <option value="Section C">Section C</option>
-            <option value="Section D">Section D</option>
-            <option value="Section E">Section E (Case-Study)</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="marksInput">Marks</label>
-          <input type="number" id="marksInput" min="1" max="20" value="1" />
-        </div>
-      </div>
+          <div class="field-row field-row-3 field-row-placement">
+            <div class="field">
+              <label for="sectionInput">Section</label>
+              <select id="sectionInput">
+                <option value="Section A">Section A</option>
+                <option value="Section B">Section B</option>
+                <option value="Section C">Section C</option>
+                <option value="Section D">Section D</option>
+                <option value="Section E">Section E (Case-Study)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="marksInput">Marks</label>
+              <input type="number" id="marksInput" min="1" max="20" value="1" inputmode="numeric" />
+            </div>
+            <div id="questionDivisionField" class="field hidden">
+              <label for="questionDivisionInput">Science Division</label>
+              <select id="questionDivisionInput">
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Biology">Biology</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="typeInput">Question Type</label>
+            <select id="typeInput">
+              <option value="standard">Standard (Short / Long Answer)</option>
+              <option value="mcq">Multiple Choice (MCQ)</option>
+              <option value="ar">Assertion–Reason (CBSE Preset)</option>
+              <option value="case">Case-Study (Passage + Sub-questions)</option>
+            </select>
+          </div>
 
-      <div id="questionDivisionField" class="field hidden">
-        <label for="questionDivisionInput">Science Division</label>
-        <select id="questionDivisionInput">
-          <option value="Physics">Physics</option>
-          <option value="Chemistry">Chemistry</option>
-          <option value="Biology">Biology</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="typeInput">Question Type</label>
-        <select id="typeInput">
-          <option value="standard">Standard (Short / Long Answer)</option>
-          <option value="mcq">Multiple Choice (MCQ)</option>
-          <option value="ar">Assertion–Reason (CBSE Preset)</option>
-          <option value="case">Case-Study (Passage + Sub-questions)</option>
-        </select>
-      </div>
+          <div class="field" id="mainQuestionField">
+            <label for="questionInput" id="questionLabel">Question Text</label>
+            <textarea id="questionInput" rows="3" placeholder="e.g., State Ohm's law and write its mathematical formula."></textarea>
+          </div>
 
-      <details class="section-notes-box" style="margin-bottom: 0.85rem;">
+          <div id="arFields" class="ar-fields hidden">
+            <div class="field">
+              <label for="assertionInput">Assertion (A)</label>
+              <textarea id="assertionInput" placeholder="e.g., Silver chloride turns grey in sunlight."></textarea>
+            </div>
+            <div class="field">
+              <label for="reasonInput">Reason (R)</label>
+              <textarea id="reasonInput" placeholder="e.g., Decomposition of silver chloride into silver and chlorine takes place by sunlight."></textarea>
+            </div>
+            <p class="form-hint">The standard CBSE options (a)–(d) are added automatically.</p>
+          </div>
+
+          <fieldset id="mcqFields" class="mcq-fields hidden">
+            <legend>MCQ Options</legend>
+            <div class="mcq-grid">
+              <div><label for="optA">Option (a)</label><input type="text" id="optA" placeholder="(a) Option A" /></div>
+              <div><label for="optB">Option (b)</label><input type="text" id="optB" placeholder="(b) Option B" /></div>
+              <div><label for="optC">Option (c)</label><input type="text" id="optC" placeholder="(c) Option C" /></div>
+              <div><label for="optD">Option (d)</label><input type="text" id="optD" placeholder="(d) Option D" /></div>
+            </div>
+          </fieldset>
+
+          <div id="caseFields" class="case-fields hidden">
+            <label for="subQuestionsInput">Sub-questions (one per line)</label>
+            <textarea id="subQuestionsInput" rows="4" placeholder="(i) Identify the type of reaction.&#10;(ii) Write the balanced equation.&#10;(iii) State one observation."></textarea>
+          </div>
+
+          <!-- Typing tools sit right under the text they insert into -->
+      <details class="section-notes-box">
         <summary>Quick Insert: Math, Science, हिन्दी &amp; বাংলা</summary>
         <div class="notes-inner">
-          <div class="helper-tabs" role="tablist">
-            <button type="button" class="helper-tab-btn active" data-helper-tab="math">Math</button>
-            <button type="button" class="helper-tab-btn" data-helper-tab="science">Science</button>
-            <button type="button" class="helper-tab-btn" data-helper-tab="hindi">हिन्दी</button>
-            <button type="button" class="helper-tab-btn" data-helper-tab="bengali">বাংলা</button>
+          <p class="form-hint">Inserts at the cursor in the last text box you clicked.</p>
+          <div class="helper-tabs" role="group" aria-label="Typing tools">
+            <button type="button" class="helper-tab-btn active" data-helper-tab="math" aria-pressed="true">Math</button>
+            <button type="button" class="helper-tab-btn" data-helper-tab="science" aria-pressed="false">Science</button>
+            <button type="button" class="helper-tab-btn" data-helper-tab="hindi" aria-pressed="false">हिन्दी</button>
+            <button type="button" class="helper-tab-btn" data-helper-tab="bengali" aria-pressed="false">বাংলা</button>
           </div>
           <div id="helperPanelMath" class="helper-panel">
             <div class="chip-grid" id="mathChips"></div>
@@ -304,69 +372,37 @@
         </div>
       </details>
 
-      <div class="field" id="mainQuestionField">
-        <label for="questionInput" id="questionLabel">Question Text</label>
-        <textarea id="questionInput" placeholder="e.g., State Ohm's law and write its mathematical formula."></textarea>
-      </div>
+          <fieldset class="image-box">
+            <legend>Diagram / Figure (Optional)</legend>
+            <div class="image-controls">
+              <button type="button" id="attachImgBtn" class="btn-reset">Attach Image</button>
+              <button type="button" id="clearImgBtn" class="btn-remove hidden">Remove Image</button>
+              <input type="file" id="imageFileInput" accept="image/*" class="hidden" />
+            </div>
+            <p class="form-hint">Shown under the Question on the Paper.</p>
+            <img id="imagePreviewThumb" class="image-thumb hidden" alt="Attached diagram preview" />
+          </fieldset>
 
-      <div id="arFields" class="ar-fields hidden">
-        <div class="field">
-          <label for="assertionInput">Assertion (A)</label>
-          <textarea id="assertionInput" placeholder="e.g., Silver chloride turns grey in sunlight."></textarea>
-        </div>
-        <div class="field" style="margin-bottom: 0;">
-          <label for="reasonInput">Reason (R)</label>
-          <textarea id="reasonInput" placeholder="e.g., Decomposition of silver chloride into silver and chlorine takes place by sunlight."></textarea>
-        </div>
-        <p class="ar-note">Standard CBSE options (a)–(d) will be added automatically.</p>
-      </div>
+          <label class="checkbox-label">
+            <input type="checkbox" id="hasOrCheckbox" />
+            Add an Alternative Question ("OR")
+          </label>
 
-      <div id="mcqFields" class="mcq-fields hidden">
-        <label>MCQ Options</label>
-        <div class="mcq-grid">
-          <input type="text" id="optA" placeholder="(a) Option A" />
-          <input type="text" id="optB" placeholder="(b) Option B" />
-          <input type="text" id="optC" placeholder="(c) Option C" />
-          <input type="text" id="optD" placeholder="(d) Option D" />
-        </div>
-      </div>
+          <div id="orFields" class="or-fields hidden">
+            <label for="orQuestionInput">Alternative Question</label>
+            <textarea id="orQuestionInput" placeholder="Enter the Alternative Question..."></textarea>
+          </div>
 
-      <div id="caseFields" class="case-fields hidden">
-        <label for="subQuestionsInput">Sub-questions (one per line)</label>
-        <textarea id="subQuestionsInput" placeholder="(i) Identify the type of reaction.&#10;(ii) Write the balanced equation.&#10;(iii) State one observation."></textarea>
-      </div>
+          <div class="field">
+            <label for="answerInput">Answer / Marking Scheme (Optional)</label>
+            <textarea id="answerInput" placeholder="e.g., (b) Hydrogen — or key marking points for teachers."></textarea>
+          </div>
 
-      <div class="image-box">
-        <label>Diagram / Figure (Optional)</label>
-        <div class="image-controls">
-          <button type="button" id="attachImgBtn" class="btn-reset">Attach Image</button>
-          <button type="button" id="clearImgBtn" class="btn-remove hidden">Remove Image</button>
-          <input type="file" id="imageFileInput" accept="image/*" class="hidden" />
-        </div>
-        <img id="imagePreviewThumb" class="image-thumb hidden" alt="Attached diagram preview" />
-      </div>
-
-      <label class="checkbox-label">
-        <input type="checkbox" id="hasOrCheckbox" />
-        Add an Alternative Question ("OR")
-      </label>
-
-      <div id="orFields" class="or-fields hidden">
-        <label for="orQuestionInput">Alternative Question</label>
-        <textarea id="orQuestionInput" placeholder="Enter the Alternative Question..."></textarea>
-      </div>
-
-      <div class="field">
-        <label for="answerInput">Answer / Marking Scheme (Optional)</label>
-        <textarea id="answerInput" placeholder="e.g., (b) Hydrogen — or key marking points for teachers."></textarea>
-      </div>
-
-      <div class="form-actions">
-        <button type="button" id="addQuestionBtn" class="btn-primary">+ Add Question to Paper</button>
-        <button type="button" id="cancelEditBtn" class="btn-reset hidden">Cancel</button>
-      </div>
-      <p id="errorMsg" class="error-msg">Please enter a question, valid marks (1–20), and all required fields.</p>
-
+          <div class="form-actions">
+            <button type="button" id="addQuestionBtn" class="btn-primary">+ Add Question to Paper</button>
+            <button type="button" id="cancelEditBtn" class="btn-reset hidden">Cancel</button>
+          </div>
+          <p id="errorMsg" class="error-msg" role="alert">Please enter a question, valid marks (1–20), and all required fields.</p>
         </div>
       </div>
     </section>

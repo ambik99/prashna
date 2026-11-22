@@ -29,7 +29,7 @@ test("the marks summary tracks each Science Division against its planned marks",
   await expect(summary).toContainText("Chemistry: 1/25M");
   await expect(summary).toContainText("Biology: 3/30M");
 
-  await page.getByLabel("Bio (M)").fill("10");
+  await page.getByLabel("Biology marks").fill("10");
   await expect(summary).toContainText("Biology: 3/10M");
 
   await addQuestion(page, {

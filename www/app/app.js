@@ -1687,7 +1687,10 @@ const helperPanels = {
 helperTabBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     const target = btn.getAttribute("data-helper-tab");
-    helperTabBtns.forEach((b) => b.classList.toggle("active", b === btn));
+    helperTabBtns.forEach((b) => {
+      b.classList.toggle("active", b === btn);
+      b.setAttribute("aria-pressed", String(b === btn));
+    });
     Object.entries(helperPanels).forEach(([k, panel]) => {
       panel.classList.toggle("hidden", k !== target);
     });
