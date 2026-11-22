@@ -4,11 +4,46 @@
 (function () {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Scroll reveals: blur, fade and slide in once, as each element enters.
-  const reveals = document.querySelectorAll(".reveal");
-  if (reduced || !("IntersectionObserver" in window)) {
-    reveals.forEach((el) => el.classList.add("is-in"));
+  // Launch animation (once per session; see the page's <head>). The hero's
+  // reveals wait until the layer starts to fade, so they play in view.
+  const root = document.documentElement;
+  const launch = document.querySelector(".launch");
+  let revealsStarted = false;
+  if (root.classList.contains("launching") && launch) {
+    const LAUNCH_FADE_AT = 1200;
+    const revealTimer = setTimeout(startReveals, LAUNCH_FADE_AT);
+    const end = () => {
+      root.classList.remove("launching");
+      launch.remove();
+      removeEventListener("pointerdown", skip);
+      removeEventListener("keydown", skip);
+    };
+    const skip = () => {
+      clearTimeout(revealTimer);
+      startReveals();
+      launch.classList.add("is-skipping");
+      setTimeout(end, 250);
+    };
+    launch.addEventListener("animationend", (e) => {
+      if (e.target === launch) end();
+    });
+    // A safety net in case animation events never fire.
+    setTimeout(end, 2000);
+    addEventListener("pointerdown", skip);
+    addEventListener("keydown", skip);
   } else {
+    startReveals();
+  }
+
+  // Scroll reveals: blur, fade and slide in once, as each element enters.
+  function startReveals() {
+    if (revealsStarted) return;
+    revealsStarted = true;
+    const reveals = document.querySelectorAll(".reveal");
+    if (reduced || !("IntersectionObserver" in window)) {
+      reveals.forEach((el) => el.classList.add("is-in"));
+      return;
+    }
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {

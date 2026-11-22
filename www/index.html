@@ -20,7 +20,17 @@
   <link rel="stylesheet" href="app/get-app.css" />
   <link rel="stylesheet" href="app/theme-toggle.css" />
   <link rel="stylesheet" href="landing.css" />
-  <script>document.documentElement.classList.add("js");</script>
+  <script>
+    document.documentElement.classList.add("js");
+    // Launch animation: once per browser session, never under reduced
+    // motion. Decided before the first paint so the page never flashes.
+    try {
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !sessionStorage.getItem("prashna-launched")) {
+        sessionStorage.setItem("prashna-launched", "1");
+        document.documentElement.classList.add("launching");
+      }
+    } catch (e) {}
+  </script>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -44,6 +54,11 @@
     <symbol id="i-abc" viewBox="0 0 24 24"><path d="M3.5 17L7 7l3.5 10M4.8 13.5h4.4M13.5 7v10h3a2.5 2.5 0 0 0 0-5h-3m0 0h2.5a2.5 2.5 0 0 0 0-5h-2.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2.5 9L12 4.5 21.5 9 12 13.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6.5 11v4.5c1.5 1.5 3.5 2 5.5 2s4-.5 5.5-2V11" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
   </svg>
+
+  <div class="launch" aria-hidden="true">
+    <img class="launch-logo" src="app/icon-192.png" alt="" width="72" height="72" fetchpriority="high" />
+    <p class="launch-credit">Created by <span>Ambik Mojumder</span></p>
+  </div>
 
   <header class="nav">
     <div class="nav-blur" aria-hidden="true"></div>
