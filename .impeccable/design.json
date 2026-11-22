@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-22T00:00:00.000Z",
+  "title": "Design System: Prashna",
+  "extensions": {
+    "colorMeta": {
+      "ink-navy": { "role": "primary", "displayName": "Ink Navy", "canonical": "#1e2a4a", "dark": "#a9bbea", "tonalRamp": ["#0e1426", "#1e2a4a", "#2b3a63", "#43537e", "#6a789e", "#97a2bf", "#c6cddf", "#e6e9f1"] },
+      "ink-navy-hover": { "role": "primary", "displayName": "Ink Navy Hover", "canonical": "#2b3a63", "dark": "#c0cdf0" },
+      "ink-wash": { "role": "primary", "displayName": "Ink Wash", "canonical": "#e6e9f1", "dark": "#232c44" },
+      "ink-wash-hover": { "role": "primary", "displayName": "Ink Wash Hover", "canonical": "#d8ddea", "dark": "#2c3753" },
+      "on-ink": { "role": "primary", "displayName": "On Ink", "canonical": "#ffffff", "dark": "#111318" },
+      "focus-blue": { "role": "primary", "displayName": "Focus Blue", "canonical": "#2f4a8a", "dark": "#a9bbea" },
+      "warm-paper": { "role": "neutral", "displayName": "Warm Paper", "canonical": "#f6f4ef", "dark": "#111318", "tonalRamp": ["#26241f", "#45413a", "#655f55", "#8c8576", "#b5ae9f", "#e3dfd5", "#f1eee7", "#f6f4ef"] },
+      "sheet-white": { "role": "neutral", "displayName": "Sheet White", "canonical": "#ffffff", "dark": "#191c23" },
+      "oat": { "role": "neutral", "displayName": "Oat", "canonical": "#f1eee7", "dark": "#20242d" },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "#e3dfd5", "dark": "#2c313c" },
+      "rule-taupe": { "role": "neutral", "displayName": "Rule Taupe", "canonical": "#8c8576", "dark": "#6b7385" },
+      "ink-text": { "role": "neutral", "displayName": "Ink Text", "canonical": "#1b2030", "dark": "#eceef2", "tonalRamp": ["#0d1018", "#1b2030", "#33394a", "#4b5262", "#5f6676", "#8a90a0", "#b9bdc8", "#eceef2"] },
+      "slate-muted": { "role": "neutral", "displayName": "Slate Muted", "canonical": "#4b5262", "dark": "#b4bac6" },
+      "slate-subtle": { "role": "neutral", "displayName": "Slate Subtle", "canonical": "#5f6676", "dark": "#9aa1af" },
+      "band-text": { "role": "neutral", "displayName": "Band Text", "canonical": "#f6f4ef", "dark": "#eceef2" },
+      "band-muted": { "role": "neutral", "displayName": "Band Muted", "canonical": "#c9cfde", "dark": "#b9c3dc" },
+      "danger-red": { "role": "status", "displayName": "Danger Red", "canonical": "#b42318", "dark": "#f0857a", "tonalRamp": ["#4a0f0a", "#7a1a12", "#b42318", "#d24a3e", "#e47a70", "#f0a9a2", "#f6d6d2", "#fbe9e7"] },
+      "danger-wash": { "role": "status", "displayName": "Danger Wash", "canonical": "#fbe9e7", "dark": "#3a1d1b" },
+      "success-green": { "role": "status", "displayName": "Success Green", "canonical": "#1d6b38", "dark": "#7fd39a", "tonalRamp": ["#0b2a16", "#14492a", "#1d6b38", "#3b8a55", "#68aa7d", "#9cc9a9", "#d3e9d9", "#e5f2e8"] },
+      "success-wash": { "role": "status", "displayName": "Success Wash", "canonical": "#e5f2e8", "dark": "#16301f" },
+      "warning-ochre": { "role": "status", "displayName": "Warning Ochre", "canonical": "#7a4f00", "dark": "#e8c072", "tonalRamp": ["#2e1e00", "#4f3300", "#7a4f00", "#a06e12", "#c29340", "#dcbb7a", "#ecd9a6", "#f8eed6"] },
+      "warning-wash": { "role": "status", "displayName": "Warning Wash", "canonical": "#f8eed6", "dark": "#33290f" },
+      "paper-black": { "role": "neutral", "displayName": "Paper Black", "canonical": "#000000" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Landing Page hero and closing line; one word may be italic 400 for emphasis." },
+      "headline": { "displayName": "Headline", "purpose": "Landing Page section headings, over the 3px double rule." },
+      "title": { "displayName": "Title", "purpose": "Feature and step headings, the Prashna wordmark, app header." },
+      "subline": { "displayName": "Subline", "purpose": "Italic serif line under a heading, like a Paper's Section subline. Font style italic." },
+      "body": { "displayName": "Body", "purpose": "Landing Page running copy, about 34rem to 38rem measure." },
+      "body-app": { "displayName": "Body (app)", "purpose": "The working interface and form fields." },
+      "label": { "displayName": "Label", "purpose": "Buttons, chips, field labels, status text." },
+      "paper-body": { "displayName": "Paper Body", "purpose": "The printed Paper, preview and Word export; mixes Hindi and Bengali." },
+      "paper-marks": { "displayName": "Paper Marks", "purpose": "Bracketed marks on the Paper, right-aligned, tabular figures." }
+    },
+    "shadows": [
+      { "name": "whisper", "value": "0 1px 2px rgba(27, 32, 48, 0.05)", "dark": "0 1px 2px rgba(0, 0, 0, 0.3)", "purpose": "App summary bar." },
+      { "name": "panel", "value": "0 4px 16px rgba(27, 32, 48, 0.06)", "dark": "0 4px 16px rgba(0, 0, 0, 0.3)", "purpose": "App editor and preview panels." },
+      { "name": "float", "value": "0 20px 48px rgba(27, 32, 48, 0.18)", "dark": "0 20px 48px rgba(0, 0, 0, 0.5)", "purpose": "Menus, dialogs, the Get the App guide." },
+      { "name": "sheet", "value": "0 1px 2px rgba(27, 32, 48, 0.06), 0 18px 40px -12px rgba(27, 32, 48, 0.22)", "dark": "0 1px 2px rgba(0, 0, 0, 0.4), 0 24px 48px -12px rgba(0, 0, 0, 0.6)", "purpose": "A4 sheets, app screenshots and phone frames on the Landing Page." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "The one easing for every transition and the scroll-linked sheet slide-out." },
+      { "name": "duration-fast", "value": "150ms", "purpose": "App state transitions (background, border, colour) and menu entry." },
+      { "name": "press", "value": "transform: scale(0.97) over 100ms to 120ms", "purpose": "Press feedback on every button." },
+      { "name": "sheet-out", "value": "scroll-linked over 0 to 55vh, from translate(-44%, 16%) rotate(0) to translate(0, 0) rotate(2.5deg)", "purpose": "Printed Paper sliding out from behind the hero screenshot; still under reduced motion or without scroll timelines." },
+      { "name": "dialog-rise", "value": "280ms ease-out from translateY(100%)", "purpose": "Get the App guide on phones; 180ms scale-in from 0.97 on larger screens; none under reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "480px" },
+      { "name": "topbar-link", "value": "640px" },
+      { "name": "hero-stage", "value": "720px" },
+      { "name": "features", "value": "760px" },
+      { "name": "devices", "value": "860px" },
+      { "name": "dialog-sheet", "value": "880px" },
+      { "name": "steps", "value": "900px" }
+    ],
+    "rules": {
+      "sectionRule": "border-bottom: 3px double var(--color-text)",
+      "pageMax": "1200px",
+      "appContentWidth": "1120px"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Pill",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single primary action in a view, for example Get the App.",
+      "html": "<button class=\"ds-pill\">Get the App</button>",
+      "css": ".ds-pill { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 1.75rem; border: 1px solid var(--color-accent, #1e2a4a); border-radius: 999px; background: var(--color-accent, #1e2a4a); color: var(--color-on-accent, #ffffff); font-family: Inter, system-ui, sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 120ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-pill:hover { background: var(--color-accent-hover, #2b3a63); border-color: var(--color-accent-hover, #2b3a63); } .ds-pill:active { transform: scale(0.97); } .ds-pill:focus-visible { outline: 2px solid var(--color-focus, #2f4a8a); outline-offset: 3px; }"
+    },
+    {
+      "name": "Outline Pill",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "The quieter companion action, for example Try it in your browser.",
+      "html": "<a class=\"ds-pill-outline\" href=\"#\">Try it in your browser</a>",
+      "css": ".ds-pill-outline { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 1.75rem; border: 1px solid var(--color-border-strong, #8c8576); border-radius: 999px; background: transparent; color: var(--color-text, #1b2030); font-family: Inter, system-ui, sans-serif; font-size: 1rem; font-weight: 600; text-decoration: none; transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 120ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-pill-outline:hover { background: var(--color-accent-soft, #e6e9f1); border-color: var(--color-accent, #1e2a4a); } .ds-pill-outline:active { transform: scale(0.97); } .ds-pill-outline:focus-visible { outline: 2px solid var(--color-focus, #2f4a8a); outline-offset: 3px; }"
+    },
+    {
+      "name": "App Button",
+      "kind": "button",
+      "refersTo": "button-app",
+      "description": "Ordinary secondary action in the app, for example Reset.",
+      "html": "<button class=\"ds-btn\">Reset</button>",
+      "css": ".ds-btn { font-family: Inter, system-ui, sans-serif; font-size: 0.8125rem; font-weight: 600; line-height: 1.25; padding: 0.5rem 1rem; border-radius: 10px; border: 1px solid var(--color-border-strong, #8c8576); background: var(--color-surface, #ffffff); color: var(--color-text, #1b2030); cursor: pointer; transition: background-color 150ms cubic-bezier(0.23, 1, 0.32, 1), transform 100ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn:hover { background: var(--color-surface-muted, #f1eee7); } .ds-btn:active { transform: scale(0.97); } .ds-btn:focus-visible { outline: 2px solid var(--color-focus, #2f4a8a); outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "App text inputs, selects and textareas.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"School name\" />",
+      "css": ".ds-input { width: 100%; padding: 0.5rem 0.75rem; font-family: Inter, system-ui, sans-serif; font-size: 0.875rem; border: 1px solid var(--color-border-strong, #8c8576); border-radius: 10px; background: var(--color-surface, #ffffff); color: var(--color-text, #1b2030); transition: border-color 150ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-input::placeholder { color: var(--color-text-subtle, #5f6676); } .ds-input:focus-visible { border-color: var(--color-focus, #2f4a8a); outline: 2px solid var(--color-focus, #2f4a8a); outline-offset: 0; }"
+    },
+    {
+      "name": "Marks Chip",
+      "kind": "chip",
+      "refersTo": "marks-chip",
+      "description": "App marks counters: total in ink wash, status in success, warning or danger washes.",
+      "html": "<span class=\"ds-chip\">Section A: 20</span> <span class=\"ds-chip ds-chip-total\">Total 80</span> <span class=\"ds-chip ds-chip-under\">Target 80</span>",
+      "css": ".ds-chip { display: inline-block; background: var(--color-surface-muted, #f1eee7); border: 1px solid var(--color-border, #e3dfd5); border-radius: 6px; padding: 0.25rem 0.75rem; font-family: Inter, system-ui, sans-serif; font-size: 0.8125rem; font-weight: 600; color: var(--color-text, #1b2030); font-variant-numeric: tabular-nums; } .ds-chip-total { background: var(--color-accent-soft, #e6e9f1); border-color: transparent; color: var(--color-accent-soft-text, #1e2a4a); } .ds-chip-under { background: var(--color-warning-soft, #f8eed6); border-color: var(--color-warning-border, #ecd9a6); color: var(--color-warning, #7a4f00); }"
+    },
+    {
+      "name": "Landing Top Bar",
+      "kind": "nav",
+      "refersTo": "",
+      "description": "Icon and serif wordmark left; quiet text link and small ink pill right.",
+      "html": "<header class=\"ds-topbar\"><a class=\"ds-brand\" href=\"#\"><span class=\"ds-mark\">प्र</span><span>Prashna</span></a><nav class=\"ds-topbar-actions\"><a class=\"ds-link-quiet\" href=\"#\">Try it in your browser</a><button class=\"ds-pill-small\">Get the App</button></nav></header>",
+      "css": ".ds-topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.5rem; background: var(--color-bg, #f6f4ef); } .ds-brand { display: inline-flex; align-items: center; gap: 0.625rem; font-family: Newsreader, Georgia, serif; font-size: 1.375rem; font-weight: 600; letter-spacing: -0.01em; color: var(--color-text, #1b2030); text-decoration: none; } .ds-mark { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 8px; background: #1e2a4a; color: #ffffff; font-size: 1rem; } .ds-topbar-actions { display: flex; align-items: center; gap: 1.5rem; } .ds-link-quiet { font-family: Inter, system-ui, sans-serif; font-size: 0.9375rem; font-weight: 500; color: var(--color-text-muted, #4b5262); text-decoration: none; } .ds-link-quiet:hover { color: var(--color-text, #1b2030); text-decoration: underline; } .ds-pill-small { min-height: 40px; padding: 0 1.125rem; border: 1px solid var(--color-accent, #1e2a4a); border-radius: 999px; background: var(--color-accent, #1e2a4a); color: var(--color-on-accent, #ffffff); font-family: Inter, system-ui, sans-serif; font-size: 0.9375rem; font-weight: 600; cursor: pointer; transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 120ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-pill-small:hover { background: var(--color-accent-hover, #2b3a63); } .ds-pill-small:active { transform: scale(0.97); } .ds-pill-small:focus-visible, .ds-link-quiet:focus-visible { outline: 2px solid var(--color-focus, #2f4a8a); outline-offset: 3px; }"
+    },
+    {
+      "name": "Ruled Section Head",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Serif headline, italic subline, 3px double rule beneath, like a Paper header.",
+      "html": "<div class=\"ds-section-head\"><h2>How it works</h2><p>From a blank Paper to a printed one (4 steps).</p></div>",
+      "css": ".ds-section-head { padding-bottom: 1rem; border-bottom: 3px double var(--color-text, #1b2030); color: var(--color-text, #1b2030); } .ds-section-head h2 { margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 500; font-size: clamp(2rem, 4.4vw, 3.25rem); line-height: 1.08; letter-spacing: -0.02em; } .ds-section-head p { margin: 0.5rem 0 0; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: clamp(1.0625rem, 1.6vw, 1.25rem); color: var(--color-text-muted, #4b5262); }"
+    },
+    {
+      "name": "Feature Row with Marks Tag",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "Serif title with a bracketed serif tag flush right, slate copy, hairline below.",
+      "html": "<div class=\"ds-feature\"><div class=\"ds-feature-line\"><h3>Marking Scheme</h3><span class=\"ds-tag\">[Answers]</span></div><p>Write the answer as you add each Question.</p></div>",
+      "css": ".ds-feature { padding: 1.75rem 0 2rem; border-bottom: 1px solid var(--color-border, #e3dfd5); color: var(--color-text, #1b2030); } .ds-feature-line { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.625rem; } .ds-feature h3 { margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 600; font-size: 1.375rem; line-height: 1.25; letter-spacing: -0.01em; } .ds-tag { flex-shrink: 0; font-family: Newsreader, Georgia, serif; font-weight: 600; font-size: 1rem; white-space: nowrap; } .ds-feature p { margin: 0; font-family: Inter, system-ui, sans-serif; font-size: 1rem; line-height: 1.6; color: var(--color-text-muted, #4b5262); max-width: 34rem; }"
+    },
+    {
+      "name": "Paper Sheet",
+      "kind": "card",
+      "refersTo": "",
+      "description": "White A4 sheet with the soft two-layer sheet shadow; stays white in dark mode.",
+      "html": "<div class=\"ds-sheet\"><div class=\"ds-sheet-school\">Delhi Public School</div><div class=\"ds-sheet-section\">Section A</div><div class=\"ds-sheet-q\"><span>1. Define photosynthesis.</span><b>[2 Marks]</b></div></div>",
+      "css": ".ds-sheet { width: 280px; aspect-ratio: 210 / 297; padding: 24px; background: #ffffff; color: #000000; border-radius: 2px; box-shadow: 0 1px 2px rgba(27, 32, 48, 0.06), 0 18px 40px -12px rgba(27, 32, 48, 0.22); font-family: Newsreader, Georgia, serif; font-size: 11px; line-height: 1.5; font-variant-numeric: lining-nums; } .ds-sheet-school { text-align: center; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding-bottom: 6px; border-bottom: 1.5px solid #000000; margin-bottom: 10px; } .ds-sheet-section { text-align: center; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 0.75px solid #000000; margin-bottom: 6px; } .ds-sheet-q { display: flex; justify-content: space-between; gap: 12px; } .ds-sheet-q b { font-variant-numeric: tabular-nums; white-space: nowrap; }"
+    },
+    {
+      "name": "Privacy Band",
+      "kind": "custom",
+      "refersTo": "privacy-band",
+      "description": "The one drenched ink-navy band per page.",
+      "html": "<section class=\"ds-band\"><h2>Your papers never leave your device.</h2><p class=\"ds-band-lead\">We only count anonymous visits.</p></section>",
+      "css": ".ds-band { padding: 4rem 2rem; background: #1e2a4a; color: #f6f4ef; } .ds-band h2 { margin: 0; max-width: 15ch; font-family: Newsreader, Georgia, serif; font-weight: 500; font-size: clamp(2.5rem, 6.4vw, 5rem); line-height: 1.02; letter-spacing: -0.03em; } .ds-band-lead { margin: 1.5rem 0 0; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: clamp(1.375rem, 2.6vw, 1.875rem); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Printed Paper",
+    "overview": "Prashna is set like the thing it makes. Its product is a printed CBSE question Paper, so the interface and the Landing Page borrow that Paper's grammar: Newsreader serif headings over ruled lines, italic sublines beneath them, marks in square brackets, white A4 sheets lying on a warm off-white desk. Everything around the sheet is quiet, so the sheet reads as the real object.\n\nThe system has one accent, an ink navy taken from a fountain pen and the app icon, used for the single primary action, selection, and one drenched band per page. The rest is warm neutrals: an off-white ground, white surfaces, hairline borders, slate text. Density follows the surface: the app is a compact working tool (0.875rem Inter body, 14px-cornered panels); the Landing Page is generous and editorial (1rem body at 1.6 leading, sections 4.5rem to 8.5rem apart, display serif up to 5.75rem).\n\nLight and dark mode both follow the device. In dark mode the page and panels go dark and the ink navy inverts to a pale periwinkle, but anything that represents paper (the Paper preview, screenshots of the Paper) stays white, because paper is white.",
+    "keyCharacteristics": [
+      "Serif (Newsreader) for anything that would appear on the printed Paper or names a section; Inter for everything you operate.",
+      "One ink-navy accent; red appears only for errors and destructive actions.",
+      "Thin double rules (3px double) under section heads, the way a Paper header is ruled.",
+      "White sheets with a soft, diffuse paper shadow; no hard edges, no offset shadows.",
+      "Pills for actions you take, small squared chips for counts you read.",
+      "One exponential ease-out (cubic-bezier(0.23, 1, 0.32, 1)) for every transition."
+    ],
+    "rules": [
+      { "name": "The One Ink Rule", "body": "Ink navy is the only accent. It marks the single primary action in a view, the selected state, and at most one drenched band per page. If a second element wants to be navy, it should be an outline or a wash instead.", "section": "colors" },
+      { "name": "The Red Means Wrong Rule", "body": "Red is reserved for errors and destructive actions. Never use it for emphasis, decoration, or brand.", "section": "colors" },
+      { "name": "The Paper Stays White Rule", "body": "Anything standing for the printed Paper keeps a white ground and black text in both modes (the preview carries the light theme regardless of device mode).", "section": "colors" },
+      { "name": "The Serif Is Print Rule", "body": "Newsreader is for what reads as print: headings, sublines, marks, the Paper itself, FAQ questions. Inter is for what you operate or skim: buttons, fields, chips, body copy.", "section": "typography" },
+      { "name": "The Italic Subline Rule", "body": "Secondary lines under a heading are serif italic in slate muted, never a smaller sans line in caps.", "section": "typography" },
+      { "name": "The Ruled Section Rule", "body": "A section starts with a serif headline, an optional italic subline, and a 3px double rule in ink text beneath them, then 2rem to 3rem of space. The footer reuses the same double rule above it. List rows below are divided by 1px hairlines, not cards.", "section": "layout" },
+      { "name": "The Soft Paper Rule", "body": "Shadows are diffuse and ink-tinted. No hard offset shadows, no coloured glows.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do draw every colour, size, radius and shadow from tokens.css; the Landing Page adds only its layout values, the sheet shadow and the band colours in landing.css.",
+      "Do start each section with a serif headline, an optional italic subline, and a 3px double rule in ink text.",
+      "Do keep one ink-navy pill as the primary action in a view, with \"Get the App\" as its label wherever the app is offered.",
+      "Do show real captures of the app and the printed Paper, on white with the Sheet shadow, in both modes.",
+      "Do use the single ease-out (cubic-bezier(0.23, 1, 0.32, 1)) for transitions, press feedback at scale 0.97, and a still state under reduced motion.",
+      "Do set marks and counts in brackets or tabular figures, as the Paper does."
+    ],
+    "donts": [
+      "Don't introduce a second accent colour or use red for anything but errors and destruction.",
+      "Don't darken or tint the Paper or its screenshots in dark mode.",
+      "Don't wrap Landing Page features in cards or icon tiles; they are rows divided by hairlines.",
+      "Don't put small uppercase tracked labels above headings; the italic subline goes below.",
+      "Don't use hard offset shadows or coloured glows."
+    ]
+  }
+}

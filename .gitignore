@@ -4,3 +4,8 @@ Thumbs.db
 .scratch/
 test-results/
 playwright-report/
+
+# Impeccable design tool: local state and review screenshots
+.impeccable/hook.cache.json
+.impeccable/questions/
+.impeccable/review/
