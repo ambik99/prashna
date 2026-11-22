@@ -24,7 +24,7 @@ test("the top bar shows Prashna and the Paper's title as it changes", async ({ p
 
 test("the More menu holds the less frequent actions", async ({ page }) => {
   const more = page.getByRole("button", { name: "More", exact: true });
-  const actions = ["Save Paper (.json)", "Load Paper", "Reset Sample", "Show Marking Scheme", "Print Answer Key", "Install App"];
+  const actions = ["Save Paper (.json)", "Load Paper", "Reset Sample", "Show Marking Scheme", "Print Marking Scheme", "Install App"];
 
   for (const name of actions) await expect(page.getByRole("button", { name, exact: true })).toBeHidden();
   await expect(page.getByLabel("Load CBSE Template")).toBeHidden();

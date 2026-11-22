@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import {
   addQuestion,
+  answerConfirmation,
   chooseFile,
   fixture,
   marksSummary,
@@ -211,6 +212,7 @@ test.describe("changing Questions", () => {
 
   test("removing a Question takes it off the Paper and out of the totals", async ({ page }) => {
     await questionButton(page, "Remove", 0).click();
+    await answerConfirmation(page, "Remove Question");
 
     const paper = preview(page);
     await expect(paper).not.toContainText("Define a cell.");
@@ -232,12 +234,21 @@ test("the Marking Scheme can be shown and hidden in the preview", async ({ page 
   await expect(paper).not.toContainText("Mitochondria (1 mark).");
 
   await (await moreMenuButton(page, "Show Marking Scheme")).click();
-  await expect(paper).toContainText("Marking Scheme / Answer Key");
+  await expect(paper.getByText("Marking Scheme", { exact: true })).toBeVisible();
   await expect(paper).toContainText("Mitochondria (1 mark).");
   // A Question without Marking Scheme text says so.
-  await expect(paper).toContainText("No answer key added yet.");
+  await expect(paper).toContainText("No Marking Scheme added yet.");
 
   await (await moreMenuButton(page, "Hide Marking Scheme")).click();
   await expect(paper).not.toContainText("Mitochondria (1 mark).");
   await expect(await moreMenuButton(page, "Show Marking Scheme")).toBeVisible();
+});
+
+test("a Question's buttons work straight after typing in Paper Details", async ({ page }) => {
+  await addQuestion(page, { section: "Section A", marks: 1, text: "Define a cell." });
+  await page.getByLabel("School Name").fill("Typed Just Now School");
+
+  // The first click after typing must not be lost.
+  await questionButton(page, "Edit", 0).click();
+  await expect(page.getByRole("heading", { name: "3. Edit Question" })).toBeVisible();
 });

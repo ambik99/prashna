@@ -30,9 +30,19 @@ export async function moreMenuButton(page, name) {
   return page.getByRole("button", { name, exact: true });
 }
 
+// The confirmation asked before anything replaces or deletes work.
+export const confirmDialog = (page) => page.getByRole("dialog");
+
+// Answers the confirmation with its confirm button (or Cancel).
+export async function answerConfirmation(page, buttonName) {
+  await confirmDialog(page).getByRole("button", { name: buttonName, exact: true }).click();
+  await expect(confirmDialog(page)).toBeHidden();
+}
+
 export async function loadTemplate(page, name) {
   await openMoreMenu(page);
   await page.getByLabel("Load CBSE Template").selectOption({ label: name });
+  await answerConfirmation(page, "Replace Paper");
 }
 
 export async function chooseTargetMarks(page, label) {
@@ -57,8 +67,11 @@ export async function chooseFile(page, button, filePath) {
   await chooser.setFiles(filePath);
 }
 
-export async function loadPaper(page, filePath) {
+// Loads a Paper file. A real Paper file asks before replacing the current
+// Paper; pass { confirm: false } for files that should be rejected.
+export async function loadPaper(page, filePath, { confirm = true } = {}) {
   await chooseFile(page, await moreMenuButton(page, "Load Paper"), filePath);
+  if (confirm) await answerConfirmation(page, "Replace Paper");
 }
 
 // The per-Question buttons in the preview, in Paper order (0 is the first Question).
@@ -69,7 +82,10 @@ export const questionButton = (page, name, index) =>
 export async function startEmptyPaper(page) {
   await loadTemplate(page, TEMPLATES.starter);
   const remove = preview(page).getByRole("button", { name: "Remove", exact: true });
-  while ((await remove.count()) > 0) await remove.first().click();
+  while ((await remove.count()) > 0) {
+    await remove.first().click();
+    await answerConfirmation(page, "Remove Question");
+  }
   await expect(preview(page)).toContainText("No questions added yet.");
 }
 
@@ -93,8 +109,8 @@ export async function addQuestion(
   if (assertion) await page.getByLabel("Assertion (A)").fill(assertion);
   if (reason) await page.getByLabel("Reason (R)").fill(reason);
   if (alternative) {
-    await page.getByLabel('Include internal choice ("OR")').check();
-    await page.getByLabel('Alternative ("OR") Question').fill(alternative);
+    await page.getByLabel('Add an Alternative Question ("OR")').check();
+    await page.getByLabel("Alternative Question", { exact: true }).fill(alternative);
   }
   if (markingScheme) await page.getByLabel("Answer / Marking Scheme (Optional)").fill(markingScheme);
   await page.getByRole("button", { name: "+ Add Question to Paper" }).click();

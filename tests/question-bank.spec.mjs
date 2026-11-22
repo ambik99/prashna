@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import { addQuestion, fixture, preview, questionButton, startEmptyPaper } from "./helpers.mjs";
+import { addQuestion, answerConfirmation, fixture, preview, questionButton, startEmptyPaper } from "./helpers.mjs";
 
 // The Question Bank slide-out panel.
 const bankPanel = (page) => page.getByRole("complementary", { name: "Question Bank" });
@@ -102,6 +102,7 @@ test("a Question deleted from the Question Bank stays deleted after reopening", 
   await openQuestionBank(page);
   await searchBank(page).fill("silver chloride");
   await bankDeleteButtons(page).click();
+  await answerConfirmation(page, "Delete Question");
   await expect(page.getByText("No saved questions match your search.")).toBeVisible();
 
   await searchBank(page).fill("");

@@ -484,8 +484,12 @@ function getPaperData() {
   };
 }
 
+function isPaperData(parsed) {
+  return Boolean(parsed && parsed.meta && Array.isArray(parsed.questions));
+}
+
 function applyPaperData(parsed) {
-  if (!parsed || !parsed.meta || !Array.isArray(parsed.questions)) {
+  if (!isPaperData(parsed)) {
     return false;
   }
   schoolInput.value = parsed.meta.school ?? DEFAULT_META.school;
@@ -592,7 +596,7 @@ function exportWordFile() {
 
   let bodyHtml = "";
   if (showMarkingScheme) {
-    bodyHtml += '<p style="text-align:center;font-weight:bold;color:#166534;">MARKING SCHEME / ANSWER KEY</p>';
+    bodyHtml += '<p style="text-align:center;font-weight:bold;color:#166534;">MARKING SCHEME</p>';
   }
   bodyHtml += '<div style="text-align:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;">';
   bodyHtml += '<h2 style="margin:0;text-transform:uppercase;">' + school + '</h2>';
@@ -657,7 +661,7 @@ function exportWordFile() {
       }
 
       if (showMarkingScheme) {
-        bodyHtml += '<p style="margin:4px 0 0 0;color:#14532d;background:#f0fdf4;padding:4px 8px;"><strong>Answer Key:</strong> ' + escapeHtml(q.answer || "No answer key added yet.") + '</p>';
+        bodyHtml += '<p style="margin:4px 0 0 0;color:#14532d;background:#f0fdf4;padding:4px 8px;"><strong>Marking Scheme:</strong> ' + escapeHtml(q.answer || "No Marking Scheme added yet.") + '</p>';
       }
 
       bodyHtml += '</td><td style="vertical-align:top;text-align:right;white-space:nowrap;font-weight:bold;">' + marksLabel + '</td></tr></table>';
@@ -682,9 +686,27 @@ function handleImportFile(event) {
   const file = event.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = (e) => {
+  reader.onload = async (e) => {
+    let parsed;
     try {
-      const parsed = JSON.parse(e.target.result);
+      parsed = JSON.parse(e.target.result);
+    } catch (err) {
+      parsed = undefined;
+    }
+    // A valid Paper file replaces the current Paper, so ask first.
+    if (isPaperData(parsed)) {
+      const ok = await confirmAction({
+        title: "Load this Paper?",
+        message: "“" + file.name + "” will replace your current Paper. Save your current Paper first if you want to keep it.",
+        confirmLabel: "Replace Paper"
+      });
+      if (!ok) {
+        importFileInput.value = "";
+        return;
+      }
+    }
+    try {
+      if (parsed === undefined) throw new Error("Not JSON");
       if (applyPaperData(parsed)) {
         cancelEdit();
         saveDraft();
@@ -885,7 +907,14 @@ function renderBank() {
     delBtn.type = "button";
     delBtn.className = "btn-remove";
     delBtn.textContent = "Delete";
-    delBtn.addEventListener("click", () => deleteFromBank(item.bankId));
+    delBtn.addEventListener("click", async () => {
+      const ok = await confirmAction({
+        title: "Delete from Question Bank?",
+        message: "This Question will be deleted from your Question Bank. Questions already on the Paper stay as they are.",
+        confirmLabel: "Delete Question"
+      });
+      if (ok) deleteFromBank(item.bankId);
+    });
 
     actions.appendChild(insertBtn);
     actions.appendChild(delBtn);
@@ -1141,6 +1170,7 @@ function renderPaper() {
     sectionItems.forEach((q, idxInSection) => {
       const item = document.createElement("div");
       item.className = "question-item" + (q.id === editingId ? " editing-highlight" : "");
+      const displayNumber = questionNumber;
 
       const body = document.createElement("div");
       body.className = "question-body";
@@ -1227,9 +1257,9 @@ function renderPaper() {
       if (showMarkingScheme) {
         const ansBox = document.createElement("div");
         ansBox.className = "answer-box";
-        ansBox.innerHTML = "<strong>Answer Key:</strong> ";
+        ansBox.innerHTML = "<strong>Marking Scheme:</strong> ";
         const ansSpan = document.createElement("span");
-        ansSpan.textContent = q.answer ? q.answer : "No answer key added yet.";
+        ansSpan.textContent = q.answer ? q.answer : "No Marking Scheme added yet.";
         ansBox.appendChild(ansSpan);
         body.appendChild(ansBox);
       }
@@ -1281,7 +1311,13 @@ function renderPaper() {
       removeBtn.type = "button";
       removeBtn.className = "btn-remove";
       removeBtn.textContent = "Remove";
-      removeBtn.addEventListener("click", () => {
+      removeBtn.addEventListener("click", async () => {
+        const ok = await confirmAction({
+          title: "Remove this Question?",
+          message: "Question " + displayNumber + " will be removed from the Paper.",
+          confirmLabel: "Remove Question"
+        });
+        if (!ok) return;
         if (editingId === q.id) {
           editingId = null;
           formHeading.textContent = "3. Add a Question";
@@ -1399,6 +1435,10 @@ function submitQuestionForm() {
     renderPaper();
   });
   el.addEventListener("change", () => {
+    // Text fields already re-rendered on "input". Their "change" fires on
+    // blur, often as a preview button is being clicked, and re-rendering
+    // then would replace that button mid-click and lose the click.
+    if (el.tagName === "TEXTAREA" || (el.tagName === "INPUT" && (el.type === "text" || el.type === "number"))) return;
     syncScienceDivisionUI();
     syncActiveSections();
     saveDraft();
@@ -1406,7 +1446,21 @@ function submitQuestionForm() {
   });
 });
 
-templateSelect.addEventListener("change", (e) => applyTemplate(e.target.value));
+templateSelect.addEventListener("change", async (e) => {
+  const key = e.target.value;
+  if (!key) return;
+  const name = e.target.selectedOptions[0].textContent;
+  const ok = await confirmAction({
+    title: "Load this Template?",
+    message: "“" + name + "” will replace your current Paper. Save your current Paper first if you want to keep it.",
+    confirmLabel: "Replace Paper"
+  });
+  if (ok) {
+    applyTemplate(key);
+  } else {
+    templateSelect.value = "";
+  }
+});
 function isScienceDivisionsActive() {
   const cls = classInput.value;
   const sub = subjectInput.value.trim().toLowerCase();
@@ -1474,7 +1528,14 @@ exportBtn.addEventListener("click", exportPaperFile);
 importBtn.addEventListener("click", () => importFileInput.click());
 importFileInput.addEventListener("change", handleImportFile);
 exportDocBtn.addEventListener("click", exportWordFile);
-resetBtn.addEventListener("click", resetSample);
+resetBtn.addEventListener("click", async () => {
+  const ok = await confirmAction({
+    title: "Reset to the sample Paper?",
+    message: "Your current Paper will be replaced by the sample Paper. Save your current Paper first if you want to keep it.",
+    confirmLabel: "Reset Paper"
+  });
+  if (ok) resetSample();
+});
 function setMobileTab(tab) {
   const isEditor = tab === "editor";
   mainLayout.classList.toggle("mobile-view-editor", isEditor);
