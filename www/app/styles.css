@@ -368,6 +368,83 @@ h1 {
   gap: var(--space-3);
 }
 
+.field-row-3 {
+  grid-template-columns: 1fr 1.25fr 1fr;
+}
+
+/* Section, Marks and Science Division for a new Question */
+.field-row-placement {
+  grid-template-columns: 1.5fr 0.7fr 1.2fr;
+}
+
+/* Grouped fields (Science Division, a Section, MCQ options, the image) */
+fieldset {
+  border: 0;
+  min-width: 0;
+}
+
+legend {
+  padding: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.form-group {
+  margin: var(--space-4) 0 0;
+  padding: var(--space-3) var(--space-4) var(--space-1);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.form-group legend {
+  float: left;
+  width: 100%;
+  margin-bottom: var(--space-1);
+}
+
+.form-group legend + * {
+  clear: both;
+}
+
+.form-hint {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin-bottom: var(--space-3);
+}
+
+/* Sections: one compact block per Section */
+.section-row {
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.section-row:last-child {
+  padding-bottom: 0;
+}
+
+.section-row legend {
+  float: left;
+  width: 100%;
+  font-family: var(--font-serif);
+  font-size: var(--text-md);
+}
+
+.section-row-fields {
+  clear: both;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.mcq-grid label {
+  font-size: var(--text-xs);
+}
+
 label {
   display: block;
   font-size: var(--text-sm);
@@ -454,6 +531,21 @@ details.section-notes-box .notes-inner {
 
 .section-grid-head {
   color: var(--color-text-subtle);
+}
+
+.mcq-fields legend,
+.image-box legend {
+  float: left;
+  width: 100%;
+}
+
+.mcq-fields .mcq-grid,
+.image-box .image-controls {
+  clear: both;
+}
+
+.image-box .form-hint {
+  margin: var(--space-2) 0 0;
 }
 
 .mcq-fields,
@@ -1120,6 +1212,8 @@ body {
 
 @media (max-width: 380px) {
   .field-row,
+  .field-row-3,
+  .section-row-fields,
   .mcq-grid {
     grid-template-columns: 1fr;
   }

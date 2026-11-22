@@ -1,8 +1,9 @@
 import { test, expect } from "@playwright/test";
 import { TEMPLATES, loadTemplate, marksSummary, preview } from "./helpers.mjs";
 
-const marksPerQuestion = (page, section) => page.getByLabel(`${section} marks per question`);
-const numberOfQuestions = (page, section) => page.getByLabel(`${section} number of questions`);
+// Each Section's fields are named by the Section and the field, as a screen reader announces them.
+const marksPerQuestion = (page, section) => page.getByRole("combobox", { name: `${section} marks per question` });
+const numberOfQuestions = (page, section) => page.getByRole("combobox", { name: `${section} number of questions` });
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/app/");
@@ -44,7 +45,7 @@ test("a Section that is not in use is left out of the Paper and its totals", asy
 });
 
 test("a Section's note is printed under its heading", async ({ page }) => {
-  await page.getByLabel("Section A", { exact: true }).fill("Choose the correct option (1 mark each).");
+  await page.getByRole("textbox", { name: "Section A Note printed under the heading" }).fill("Choose the correct option (1 mark each).");
 
   await expect(preview(page)).toContainText("Choose the correct option (1 mark each).");
 });
