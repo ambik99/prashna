@@ -1,6 +1,6 @@
 /* Landing Page. Follows Resurf's layout and motion (resurf.so), chosen by
    the maker, with Prashna's own content, fonts and screenshots. Follows the
-   device's light or dark mode; the screenshots stay as they print. */
+   device's light or dark mode, or the theme chosen with the toggle; the screenshots stay as they print. */
 
 :root {
   --fg: oklch(0.2 0.004 78);
@@ -30,36 +30,36 @@
   color-scheme: light;
 }
 
-/* Dark mode: the page goes dark; the screenshots and Paper sheets stay white. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --fg: oklch(0.95 0.004 78);
-    --fg-90: oklab(0.95 0 0.002 / 0.9);
-    --fg-70: oklab(0.95 0 0.002 / 0.7);
-    --fg-45: oklab(0.95 0 0.002 / 0.45);
-    --muted: oklch(0.72 0.004 78);
-    --tint-3: oklab(1 0 0 / 0.04);
-    --tint-4: oklab(1 0 0 / 0.05);
-    --tint-5: oklab(1 0 0 / 0.07);
-    --tint-8: oklab(1 0 0 / 0.11);
-    --page: #111214;
-    --white: #1e1f23;
-    --on-fg: oklch(0.2 0.004 78);
-    --focus: oklch(0.72 0.14 262);
-    --chip-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 1px 2px rgba(0, 0, 0, 0.4);
-    --float-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px -4px rgba(0, 0, 0, 0.6);
-    --format-bg: oklab(1 0 0 / 0.04);
-    --panel-bg: rgba(30, 31, 35, 0.94);
-    --chip-total: oklch(0.34 0.06 262);
-    --chip-left: oklch(0.36 0.06 85);
-    --ok-bg: oklch(0.32 0.06 150);
-    --ok-fg: oklch(0.85 0.1 150);
-    color-scheme: dark;
-  }
-  .btn-dark:hover { background: oklch(0.85 0.004 78); }
-  .tour-arrow, .tour-play { color: oklch(0.2 0.004 78); }
-  .placeholder { border-color: #7a6224; background: #33290f; color: #f0d491; }
+/* Dark theme (theme.js): the page goes dark; the screenshots and Paper
+   sheets stay white. */
+:root[data-theme="dark"] {
+  --fg: oklch(0.95 0.004 78);
+  --fg-90: oklab(0.95 0 0.002 / 0.9);
+  --fg-70: oklab(0.95 0 0.002 / 0.7);
+  --fg-45: oklab(0.95 0 0.002 / 0.45);
+  --muted: oklch(0.72 0.004 78);
+  --tint-3: oklab(1 0 0 / 0.04);
+  --tint-4: oklab(1 0 0 / 0.05);
+  --tint-5: oklab(1 0 0 / 0.07);
+  --tint-8: oklab(1 0 0 / 0.11);
+  --page: #111214;
+  --white: #1e1f23;
+  --on-fg: oklch(0.2 0.004 78);
+  --focus: oklch(0.72 0.14 262);
+  --chip-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --float-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px -4px rgba(0, 0, 0, 0.6);
+  --format-bg: oklab(1 0 0 / 0.04);
+  --panel-bg: rgba(30, 31, 35, 0.94);
+  --chip-total: oklch(0.34 0.06 262);
+  --chip-left: oklch(0.36 0.06 85);
+  --ok-bg: oklch(0.32 0.06 150);
+  --ok-fg: oklch(0.85 0.1 150);
+  color-scheme: dark;
 }
+:root[data-theme="dark"] .btn-dark:hover { background: oklch(0.85 0.004 78); }
+:root[data-theme="dark"] .tour-arrow,
+:root[data-theme="dark"] .tour-play { color: oklch(0.2 0.004 78); }
+:root[data-theme="dark"] .placeholder { border-color: #7a6224; background: #33290f; color: #f0d491; }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
@@ -150,7 +150,8 @@ button { font: inherit; color: inherit; }
 .nav-links { display: flex; gap: 28px; }
 .nav-links a { font-size: 13px; font-weight: 500; color: var(--fg-70); transition: color 150ms ease-out; }
 .nav-links a:hover { color: var(--fg); }
-.nav-cta { justify-self: end; }
+.nav-cta { justify-self: end; display: flex; align-items: center; gap: 6px; }
+.nav-cta [data-theme-toggle] { color: var(--fg); }
 
 .btn {
   display: inline-flex;

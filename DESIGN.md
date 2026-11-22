@@ -261,6 +261,9 @@ Confident and few.
 ### Get the App Guide
 Shared by the app and the Landing Page (app/get-app.css). A dialog: 400px, 14px corners, Float shadow, serif title, numbered steps each with a small picture of the button to look for, and a pill Done button. On screens up to 880px it rises from the bottom as a sheet with thumb-height actions (48px).
 
+### Theme Toggle
+Shared by the app and the Landing Page (app/theme-toggle.css, app/theme.js). The "Classic" toggle from Theme Toggles by Alfie Jones (toggles.dev, MIT), with its styles and animation unchanged: a sun whose rays fold away as a crescent cuts in to make a moon (500ms, cubic-bezier(0, 0, 0.15, 1.25)), and the reverse. A 40px round button in the text colour, beside Get the App on the Landing Page and at the start of the app's top-bar actions. The page follows the device's light or dark setting until a theme is chosen; the choice is remembered for both pages. Under reduced motion it switches without animating.
+
 ### Update Notice
 The app only (app/update-notice.css). A pill bar centred at the bottom of the screen with the Float shadow: "New version available", a quiet Later button and a pill accent Refresh button. It rises 8px into place with the ease-out, sits above the phone tab bar with 44px buttons, and never covers the app or reloads it by itself.
 

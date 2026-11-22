@@ -1,0 +1,123 @@
+/* Light and dark theme toggle (see theme.js). Shared by the app and the
+   Landing Page.
+
+   The toggle is the "Classic" toggle from Theme Toggles by Alfie Jones
+   (https://toggles.dev/toggles/classic, theme-toggles 4.10.1, MIT licence:
+   see LICENSE-theme-toggles.txt). Its styles and animation below are copied
+   exactly from theme-toggles/css/classic.css; Prashna's own sizing follows
+   at the end. */
+
+/* ---- theme-toggles 4.10.1, css/classic.css (unchanged) ---- */
+
+.theme-toggle.theme-toggle--reversed .theme-toggle__classic {
+  transform: scale(-1, 1);
+}
+
+.theme-toggle {
+  --theme-toggle__classic--duration: 500ms;
+}
+.theme-toggle__classic path {
+  transition-timing-function: cubic-bezier(0, 0, 0.15, 1.25);
+  transform-origin: center;
+  transition-duration: calc(var(--theme-toggle__classic--duration) * 0.8);
+}
+.theme-toggle__classic g path {
+  transition-property: opacity, transform;
+  transition-delay: calc(var(--theme-toggle__classic--duration) * 0.2);
+}
+.theme-toggle__classic :first-child path {
+  transition-property: transform, d;
+}
+
+.theme-toggle--toggled:not(label).theme-toggle .theme-toggle__classic g path,
+.theme-toggle input[type=checkbox]:checked ~ .theme-toggle__classic g path {
+  transform: scale(0.5) rotate(45deg);
+  opacity: 0;
+  transition-delay: 0s;
+}
+.theme-toggle--toggled:not(label).theme-toggle .theme-toggle__classic :first-child path,
+.theme-toggle input[type=checkbox]:checked ~ .theme-toggle__classic :first-child path {
+  d: path("M-12 5h30a1 1 0 0 0 9 13v24h-39Z");
+  transition-delay: calc(var(--theme-toggle__classic--duration) * 0.2);
+}
+
+@supports not (d: path("")) {
+  .theme-toggle--toggled:not(label).theme-toggle .theme-toggle__classic :first-child path,
+.theme-toggle input[type=checkbox]:checked ~ .theme-toggle__classic :first-child path {
+    transform: translate3d(-12px, 10px, 0);
+  }
+}
+.theme-toggle {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.theme-toggle input[type=checkbox] {
+  display: none;
+}
+.theme-toggle .theme-toggle-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle:not(.theme-toggle--force-motion) * {
+    transition: none !important;
+  }
+}
+
+/* ---- Prashna ---- */
+
+/* The icon is 1em: font-size sets its size. Colour follows the text around
+   it. A 40px round button keeps the tap target comfortable. These rules also
+   apply before theme.js has set the button up, so its space is kept and the
+   navigation doesn't move; until then (and without JavaScript, when there is
+   no toggle) it stays invisible. */
+[data-theme-toggle] {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: inherit;
+  font-size: var(--text-xl);
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 150ms var(--ease-out);
+}
+
+[data-theme-toggle]:not(.theme-toggle) {
+  visibility: hidden;
+}
+
+[data-theme-toggle]:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) {
+  [data-theme-toggle]:hover {
+    background: color-mix(in srgb, currentColor 8%, transparent);
+  }
+}
+
+[data-theme-toggle]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme-toggle] {
+    transition: none;
+  }
+}
