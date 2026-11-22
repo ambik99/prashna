@@ -1,7 +1,9 @@
 // Keeps every app file on the device so Prashna works offline after the
-// first visit. Files are served from the cache straight away and refreshed
-// from the network in the background, so a new release shows up on the
-// next visit without anyone having to bump a version.
+// first visit. Files are always served from the cache. Each time the app is
+// opened online, the whole set is downloaded again in the background and
+// stored only once every file has arrived, so a release arrives as a whole
+// rather than file by file, and it shows up on the next visit without
+// anyone having to bump a version.
 //
 // List every file in www/app here (except this one). The offline browser
 // tests fail if a file is missing.
@@ -38,15 +40,35 @@ const APP_FILES = [
 
 // The app's one page, which every visit to /app/ opens.
 const APP_PAGE = new URL("./", self.registration.scope).href;
+const APP_PAGE_PATHS = [new URL(APP_PAGE).pathname, new URL("index.html", APP_PAGE).pathname];
+
+// Downloads every app file and replaces the cached set with them. If any file
+// fails (for example offline), the cached set is left as it was.
+async function storeAppFiles(cacheMode) {
+  const downloads = await Promise.all(
+    APP_FILES.map(async (file) => {
+      const request = new Request(file, { cache: cacheMode });
+      const response = await fetch(request);
+      if (!response.ok) throw new Error(`${file}: ${response.status}`);
+      // A response the server reached through a redirect can't answer a page
+      // load, so store a plain copy.
+      const stored = response.redirected
+        ? new Response(await response.blob(), { status: response.status, headers: response.headers })
+        : response;
+      return [request.url, stored];
+    }),
+  );
+  const cache = await caches.open(CACHE_NAME);
+  await Promise.all(downloads.map(([url, response]) => cache.put(url, response)));
+  // Drop files that are no longer part of the app.
+  const current = new Set(downloads.map(([url]) => url));
+  const stored = await cache.keys();
+  await Promise.all(stored.filter((request) => !current.has(request.url)).map((request) => cache.delete(request)));
+}
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches
-      .open(CACHE_NAME)
-      // Skip the browser's HTTP cache so the stored copies are current.
-      .then((cache) => cache.addAll(APP_FILES.map((file) => new Request(file, { cache: "reload" }))))
-      .then(() => self.skipWaiting()),
-  );
+  // Skip the browser's HTTP cache so the first stored copies are current.
+  event.waitUntil(storeAppFiles("reload").then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (event) => {
@@ -58,28 +80,17 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Fetches a fresh copy and stores it for next time.
-async function refresh(request) {
-  const response = await fetch(request);
-  if (response.ok) {
-    const cache = await caches.open(CACHE_NAME);
-    await cache.put(request, response.clone());
-  }
-  return response;
-}
-
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   // Only the app's own files; Import from Link and other sites go straight to the network.
   if (request.method !== "GET" || !request.url.startsWith(self.registration.scope)) return;
 
   // Opening the app, with or without a query string, always gets the app page.
-  const { pathname } = new URL(request.url);
-  const opensApp = pathname === new URL(APP_PAGE).pathname || pathname === new URL("index.html", APP_PAGE).pathname;
+  const opensApp = APP_PAGE_PATHS.includes(new URL(request.url).pathname);
   const key = opensApp ? APP_PAGE : request;
-  const fresh = refresh(key);
+  event.respondWith(caches.match(key, { ignoreSearch: true }).then((cached) => cached || fetch(request)));
 
-  event.respondWith(caches.match(key).then((cached) => cached || fresh));
-  // Keep the worker alive until the background refresh has been stored; offline it just fails.
-  event.waitUntil(fresh.catch(() => {}));
+  // Each launch checks for a new release. The server answers unchanged files
+  // with "not modified", so this is cheap; offline it simply fails.
+  if (request.mode === "navigate") event.waitUntil(storeAppFiles("no-cache").catch(() => {}));
 });

@@ -16,7 +16,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 const APP = fileURLToPath(new URL("../www/app/", import.meta.url));
-const INK_NAVY = "#1e2a4a";
+const INK_NAVY = "#1e2a4a"; // --color-accent in tokens.css
 
 const ICONS = [
   { file: "icon-16.png", size: 16, kind: "any" },
@@ -38,7 +38,7 @@ const KINDS = {
 
 // Draws one icon on a canvas, centring the letter on its ink (Devanagari's
 // line box is much taller than the letters) and returns it as a PNG data URL.
-function drawIcon({ size, kind, navy, letter, radius }) {
+function drawIcon({ size, navy, letter, radius }) {
   const canvas = document.createElement("canvas");
   canvas.width = canvas.height = size;
   const ctx = canvas.getContext("2d");
@@ -50,14 +50,14 @@ function drawIcon({ size, kind, navy, letter, radius }) {
   // Measure at a reference size, then scale so the ink is the wanted height.
   const text = "प्र";
   ctx.font = '600 100px "Icon Devanagari"';
-  let m = ctx.measureText(text);
-  const fontSize = (100 * letter * size) / (m.actualBoundingBoxAscent + m.actualBoundingBoxDescent);
+  let metrics = ctx.measureText(text);
+  const fontSize = (100 * letter * size) / (metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent);
   ctx.font = `600 ${fontSize}px "Icon Devanagari"`;
-  m = ctx.measureText(text);
-  const inkWidth = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
-  const inkHeight = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
-  const x = (size - inkWidth) / 2 + m.actualBoundingBoxLeft;
-  const y = (size - inkHeight) / 2 + m.actualBoundingBoxAscent;
+  metrics = ctx.measureText(text);
+  const inkWidth = metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight;
+  const inkHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+  const x = (size - inkWidth) / 2 + metrics.actualBoundingBoxLeft;
+  const y = (size - inkHeight) / 2 + metrics.actualBoundingBoxAscent;
   ctx.fillStyle = "#ffffff";
   ctx.fillText(text, x, y);
   return canvas.toDataURL("image/png");
@@ -74,7 +74,7 @@ await page.evaluate(async (url) => {
   document.fonts.add(await face.load());
 }, fontUrl);
 for (const { file, size, kind } of ICONS) {
-  const png = await page.evaluate(drawIcon, { size, kind, navy: INK_NAVY, ...KINDS[kind] });
+  const png = await page.evaluate(drawIcon, { size, navy: INK_NAVY, ...KINDS[kind] });
   await writeFile(`${APP}${file}`, Buffer.from(png.split(",")[1], "base64"));
   console.log(`Saved www/app/${file}`);
 }

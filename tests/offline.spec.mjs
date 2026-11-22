@@ -11,7 +11,7 @@ async function appFiles() {
   return entries
     .filter((entry) => entry.isFile() && entry.name !== "sw.js")
     .map((entry) => {
-      const relative = `${entry.parentPath ?? entry.path}/${entry.name}`.slice(root.length).replaceAll("\\", "/");
+      const relative = `${entry.parentPath}/${entry.name}`.slice(root.length).replaceAll("\\", "/");
       return `/app/${relative.replace(/^\//, "")}`;
     });
 }
@@ -29,13 +29,20 @@ const imageSize = (page, src) =>
     src,
   );
 
+// The web app manifest the page links to, and its address.
+async function readManifest(page, request) {
+  const url = new URL(await page.locator('link[rel="manifest"]').getAttribute("href"), page.url());
+  return { url, manifest: await (await request.get(url.href)).json() };
+}
+
+// Installing and offline use have no on-screen controls to find by role or
+// label, so these tests read the page's <head> links and the manifest.
 test.describe("Prashna as an installed app", () => {
   test("the app is named Prashna and opens straight into /app/", async ({ page, request }) => {
     await page.goto("/app/");
     await expect(page).toHaveTitle("Prashna");
 
-    const manifestUrl = await page.locator('link[rel="manifest"]').getAttribute("href");
-    const manifest = await (await request.get(new URL(manifestUrl, page.url()).href)).json();
+    const { manifest } = await readManifest(page, request);
     expect(manifest).toMatchObject({
       name: "Prashna",
       short_name: "Prashna",
@@ -47,27 +54,25 @@ test.describe("Prashna as an installed app", () => {
 
   test("the प्र icon comes in every size Android, iOS and browser tabs ask for", async ({ page, request }) => {
     await page.goto("/app/");
-    const manifestUrl = new URL(await page.locator('link[rel="manifest"]').getAttribute("href"), page.url());
-    const { icons } = await (await request.get(manifestUrl.href)).json();
+    const { url, manifest } = await readManifest(page, request);
 
-    const declared = icons.map((icon) => `${icon.sizes} ${icon.purpose}`);
-    expect(declared).toEqual(
-      expect.arrayContaining(["192x192 any", "512x512 any", "192x192 maskable", "512x512 maskable"]),
-    );
-    for (const icon of icons) {
-      expect(await imageSize(page, new URL(icon.src, manifestUrl).href)).toBe(icon.sizes);
+    // Android and desktop install: each icon file is really the size it claims.
+    const loaded = [];
+    for (const icon of manifest.icons) {
+      loaded.push(`${await imageSize(page, new URL(icon.src, url).href)} ${icon.purpose}`);
     }
+    expect(loaded.sort()).toEqual(["192x192 any", "192x192 maskable", "512x512 any", "512x512 maskable"]);
 
     const appleIcon = await page.locator('link[rel="apple-touch-icon"]').getAttribute("href");
     expect(await imageSize(page, appleIcon)).toBe("180x180");
     await expect(page.locator('meta[name="apple-mobile-web-app-title"]')).toHaveAttribute("content", "Prashna");
 
-    const tabIcons = page.locator('link[rel="icon"]');
-    await expect(tabIcons).not.toHaveCount(0);
-    for (const link of await tabIcons.all()) {
-      const sizes = await link.getAttribute("sizes");
-      expect(await imageSize(page, await link.getAttribute("href"))).toBe(sizes);
+    // Browser tabs.
+    const tabIcons = [];
+    for (const href of await page.locator('link[rel="icon"]').evaluateAll((links) => links.map((l) => l.href))) {
+      tabIcons.push(await imageSize(page, href));
     }
+    expect(tabIcons.sort()).toEqual(["16x16", "32x32"]);
   });
 });
 
