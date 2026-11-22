@@ -97,6 +97,12 @@ h1 {
   flex: none;
 }
 
+/* Light and dark theme toggle (theme-toggle.css) */
+.header-actions .theme-toggle {
+  color: var(--color-text);
+  font-size: 1.25rem;
+}
+
 /* "More" menu */
 .more {
   position: relative;

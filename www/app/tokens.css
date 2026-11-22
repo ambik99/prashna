@@ -51,44 +51,43 @@
   --shadow-lg: 0 20px 48px rgba(27, 32, 48, 0.18);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
+/* Dark theme: chosen with the toggle, or following the device (theme.js). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
 
-    --color-bg: #111318;
-    --color-surface: #191c23;
-    --color-surface-muted: #20242d;
-    --color-border: #2c313c;
-    --color-border-strong: #6b7385;
+  --color-bg: #111318;
+  --color-surface: #191c23;
+  --color-surface-muted: #20242d;
+  --color-border: #2c313c;
+  --color-border-strong: #6b7385;
 
-    --color-text: #eceef2;
-    --color-text-muted: #b4bac6;
-    --color-text-subtle: #9aa1af;
+  --color-text: #eceef2;
+  --color-text-muted: #b4bac6;
+  --color-text-subtle: #9aa1af;
 
-    --color-accent: #a9bbea;
-    --color-accent-hover: #c0cdf0;
-    --color-accent-soft: #232c44;
-    --color-accent-soft-hover: #2c3753;
-    --color-accent-soft-text: #c6d2f2;
-    --color-on-accent: #111318;
+  --color-accent: #a9bbea;
+  --color-accent-hover: #c0cdf0;
+  --color-accent-soft: #232c44;
+  --color-accent-soft-hover: #2c3753;
+  --color-accent-soft-text: #c6d2f2;
+  --color-on-accent: #111318;
 
-    --color-danger: #f0857a;
-    --color-danger-soft: #3a1d1b;
-    --color-danger-soft-hover: #4a2522;
-    --color-success: #7fd39a;
-    --color-success-soft: #16301f;
-    --color-success-soft-hover: #1d3d28;
-    --color-warning: #e8c072;
-    --color-warning-soft: #33290f;
-    --color-warning-border: #4d3e17;
+  --color-danger: #f0857a;
+  --color-danger-soft: #3a1d1b;
+  --color-danger-soft-hover: #4a2522;
+  --color-success: #7fd39a;
+  --color-success-soft: #16301f;
+  --color-success-soft-hover: #1d3d28;
+  --color-warning: #e8c072;
+  --color-warning-soft: #33290f;
+  --color-warning-border: #4d3e17;
 
-    --color-focus: #a9bbea;
-    --color-overlay: rgba(0, 0, 0, 0.6);
+  --color-focus: #a9bbea;
+  --color-overlay: rgba(0, 0, 0, 0.6);
 
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.5);
-  }
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.5);
 }
 
 :root {

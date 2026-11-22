@@ -8,6 +8,7 @@
   <meta name="theme-color" content="#f8f8f8" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#111214" media="(prefers-color-scheme: dark)" />
   <meta name="color-scheme" content="light dark" />
+  <script src="app/theme.js"></script>
   <link rel="manifest" href="app/manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="app/icon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="app/icon-16.png" />
@@ -17,6 +18,7 @@
   <link rel="stylesheet" href="app/fonts.css" />
   <link rel="stylesheet" href="app/tokens.css" />
   <link rel="stylesheet" href="app/get-app.css" />
+  <link rel="stylesheet" href="app/theme-toggle.css" />
   <link rel="stylesheet" href="landing.css" />
   <script>document.documentElement.classList.add("js");</script>
 </head>
@@ -52,7 +54,7 @@
       <a href="#devices">Privacy</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <div class="nav-cta"><button type="button" class="btn btn-dark btn-small" data-get-app data-open-app="app/">Get the App</button></div>
+    <div class="nav-cta"><button type="button" data-theme-toggle></button><button type="button" class="btn btn-dark btn-small" data-get-app data-open-app="app/">Get the App</button></div>
   </header>
 
   <main id="top">
