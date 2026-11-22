@@ -110,7 +110,8 @@ h1 {
   transform: translateY(-0.15em) rotate(45deg);
 }
 
-.more-btn[aria-expanded="true"] {
+.more-btn[aria-expanded="true"],
+#bankToggleBtn[aria-expanded="true"] {
   background: var(--color-surface-muted);
 }
 
@@ -394,6 +395,8 @@ label {
 }
 
 input[type="text"],
+input[type="search"],
+input[type="url"],
 input[type="number"],
 select,
 textarea {
@@ -414,6 +417,8 @@ textarea::placeholder {
 }
 
 input[type="text"]:focus-visible,
+input[type="search"]:focus-visible,
+input[type="url"]:focus-visible,
 input[type="number"]:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
@@ -501,8 +506,6 @@ details.section-notes-box .notes-inner {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  max-height: 260px;
-  overflow-y: auto;
   margin-top: var(--space-3);
 }
 
@@ -1096,6 +1099,8 @@ body {
   }
   /* 16px stops iOS zooming into a field on focus */
   input[type="text"],
+  input[type="search"],
+  input[type="url"],
   input[type="number"],
   select,
   textarea {
@@ -1216,6 +1221,123 @@ body {
   display: none !important;
 }
 
+/* Question Bank slide-out panel */
+.bank-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 300;
+  width: min(420px, 100vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  animation: panel-in 220ms var(--ease-out);
+}
+
+.bank-panel[hidden] {
+  display: none;
+}
+
+@keyframes panel-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+.bank-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.bank-panel-head h2 {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.bank-close {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  font-size: var(--text-base);
+}
+
+.bank-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-4) var(--space-5) var(--space-6);
+}
+
+.bank-builtin {
+  margin-left: var(--space-2);
+  padding: 0.05rem var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-soft-text);
+  font-size: 0.6875rem;
+  font-weight: var(--weight-semibold);
+}
+
+.bank-meta {
+  justify-content: flex-start;
+}
+
+.bank-source {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.bank-source h3 {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-1);
+}
+
+.bank-source-note {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.bank-source .field-row {
+  margin-bottom: var(--space-3);
+}
+
+.bank-source-btn {
+  width: 100%;
+}
+
+.bank-source-small h3 {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.import-row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.import-row input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* On desktop the panel opens below the top bar, over the preview column */
+@media (min-width: 881px) {
+  .bank-panel {
+    top: var(--topbar-height, 61px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1241,6 +1363,7 @@ body {
     padding: 0 !important;
   }
   .app-header,
+  .bank-panel,
   .mobile-tabs,
   .summary-bar,
   .editor-panel,

@@ -413,8 +413,10 @@ const questionDivisionInput = document.getElementById("questionDivisionInput");
 const fetchClassSelect = document.getElementById("fetchClassSelect");
 const fetchSubjectSelect = document.getElementById("fetchSubjectSelect");
 const fetchUrlInput = document.getElementById("fetchUrlInput");
-const fetchBankBtn = document.getElementById("fetchBankBtn");
-const fetchStatus = document.getElementById("fetchStatus");
+const starterBtn = document.getElementById("starterBtn");
+const starterStatus = document.getElementById("starterStatus");
+const importLinkBtn = document.getElementById("importLinkBtn");
+const importStatus = document.getElementById("importStatus");
 
 const toggleKeyBtn = document.getElementById("toggleKeyBtn");
 const exportBtn = document.getElementById("exportBtn");
@@ -732,6 +734,7 @@ function insertFromBank(bankId) {
     id: nextId++
   };
   delete copy.bankId;
+  delete copy.source;
   questions.push(copy);
   saveDraft();
   renderPaper();
@@ -755,68 +758,78 @@ function syncFetchSubjects() {
   });
 }
 
-async function fetchOnlineQuestionBank() {
+function showBankStatus(el, text, tone) {
+  el.textContent = text;
+  el.style.color = tone === "error" ? "var(--color-danger)" : tone === "ok" ? "var(--color-success)" : "var(--color-text-muted)";
+}
+
+// Starter Questions: the built-in sets for Class 10 and 12, labelled as built in.
+function addStarterQuestions() {
   const cls = fetchClassSelect.value;
   const subj = fetchSubjectSelect.value;
-  const customUrl = fetchUrlInput.value.trim();
-  fetchBankBtn.disabled = true;
-  fetchStatus.textContent = "Fetching questions...";
-  fetchStatus.style.color = "var(--color-text-muted)";
-
-  let added = 0;
-  if (customUrl) {
-    try {
-      const resp = await fetch(customUrl);
-      if (!resp.ok) throw new Error("HTTP " + resp.status);
-      const data = await resp.json();
-      const list = Array.isArray(data) ? data : (Array.isArray(data.questions) ? data.questions : []);
-      list.forEach((item) => {
-        if (item && (item.text || item.assertion)) {
-          questionBank.unshift({
-            section: item.section || "Section A",
-            division: item.division || (subj === "Mathematics" ? "" : subj),
-            type: item.type || "standard",
-            text: item.text || "",
-            options: Array.isArray(item.options) ? item.options : [],
-            subQuestions: Array.isArray(item.subQuestions) ? item.subQuestions : [],
-            assertion: item.assertion || "",
-            reason: item.reason || "",
-            imageData: item.imageData || "",
-            orText: item.orText || "",
-            answer: item.answer || "",
-            marks: Number(item.marks) || 1,
-            bankId: nextBankId++
-          });
-          added += 1;
-        }
-      });
-      if (added > 0) {
-        saveBank();
-        renderBank();
-        fetchStatus.textContent = "Fetched " + added + " question(s) from URL!";
-        fetchStatus.style.color = "var(--color-success)";
-        fetchBankBtn.disabled = false;
-        return;
-      }
-    } catch (err) {
-      fetchStatus.textContent = "URL unreachable or blocked by browser CORS; loaded built-in " + cls + " " + subj + " bank instead.";
-      fetchStatus.style.color = "var(--color-warning)";
-    }
-  }
-
-  const key = cls + "|" + subj;
-  const curated = CURATED_ONLINE_BANKS[key] || [];
+  const curated = CURATED_ONLINE_BANKS[cls + "|" + subj] || [];
   curated.forEach((item) => {
-    questionBank.unshift({ ...item, bankId: nextBankId++ });
-    added += 1;
+    questionBank.unshift({ ...item, source: "starter", bankId: nextBankId++ });
   });
   saveBank();
   renderBank();
-  if (!customUrl) {
-    fetchStatus.textContent = "Loaded " + added + " curated CBSE " + cls + " " + subj + " questions into your bank.";
-    fetchStatus.style.color = "var(--color-success)";
+  const noun = curated.length === 1 ? " Starter Question" : " Starter Questions";
+  showBankStatus(starterStatus, "Added " + curated.length + noun + " for " + cls + " " + subj + " to your Question Bank.", "ok");
+}
+
+// Import from Link: Questions from a question file at a web address.
+async function importFromLink() {
+  const link = fetchUrlInput.value.trim();
+  if (!link) {
+    showBankStatus(importStatus, "Paste the web address of a question file first.", "error");
+    fetchUrlInput.focus();
+    return;
   }
-  fetchBankBtn.disabled = false;
+  importLinkBtn.disabled = true;
+  showBankStatus(importStatus, "Importing…");
+
+  let list;
+  try {
+    const resp = await fetch(link);
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    const data = await resp.json();
+    list = Array.isArray(data) ? data : (Array.isArray(data.questions) ? data.questions : []);
+  } catch (err) {
+    showBankStatus(importStatus, "Couldn't import from that link. Check the address and your connection; the site sharing the file must also allow downloads from other websites.", "error");
+    importLinkBtn.disabled = false;
+    return;
+  }
+
+  let added = 0;
+  list.forEach((item) => {
+    if (item && (item.text || item.assertion)) {
+      questionBank.unshift({
+        section: item.section || "Section A",
+        division: item.division || "",
+        type: item.type || "standard",
+        text: item.text || "",
+        options: Array.isArray(item.options) ? item.options : [],
+        subQuestions: Array.isArray(item.subQuestions) ? item.subQuestions : [],
+        assertion: item.assertion || "",
+        reason: item.reason || "",
+        imageData: item.imageData || "",
+        orText: item.orText || "",
+        answer: item.answer || "",
+        marks: Number(item.marks) || 1,
+        bankId: nextBankId++
+      });
+      added += 1;
+    }
+  });
+
+  if (added === 0) {
+    showBankStatus(importStatus, "That link didn't contain any Questions Prashna can read.", "error");
+  } else {
+    saveBank();
+    renderBank();
+    showBankStatus(importStatus, "Imported " + added + (added === 1 ? " Question" : " Questions") + " from the link.", "ok");
+  }
+  importLinkBtn.disabled = false;
 }
 
 function renderBank() {
@@ -847,6 +860,12 @@ function renderBank() {
     meta.className = "bank-meta";
     const typeLabel = item.type === "ar" ? "Assertion-Reason" : item.type.toUpperCase();
     meta.textContent = item.section + " • " + typeLabel + " • " + item.marks + (item.marks === 1 ? " Mark" : " Marks");
+    if (item.source === "starter") {
+      const builtIn = document.createElement("span");
+      builtIn.className = "bank-builtin";
+      builtIn.textContent = "Built in";
+      meta.appendChild(builtIn);
+    }
 
     const text = document.createElement("div");
     text.className = "bank-text";
@@ -1443,7 +1462,9 @@ clearImgBtn.addEventListener("click", () => {
 addQuestionBtn.addEventListener("click", submitQuestionForm);
 cancelEditBtn.addEventListener("click", cancelEdit);
 fetchClassSelect.addEventListener("change", syncFetchSubjects);
-fetchBankBtn.addEventListener("click", fetchOnlineQuestionBank);
+starterBtn.addEventListener("click", addStarterQuestions);
+importLinkBtn.addEventListener("click", importFromLink);
+fetchUrlInput.addEventListener("keydown", (e) => { if (e.key === "Enter") importFromLink(); });
 bankSearchInput.addEventListener("input", renderBank);
 toggleKeyBtn.addEventListener("click", () => {
   showMarkingScheme = !showMarkingScheme;
