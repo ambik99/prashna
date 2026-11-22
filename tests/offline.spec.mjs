@@ -131,6 +131,6 @@ test.describe("working offline", () => {
     // Work done offline is still there after reopening the app offline.
     await page.reload();
     await expect(preview(page)).toContainText("Written while offline");
-    await expect(await moreMenuButton(page, "Install App")).toBeVisible();
+    await expect(await moreMenuButton(page, "Get the App")).toBeVisible();
   });
 });

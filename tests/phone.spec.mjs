@@ -58,7 +58,7 @@ test("every top bar and More action is reachable from the More sheet", async ({ 
     "Reset Sample",
     "Show Marking Scheme",
     "Print Marking Scheme",
-    "Install App",
+    "Get the App",
   ]) {
     await expect(sheet.getByRole("button", { name, exact: true })).toBeVisible();
   }
