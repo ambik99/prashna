@@ -17,7 +17,7 @@ Then:
 npm test
 ```
 
-`npm test` starts a local server automatically. To look at the site yourself, run `npm run serve` and open http://localhost:4173/ (it takes you to the app at /app/).
+`npm test` starts a local server automatically. To look at the site yourself, run `npm run serve` and open http://localhost:4173/ for the Landing Page, or http://localhost:4173/app/ for the app.
 
 ## Writing tests
 
@@ -31,6 +31,8 @@ npm test
 `offline.spec.mjs` visits the app once, turns the network off and checks the app still works. It also checks that every file in `www/app/` is in the offline cache, so a new app file must be added to the list in `www/app/sw.js`.
 
 The app icons are generated: change `scripts/make-icons.mjs` and run `node scripts/make-icons.mjs`.
+
+The Landing Page's screenshots (`www/images/`) are real captures of the app: after changing how the app looks, run `node scripts/make-screenshots.mjs` (needs ffmpeg).
 
 ## Fixtures
 
