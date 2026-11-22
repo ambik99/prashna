@@ -51,7 +51,7 @@ export async function loadPaper(page, filePath) {
 export const questionButton = (page, name, index) =>
   preview(page).getByRole("button", { name, exact: true }).nth(index);
 
-// Starts from a Paper with no Questions (Starter Sample details, Questions removed).
+// Starts from a Paper with no Questions (the starter Template's details, Questions removed).
 export async function startEmptyPaper(page) {
   await loadTemplate(page, TEMPLATES.starter);
   const remove = preview(page).getByRole("button", { name: "Remove", exact: true });
@@ -62,10 +62,10 @@ export async function startEmptyPaper(page) {
 // Fills the Add Question form and adds the Question to the Paper.
 export async function addQuestion(
   page,
-  { section, marks, type, text, options, assertion, reason, passage, subQuestions, alternative, markingScheme, division },
+  { section, marks, type, text, options, assertion, reason, passage, subQuestions, alternative, markingScheme, scienceDivision },
 ) {
   if (section) await page.getByLabel("Section", { exact: true }).selectOption(section);
-  if (division) await page.getByLabel("Science Division", { exact: true }).selectOption(division);
+  if (scienceDivision) await page.getByLabel("Science Division", { exact: true }).selectOption(scienceDivision);
   if (type) await page.getByLabel("Question Type").selectOption({ label: type });
   if (marks !== undefined) await page.getByLabel("Marks", { exact: true }).fill(String(marks));
   if (text) await page.getByLabel("Question Text").fill(text);

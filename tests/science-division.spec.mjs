@@ -24,7 +24,6 @@ test("Science Division appears only for Class 9 and 10 Science", async ({ page }
 });
 
 test("the marks summary tracks each Science Division against its planned marks", async ({ page }) => {
-  // The Starter Sample's 8 marks split as Physics 4, Chemistry 1, Biology 3.
   const summary = marksSummary(page);
   await expect(summary).toContainText("Physics: 4/25M");
   await expect(summary).toContainText("Chemistry: 1/25M");
@@ -35,7 +34,7 @@ test("the marks summary tracks each Science Division against its planned marks",
 
   await addQuestion(page, {
     section: "Section C",
-    division: "Biology",
+    scienceDivision: "Biology",
     marks: 3,
     text: "Describe the structure of a neuron.",
   });

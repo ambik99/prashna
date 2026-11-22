@@ -201,6 +201,13 @@ test.describe("changing Questions", () => {
     await expect(paper).toContainText("2. Define a tissue.");
   });
 
+  test("the first and last Questions in a Section can't move past its edges", async ({ page }) => {
+    await expect(questionButton(page, "↑", 0)).toBeDisabled();
+    await expect(questionButton(page, "↓", 1)).toBeDisabled();
+    await expect(questionButton(page, "↓", 0)).toBeEnabled();
+    await expect(questionButton(page, "↑", 1)).toBeEnabled();
+  });
+
   test("removing a Question takes it off the Paper and out of the totals", async ({ page }) => {
     await questionButton(page, "Remove", 0).click();
 
