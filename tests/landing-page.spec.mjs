@@ -123,6 +123,45 @@ test("the maker's details are clearly marked placeholders", async ({ page }) => 
   await expect(page.getByRole("contentinfo").getByText("Placeholder", { exact: false })).toBeVisible();
 });
 
+test.describe("launch animation", () => {
+  // Once per browser session, the Prashna logo rises in with the maker's
+  // credit beneath it, then gives way to the page.
+  const credit = (page) => page.getByText("Created by Ambik Mojumder");
+
+  test("plays on the first visit and goes away by itself", async ({ page }) => {
+    await page.goto("/");
+
+    await expect(credit(page)).toBeVisible();
+    await expect(credit(page)).toBeHidden({ timeout: 3000 });
+    await expect(headline(page)).toBeVisible();
+    await expect(getTheApp(page)).toBeVisible();
+  });
+
+  test("does not play again in the same session", async ({ page }) => {
+    await page.goto("/");
+    await expect(credit(page)).toBeHidden({ timeout: 3000 });
+
+    await page.reload();
+    expect(await credit(page).isVisible()).toBe(false);
+  });
+
+  test("a click skips it", async ({ page }) => {
+    await page.goto("/");
+    await expect(credit(page)).toBeVisible();
+
+    await page.mouse.click(20, 20);
+    await expect(credit(page)).toBeHidden({ timeout: 500 });
+  });
+
+  test("does not play under reduced motion", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+
+    expect(await credit(page).isVisible()).toBe(false);
+    await expect(headline(page)).toBeVisible();
+  });
+});
+
 test.describe("on a phone", () => {
   test.use({
     viewport: { width: 360, height: 780 },
