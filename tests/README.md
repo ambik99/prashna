@@ -32,6 +32,8 @@ npm test
 
 `update-notice.spec.mjs` simulates a new deployment by changing what the server answers for the app page (`context.route`), then checks the "New version available" notice appears without the app reloading itself.
 
+`sub-folder.spec.mjs` runs in its own project against the site served from `/prashna/`, the way the beta site on GitHub Pages is served (see `docs/beta-site.md`). It fails if a link assumes the site root.
+
 The app icons are generated: change `scripts/make-icons.mjs` and run `node scripts/make-icons.mjs`.
 
 The Landing Page's screenshots (`www/images/`) are real captures of the app: after changing how the app looks, run `node scripts/make-screenshots.mjs` (needs ffmpeg).

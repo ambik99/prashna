@@ -24,6 +24,23 @@ export async function waitForOfflineCopy(page) {
   });
 }
 
+// The install manifest the page links to, and the addresses an installed
+// app uses, resolved the way the browser resolves them: start_url and scope
+// against the manifest's address, id against start_url's origin (and
+// start_url itself when there is no id). Installing has no on-screen
+// controls, so this reads the page's <head> link.
+export async function readManifest(page, request) {
+  const url = new URL(await page.locator('link[rel="manifest"]').getAttribute("href"), page.url());
+  const manifest = await (await request.get(url.href)).json();
+  const startUrl = new URL(manifest.start_url, url);
+  const installed = {
+    opens: startUrl.pathname,
+    scope: new URL(manifest.scope, url).pathname,
+    identity: manifest.id === undefined ? startUrl.pathname : new URL(manifest.id, startUrl.origin).pathname,
+  };
+  return { url, manifest, installed };
+}
+
 // The Paper preview, as a teacher sees it beside the editor.
 export const preview = (page) => page.getByRole("region", { name: "Question Paper Preview" });
 // The marks summary above the editor (Section totals and Target Marks).
