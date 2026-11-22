@@ -1,0 +1,6 @@
+{
+  "questions": [
+    { "section": "Section A", "type": "mcq", "text": "Which organ produces insulin?", "options": ["Liver", "Pancreas", "Kidney", "Heart"], "marks": 1, "answer": "(b) Pancreas" },
+    { "section": "Section B", "type": "standard", "text": "Why is the sky blue?", "marks": 2 }
+  ]
+}
