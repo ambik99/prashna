@@ -88,12 +88,25 @@
   // Once Prashna is installed there is nothing to get: opened from the home
   // screen it runs standalone (iPhones report navigator.standalone instead),
   // and after installing from the prompt the browser fires appinstalled.
-  function hideButtons() {
-    for (const button of buttons) button.hidden = true;
+  // A button with data-open-app="<address>" (on the Landing Page) becomes an
+  // "Open app" link to that address; the others are hidden.
+  function showInstalled() {
+    for (const button of buttons) {
+      const address = button.dataset.openApp;
+      if (address) {
+        const link = document.createElement("a");
+        link.href = address;
+        link.className = button.className;
+        link.textContent = "Open app";
+        button.replaceWith(link);
+      } else {
+        button.hidden = true;
+      }
+    }
   }
-  if (matchMedia("(display-mode: standalone)").matches || navigator.standalone === true) hideButtons();
+  if (matchMedia("(display-mode: standalone)").matches || navigator.standalone === true) showInstalled();
   window.addEventListener("appinstalled", () => {
     installPrompt = null;
-    hideButtons();
+    showInstalled();
   });
 })();

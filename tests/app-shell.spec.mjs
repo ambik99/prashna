@@ -55,9 +55,4 @@ test.describe("loading files that aren't Paper files", () => {
 
 // Get the App on each kind of device: see get-the-app.spec.mjs.
 
-test("visiting the site root opens the app", async ({ page }) => {
-  await page.goto("/");
-
-  await expect(page).toHaveURL(/\/app\/$/);
-  await expect(preview(page)).toBeVisible();
-});
+// The site root shows the Landing Page: see landing-page.spec.mjs.

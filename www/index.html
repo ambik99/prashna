@@ -2,15 +2,221 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prashna</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Prashna: question papers for CBSE teachers</title>
+  <meta name="description" content="Prashna helps CBSE teachers design question papers and marking schemes, then print or export to Word. Free, works offline, no sign-up." />
+  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#111318" media="(prefers-color-scheme: dark)" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="manifest" href="app/manifest.json" />
   <link rel="icon" type="image/png" sizes="32x32" href="app/icon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="app/icon-16.png" />
-  <!-- The app lives at /app/. This page sends teachers there until the Landing Page replaces it. -->
-  <meta http-equiv="refresh" content="0; url=app/" />
-  <script>location.replace("app/");</script>
+  <link rel="apple-touch-icon" sizes="180x180" href="app/apple-touch-icon.png" />
+  <link rel="preload" href="app/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="app/fonts/inter.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" as="image" href="images/app-desktop-1280.webp" imagesrcset="images/app-desktop-1280.webp 1280w, images/app-desktop-2160.webp 2160w" imagesizes="(min-width: 1360px) 1120px, 88vw" media="(min-width: 721px)" fetchpriority="high" />
+  <link rel="stylesheet" href="app/fonts.css" />
+  <link rel="stylesheet" href="app/tokens.css" />
+  <link rel="stylesheet" href="app/get-app.css" />
+  <link rel="stylesheet" href="landing.css" />
 </head>
 <body>
-  <p><a href="app/">Open the app</a></p>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Prashna home">
+      <img src="app/icon-192.png" width="32" height="32" alt="" />
+      <span>Prashna</span>
+    </a>
+    <nav class="topbar-actions" aria-label="Get Prashna">
+      <a class="link-quiet topbar-try" href="app/">Try it in your browser</a>
+      <button type="button" class="pill pill-small" data-get-app data-open-app="app/">Get the App</button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <h1 id="hero-title" class="hero-title">Set question papers in <em>minutes</em>, not evenings.</h1>
+        <p class="byline">Made by a CBSE teacher</p>
+        <p class="hero-sub">Prashna helps CBSE teachers design question papers and marking schemes, then print or export to Word. Free, works offline, no sign-up.</p>
+        <div class="hero-actions">
+          <button type="button" class="pill" data-get-app data-open-app="app/">Get the App</button>
+          <a class="pill pill-outline" href="app/">Try it in your browser</a>
+        </div>
+      </div>
+
+      <figure class="hero-stage">
+        <img class="shot-paper"
+          src="images/paper-a4-560.webp"
+          srcset="images/paper-a4-560.webp 560w, images/paper-a4-1120.webp 1120w"
+          sizes="(min-width: 1360px) 380px, 30vw"
+          width="560" height="792"
+          alt="The printed Paper: a Class 10 Science Pre-Board Paper with Sections A to E" />
+        <picture>
+          <source media="(max-width: 720px)" srcset="images/app-desktop-crop-720.webp 720w, images/app-desktop-crop-1080.webp 1080w" sizes="92vw" width="720" height="614" />
+          <img class="shot-app"
+          src="images/app-desktop-1280.webp"
+          srcset="images/app-desktop-1280.webp 1280w, images/app-desktop-2160.webp 2160w"
+          sizes="(min-width: 1360px) 1120px, 88vw"
+          width="1280" height="800"
+          fetchpriority="high"
+          alt="Prashna on a computer: the Paper Details on the left and the live A4 Paper preview on the right" />
+        </picture>
+      </figure>
+    </section>
+
+    <section class="section" aria-labelledby="features-title">
+      <div class="section-head">
+        <h2 id="features-title">Everything a CBSE Paper needs</h2>
+        <p class="section-sub">Question types, answers, printing and offline use (4 features).</p>
+      </div>
+      <ol class="features">
+        <li class="feature">
+          <div class="feature-line">
+            <h3>CBSE question types</h3>
+            <span class="feature-tag">[Sections A–E]</span>
+          </div>
+          <p>Standard, MCQ, Assertion–Reason and Case-Study Questions, each with an optional “OR” choice. The marks blueprint counts every Section against your target total, and you can type in Hindi and Bengali too.</p>
+        </li>
+        <li class="feature">
+          <div class="feature-line">
+            <h3>Marking Scheme</h3>
+            <span class="feature-tag">[Answers]</span>
+          </div>
+          <p>Write the answer as you add each Question. Show the Marking Scheme beside the Paper, or print it on its own for the evaluators.</p>
+        </li>
+        <li class="feature">
+          <div class="feature-line">
+            <h3>Print and Word export</h3>
+            <span class="feature-tag">[A4 · PDF · Word]</span>
+          </div>
+          <p>Print on A4 or save as PDF, laid out like a Board Paper. Or export to Word and make last changes in your own document.</p>
+        </li>
+        <li class="feature">
+          <div class="feature-line">
+            <h3>Works offline</h3>
+            <span class="feature-tag">[No internet]</span>
+          </div>
+          <p>Once it has opened, Prashna works without internet. Your Paper saves on your device as you type, so closing the app loses nothing.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section" aria-labelledby="steps-title">
+      <div class="section-head">
+        <h2 id="steps-title">How it works</h2>
+        <p class="section-sub">From a blank Paper to a printed one (4 steps).</p>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <span class="step-num" aria-hidden="true">1</span>
+          <h3>Set up</h3>
+          <p>Enter the school, examination, class and subject, or start from a ready-made Template.</p>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">2</span>
+          <h3>Add questions</h3>
+          <p>Pick a Section and a question type, then write the Question and its answer.</p>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">3</span>
+          <h3>Preview</h3>
+          <p>Watch the A4 Paper fill in as you type, with the marks added up for you.</p>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">4</span>
+          <h3>Print</h3>
+          <p>Print, save as PDF or export to Word, with the Marking Scheme on its own.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section devices" aria-labelledby="devices-title">
+      <div class="devices-copy">
+        <h2 id="devices-title">On your computer and your phone</h2>
+        <p>On a computer, the editor sits beside the Paper. On a phone, Edit, Preview and Bank sit at the bottom of the screen, within reach of your thumb.</p>
+        <p>Get the App and Prashna opens from your home screen like any other app, full-screen and ready without internet.</p>
+      </div>
+      <div class="phones">
+        <figure class="phone">
+          <img src="images/phone-edit-390.webp" srcset="images/phone-edit-390.webp 390w, images/phone-edit-780.webp 780w"
+            sizes="(min-width: 960px) 260px, 44vw" width="390" height="844" loading="lazy" decoding="async"
+            alt="Prashna on a phone: editing a Question, a multiple choice Question being typed" />
+        </figure>
+        <figure class="phone phone-lower">
+          <img src="images/phone-preview-390.webp" srcset="images/phone-preview-390.webp 390w, images/phone-preview-780.webp 780w"
+            sizes="(min-width: 960px) 260px, 44vw" width="390" height="844" loading="lazy" decoding="async"
+            alt="Prashna on a phone: the Paper preview, showing the school name and Section A" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="privacy" aria-labelledby="privacy-title">
+      <div class="privacy-inner">
+        <h2 id="privacy-title">Your papers never leave your device.</h2>
+        <p class="privacy-lead">We only count anonymous visits.</p>
+        <p>There is no account and no sign-up. Your Papers and your Question Bank are kept in the browser on your device. To move a Paper to another device, save it as a file and load it there.</p>
+      </div>
+    </section>
+
+    <section class="section maker" aria-labelledby="maker-title">
+      <div class="section-head">
+        <h2 id="maker-title">Made by a teacher</h2>
+      </div>
+      <figure class="maker-quote">
+        <blockquote>
+          <p><span class="placeholder">Placeholder: a one-line quote in the maker’s own words</span></p>
+        </blockquote>
+        <figcaption>
+          <span>
+            <span class="placeholder">Placeholder: maker’s name</span>
+            <span class="placeholder">Placeholder: title, for example Computer Science Teacher, school and town</span>
+          </span>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="section faq" aria-labelledby="faq-title">
+      <div class="section-head">
+        <h2 id="faq-title">Questions teachers ask</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>How do I install Prashna on an iPhone?</summary>
+          <p>Open this page in Safari, tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. Tap <strong>Get the App</strong> above and Prashna shows you the two steps. On an Android phone or a computer, Get the App installs it in Chrome.</p>
+        </details>
+        <details>
+          <summary>Is it free?</summary>
+          <p>Yes. Prashna is free, with no sign-up and nothing to pay.</p>
+        </details>
+        <details>
+          <summary>Is Prashna an official CBSE app?</summary>
+          <p>No. Prashna is made by a teacher and is not affiliated with CBSE. It follows the Section pattern CBSE Papers use, so you can set Papers the way you already do.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="closing" aria-label="Get Prashna">
+      <p class="closing-line">Set your next Paper in <em>minutes</em>.</p>
+      <div class="hero-actions">
+        <button type="button" class="pill" data-get-app data-open-app="app/">Get the App</button>
+        <a class="pill pill-outline" href="app/">Try it in your browser</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <a class="brand" href="./">
+        <img src="app/icon-192.png" width="28" height="28" alt="" />
+        <span>Prashna</span>
+      </a>
+      <p>Question papers for CBSE teachers. Prashna is made by a teacher and is not affiliated with CBSE.</p>
+      <p>Contact: <span class="placeholder">Placeholder: contact email</span></p>
+    </div>
+  </footer>
+
+  <script src="app/get-app.js"></script>
 </body>
 </html>
