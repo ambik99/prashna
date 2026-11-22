@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import { TEMPLATES, addQuestion, loadTemplate, marksSummary, moreMenuButton, preview, startEmptyPaper } from "./helpers.mjs";
+import { TEMPLATES, addQuestion, answerConfirmation, loadTemplate, marksSummary, moreMenuButton, preview, startEmptyPaper } from "./helpers.mjs";
 
 test.beforeEach(async ({ page }) => {
   // Record print requests instead of opening the browser's print dialog, noting
@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
     window.__prints = [];
     window.print = () => {
       const paper = document.querySelector('[aria-label="Question Paper Preview"]');
-      window.__prints.push({ markingSchemeShown: paper.innerText.includes("Answer Key:") });
+      window.__prints.push({ markingSchemeShown: paper.innerText.includes("Marking Scheme:") });
     };
   });
   await page.goto("/app/");
@@ -43,6 +43,7 @@ test.describe("Templates", () => {
     await page.getByLabel("School Name").fill("About To Be Reset");
 
     await (await moreMenuButton(page, "Reset Sample")).click();
+    await answerConfirmation(page, "Reset Paper");
 
     const paper = preview(page);
     await expect(paper).not.toContainText("About To Be Reset");
@@ -74,14 +75,14 @@ test.describe("printing", () => {
 
   test("printing the Marking Scheme prints it, then puts the preview back", async ({ page }) => {
     const paper = preview(page);
-    await expect(paper).not.toContainText("Answer Key:");
+    await expect(paper).not.toContainText("Marking Scheme:");
 
-    await (await moreMenuButton(page, "Print Answer Key")).click();
+    await (await moreMenuButton(page, "Print Marking Scheme")).click();
     expect(await printRequests(page)).toEqual([{ markingSchemeShown: true }]);
 
     // Once printing finishes, the preview returns to how it was.
     await page.evaluate(() => window.dispatchEvent(new Event("afterprint")));
-    await expect(paper).not.toContainText("Answer Key:");
+    await expect(paper).not.toContainText("Marking Scheme:");
   });
 });
 
@@ -152,11 +153,11 @@ test.describe("Word export", () => {
       markingScheme: "Jupiter.",
     });
 
-    expect((await exportWord(page)).contents).not.toContain("MARKING SCHEME / ANSWER KEY");
+    expect((await exportWord(page)).contents).not.toContain("MARKING SCHEME");
 
     await (await moreMenuButton(page, "Show Marking Scheme")).click();
     const withScheme = (await exportWord(page)).contents;
-    expect(withScheme).toContain("MARKING SCHEME / ANSWER KEY");
+    expect(withScheme).toContain("MARKING SCHEME");
     expect(withScheme).toContain("Jupiter.");
   });
 });

@@ -35,7 +35,7 @@ test.describe("loading files that aren't Paper files", () => {
   test("a file with other data is rejected and the Paper is kept", async ({ page }) => {
     await page.getByLabel("School Name").fill("Keep This School");
 
-    await loadPaper(page, fixture("not-a-paper.json"));
+    await loadPaper(page, fixture("not-a-paper.json"), { confirm: false });
 
     await expect(page.getByText("Invalid paper file")).toBeVisible();
     await expect(preview(page)).toContainText("Keep This School");
@@ -44,7 +44,7 @@ test.describe("loading files that aren't Paper files", () => {
   test("a file that can't be read is rejected and the Paper is kept", async ({ page }) => {
     await page.getByLabel("School Name").fill("Keep This School");
 
-    await loadPaper(page, fixture("not-json.json"));
+    await loadPaper(page, fixture("not-json.json"), { confirm: false });
 
     await expect(page.getByText("Could not read JSON")).toBeVisible();
     await expect(preview(page)).toContainText("Keep This School");
