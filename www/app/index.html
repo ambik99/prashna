@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#111318" media="(prefers-color-scheme: dark)" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#191c23" media="(prefers-color-scheme: dark)" />
   <meta name="color-scheme" content="light dark" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -28,8 +28,11 @@
     <div class="header-actions">
       <button type="button" id="bankToggleBtn" class="btn-reset" aria-expanded="false" aria-controls="bankPanel">Question Bank</button>
       <div class="more">
+        <div id="sheetBackdrop" class="sheet-backdrop" hidden></div>
         <button type="button" id="moreBtn" class="btn-reset more-btn" aria-expanded="false" aria-controls="moreMenu">More</button>
         <div id="moreMenu" class="more-menu" hidden>
+          <!-- On phones, Print and Export move here from the top bar -->
+          <div id="morePrimary" class="more-group more-primary"></div>
           <div class="more-group">
             <label for="templateSelect" class="more-label">Template</label>
             <select id="templateSelect" class="template-select" aria-label="Load CBSE Template">
@@ -79,10 +82,6 @@
     <div id="summaryPills" class="summary-pills"></div>
   </section>
 
-  <div class="mobile-tabs" role="tablist" aria-label="Switch View">
-    <button type="button" id="tabEditorBtn" class="mobile-tab-btn active" role="tab" aria-selected="true">Editor</button>
-    <button type="button" id="tabPreviewBtn" class="mobile-tab-btn" role="tab" aria-selected="false">Paper Preview</button>
-  </div>
 
   <main id="mainLayout" class="layout mobile-view-editor">
     <!-- Left Column: Editor Controls -->
@@ -431,6 +430,24 @@
     </section>
     </div>
   </main>
+
+  <!-- Phones: bottom tab bar and the backdrop behind bottom sheets -->
+  <nav class="tab-bar" aria-label="Views">
+    <div class="tab-bar-list" role="tablist" aria-label="Switch View" style="display: contents;">
+      <button type="button" id="tabEditorBtn" class="tab-bar-btn active" role="tab" aria-selected="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>
+        <span>Edit</span>
+      </button>
+      <button type="button" id="tabPreviewBtn" class="tab-bar-btn" role="tab" aria-selected="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h6"/></svg>
+        <span>Preview</span>
+      </button>
+      <button type="button" id="tabBankBtn" class="tab-bar-btn" role="tab" aria-selected="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7l8-4 8 4-8 4z"/><path d="M4 12l8 4 8-4"/><path d="M4 17l8 4 8-4"/></svg>
+        <span>Bank</span>
+      </button>
+    </div>
+  </nav>
 
   <!-- Question Bank: a slide-out panel beside the editor -->
   <aside id="bankPanel" class="bank-panel" aria-labelledby="bankPanelTitle" hidden>

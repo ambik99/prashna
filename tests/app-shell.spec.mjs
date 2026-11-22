@@ -51,26 +51,7 @@ test.describe("loading files that aren't Paper files", () => {
   });
 });
 
-test.describe("on a narrow screen", () => {
-  test.use({ viewport: { width: 390, height: 844 } });
-
-  test("Editor and Paper Preview tabs switch between the two panels", async ({ page }) => {
-    const editorTab = page.getByRole("tab", { name: "Editor" });
-    const previewTab = page.getByRole("tab", { name: "Paper Preview" });
-
-    await expect(editorTab).toHaveAttribute("aria-selected", "true");
-    await expect(page.getByLabel("School Name")).toBeVisible();
-    await expect(preview(page)).toBeHidden();
-
-    await previewTab.click();
-    await expect(previewTab).toHaveAttribute("aria-selected", "true");
-    await expect(preview(page)).toBeVisible();
-    await expect(page.getByLabel("School Name")).toBeHidden();
-
-    await editorTab.click();
-    await expect(page.getByLabel("School Name")).toBeVisible();
-  });
-});
+// Phone layout (bottom tab bar, bottom sheets): see phone.spec.mjs.
 
 test("Install App shows how to add the app to a phone's home screen", async ({ page }) => {
   await (await moreMenuButton(page, "Install App")).click();
