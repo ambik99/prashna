@@ -8,8 +8,8 @@ export default defineConfig({
   reporter: "list",
   use: {
     baseURL: `http://localhost:${PORT}`,
-    // The offline cache would serve stale files between runs; offline
-    // behaviour gets its own tests later.
+    // The offline cache would serve stale files between runs; the offline
+    // tests (offline.spec.mjs) turn the service worker back on for themselves.
     serviceWorkers: "block",
     trace: "retain-on-failure",
   },

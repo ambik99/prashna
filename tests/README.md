@@ -26,6 +26,12 @@ npm test
 - Assert on what the teacher sees, using known-good values (a worked example or a fixture file), not values recomputed the way the app computes them.
 - Use the glossary's terms (`CONTEXT.md`) in test names.
 
+## Offline
+
+`offline.spec.mjs` visits the app once, turns the network off and checks the app still works. It also checks that every file in `www/app/` is in the offline cache, so a new app file must be added to the list in `www/app/sw.js`.
+
+The app icons are generated: change `scripts/make-icons.mjs` and run `node scripts/make-icons.mjs`.
+
 ## Fixtures
 
 `fixtures/paper-saved-by-v10.json` is a Paper file saved by version 10.0 of the tool before the redesign. Never regenerate it: it proves Papers that teachers saved earlier still load.
