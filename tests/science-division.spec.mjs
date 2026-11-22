@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { TEMPLATES, addQuestion, loadTemplate, marksSummary, preview } from "./helpers.mjs";
+import { TEMPLATES, addQuestion, exportWord, loadTemplate, marksSummary, preview } from "./helpers.mjs";
 
 const divisionChoice = (page) => page.getByLabel("Science Division (Class 9 & 10)");
 
@@ -50,4 +50,34 @@ test("a single Science Division Paper shows only that division's Questions", asy
   await expect(paper).toContainText("Max. Marks: 1");
   await expect(marksSummary(page)).toContainText("Chemistry: 1/25M");
   await expect(marksSummary(page)).not.toContainText("Physics:");
+});
+
+// The Starter Sample Template's three Questions, one per Science Division,
+// in Paper order: Chemistry is Question 1, Biology 2 and Physics 3.
+const STARTER_SAMPLE_QUESTIONS = {
+  Chemistry: "Which gas is evolved when dilute hydrochloric acid reacts with zinc granules?",
+  Biology: "Define photosynthesis",
+  Physics: "Read the passage carefully and answer the questions that follow",
+};
+
+test("Word export of a single Science Division Paper has only that division's Questions", async ({ page }) => {
+  await divisionChoice(page).selectOption({ label: "Physics Only" });
+
+  const { contents } = await exportWord(page);
+  expect(contents).toContain("Class 10 — Science (Physics)");
+  expect(contents).toContain("Max. Marks: 4");
+  // Numbered as on the preview: the Physics Question becomes Question 1.
+  expect(contents).toContain(`1. ${STARTER_SAMPLE_QUESTIONS.Physics}`);
+  expect(contents).not.toContain(STARTER_SAMPLE_QUESTIONS.Chemistry);
+  expect(contents).not.toContain(STARTER_SAMPLE_QUESTIONS.Biology);
+});
+
+test("Word export of a combined Science Paper has every division's Questions", async ({ page }) => {
+  const { contents } = await exportWord(page);
+  expect(contents).toContain("Class 10 — Science");
+  expect(contents).not.toContain("Science (");
+  expect(contents).toContain("Max. Marks: 8");
+  expect(contents).toContain(`1. ${STARTER_SAMPLE_QUESTIONS.Chemistry}`);
+  expect(contents).toContain(`2. ${STARTER_SAMPLE_QUESTIONS.Biology}`);
+  expect(contents).toContain(`3. ${STARTER_SAMPLE_QUESTIONS.Physics}`);
 });

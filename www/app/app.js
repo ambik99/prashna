@@ -600,11 +600,11 @@ async function loadPaperCss() {
 }
 
 async function exportWordFile() {
-  const activeQuestions = questions.filter((q) => Number(countInputs[q.section].value) > 0 && (!isScienceDivisionsActive() || divisionModeSelect.value === "Combined" || (q.division || "Physics") === divisionModeSelect.value));
+  const activeQuestions = paperQuestions();
   const totalMarks = activeQuestions.reduce((sum, q) => sum + q.marks, 0);
   const school = escapeHtml(schoolInput.value.trim() || "School Name");
   const exam = escapeHtml(examInput.value.trim() || "Examination Title");
-  const classSub = escapeHtml(classInput.value + " — " + (subjectInput.value.trim() || "Subject"));
+  const classSub = escapeHtml(classSubjectLine());
   const time = escapeHtml(timeInput.value.trim() || "3 Hours");
   const instructions = escapeHtml(instructionsInput.value.trim() || "All questions are compulsory.");
 
@@ -626,8 +626,7 @@ async function exportWordFile() {
 
   let qNum = 1;
   SECTIONS.forEach((sec) => {
-    if (Number(countInputs[sec].value) === 0) return;
-    const secItems = questions.filter((q) => q.section === sec);
+    const secItems = activeQuestions.filter((q) => q.section === sec);
     if (secItems.length === 0) return;
 
     const secTitle = sec === "Section E" ? "Section E (Case-Study / Source-Based)" : sec;
@@ -1143,14 +1142,12 @@ function renderPaper() {
 
   previewSchool.textContent = schoolInput.value.trim() || "School Name";
   previewExam.textContent = examInput.value.trim() || "Examination Title";
-  const divSuffix = isScienceDivisionsActive() && divisionModeSelect.value !== "Combined" ? " (" + divisionModeSelect.value + ")" : "";
-  previewClassSubject.textContent =
-    classInput.value + " — " + (subjectInput.value.trim() || "Subject") + divSuffix;
+  previewClassSubject.textContent = classSubjectLine();
   previewTime.textContent = "Time: " + (timeInput.value.trim() || "3 Hours");
   previewInstructions.textContent =
     instructionsInput.value.trim() || "All questions are compulsory.";
 
-  const activeQuestions = questions.filter((q) => Number(countInputs[q.section].value) > 0 && (!isScienceDivisionsActive() || divisionModeSelect.value === "Combined" || (q.division || "Physics") === divisionModeSelect.value));
+  const activeQuestions = paperQuestions();
   const totalMarks = activeQuestions.reduce((sum, q) => sum + q.marks, 0);
   previewTotalMarks.textContent = "Max. Marks: " + totalMarks;
   renderSummary(totalMarks);
@@ -1488,6 +1485,31 @@ function isScienceDivisionsActive() {
   const cls = classInput.value;
   const sub = subjectInput.value.trim().toLowerCase();
   return (cls === "Class 9" || cls === "Class 10") && sub === "science";
+}
+
+// The Science Division the Paper is for: "Physics", "Chemistry", "Biology",
+// or "Combined" (also for any Paper that isn't Class 9 or 10 Science).
+function paperDivision() {
+  return isScienceDivisionsActive() ? divisionModeSelect.value : "Combined";
+}
+
+// The Questions printed on the Paper (preview, print and Word export): those
+// in Sections that are switched on and, for a single Science Division Paper,
+// only that division's. Untagged Questions count as Physics.
+function paperQuestions() {
+  const division = paperDivision();
+  return questions.filter(
+    (q) =>
+      Number(countInputs[q.section].value) > 0 && (division === "Combined" || (q.division || "Physics") === division),
+  );
+}
+
+// The Paper header's class and subject, with the division for a single
+// Science Division Paper, e.g. "Class 10 — Science (Chemistry)".
+function classSubjectLine() {
+  const division = paperDivision();
+  const suffix = division === "Combined" ? "" : " (" + division + ")";
+  return classInput.value + " — " + (subjectInput.value.trim() || "Subject") + suffix;
 }
 
 function syncScienceDivisionUI() {
