@@ -1,0 +1,242 @@
+/*
+ * The Paper: one set of rules for the live preview, the printed Paper and
+ * the Word export (Export Word embeds this file). Sizes are in print units
+ * and every value is literal, because Word ignores CSS variables.
+ *
+ * Layout and content order are the standard CBSE Paper: header,
+ * instructions, Sections, Questions with their marks, Alternative
+ * Questions. Only spacing, alignment and sizes are refined here.
+ */
+
+.paper-sheet {
+  font-family: "Newsreader", "Noto Sans Devanagari", "Noto Sans Bengali", Georgia, "Times New Roman", "Nirmala UI", "Vrinda", serif;
+  font-size: 11pt;
+  line-height: 1.5;
+  color: #000000;
+  background: #ffffff;
+  font-variant-numeric: lining-nums;
+  font-kerning: normal;
+}
+
+/* School crest behind the Paper (preview and print only) */
+.paper-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  max-width: 68%;
+  opacity: 0.11;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.paper-top,
+.instructions,
+#questionsContainer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.paper-top {
+  text-align: center;
+  border-bottom: 1.5pt solid #000000;
+  padding-bottom: 7pt;
+  margin-bottom: 10pt;
+}
+
+.paper-mode-banner {
+  display: inline-block;
+  font-size: 8.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  border: 0.75pt solid #000000;
+  padding: 1pt 8pt;
+  margin-bottom: 6pt;
+}
+
+.paper-school {
+  font-size: 15pt;
+  font-weight: 700;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.paper-exam {
+  font-size: 12pt;
+  font-weight: 600;
+  margin-top: 2pt;
+}
+
+.paper-meta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6pt;
+  font-size: 11pt;
+  font-weight: 600;
+  margin-top: 8pt;
+}
+
+/* Word has no flexbox: the export lays the same three items out in a table */
+.paper-meta-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11pt;
+  font-weight: 600;
+  margin-top: 8pt;
+}
+
+.paper-meta-table td {
+  padding: 0;
+}
+
+/* General Instructions */
+.instructions {
+  font-size: 10.5pt;
+  line-height: 1.5;
+  padding-bottom: 8pt;
+  margin: 0 0 12pt;
+  border-bottom: 0.75pt solid #9ca3af;
+  white-space: pre-line;
+}
+
+/* Sections */
+.section-block {
+  margin-bottom: 14pt;
+}
+
+.section-title {
+  font-size: 11.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+  margin: 0 0 2pt;
+  padding-bottom: 2pt;
+  border-bottom: 0.75pt solid #000000;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.section-subtitle {
+  font-size: 10pt;
+  font-style: italic;
+  color: #374151;
+  text-align: center;
+  margin: 0 0 6pt;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+/* Questions: the number hangs, so wrapped lines line up with the text */
+.question-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12pt;
+  padding: 5pt 0;
+  font-size: 11pt;
+  line-height: 1.5;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.question-body {
+  flex: 1;
+  white-space: pre-line;
+  text-align: left;
+}
+
+.q-text {
+  padding-left: 1.6em;
+  text-indent: -1.6em;
+  margin: 0;
+}
+
+.ar-statement,
+.ar-options-preview,
+.mcq-options-preview,
+.case-subquestions,
+.or-alt-text,
+.answer-box,
+.question-diagram-wrap {
+  margin-left: 1.6em;
+}
+
+.ar-statement {
+  margin-top: 2pt;
+  margin-bottom: 0;
+}
+
+.ar-options-preview {
+  margin-top: 3pt;
+  font-size: 10.5pt;
+}
+
+.ar-options-preview div,
+.ar-option {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.mcq-options-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2pt 18pt;
+  margin-top: 3pt;
+}
+
+.case-subquestions {
+  margin-top: 4pt;
+}
+
+.case-subquestions div,
+.case-subquestion {
+  margin-top: 0;
+  margin-bottom: 2pt;
+}
+
+.question-diagram {
+  display: block;
+  max-width: 100%;
+  max-height: 220px;
+  margin: 6pt auto;
+}
+
+.or-divider {
+  text-align: center;
+  font-size: 10pt;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  margin: 4pt 0;
+}
+
+.question-marks {
+  font-family: "Newsreader", Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Marking Scheme: a quiet box under the answer, readable in black and white */
+.answer-box {
+  margin-top: 5pt;
+  padding: 4pt 8pt;
+  border: 0.75pt solid #9ca3af;
+  border-radius: 3pt;
+  background: #f5f5f4;
+  font-size: 10pt;
+  line-height: 1.45;
+  color: #111111;
+  white-space: pre-line;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}

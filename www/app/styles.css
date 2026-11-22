@@ -799,205 +799,23 @@ button:active:not(:disabled) {
   display: none;
 }
 
-/* Live CBSE Paper sheet. Always light: see .theme-light in tokens.css.
-   Paper typography is refined separately; only colours and fonts are set here. */
+/* The Paper's typography lives in paper.css (shared with print and Word).
+   Here: only how the preview sheet sits in the app. Always light: see
+   .theme-light in tokens.css. */
 .paper-sheet {
   position: relative;
   overflow: hidden;
-  background: var(--paper-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   padding: 2rem 2.25rem;
   box-shadow: var(--shadow-md);
-  font-family: var(--font-paper);
-  font-size: 11pt;
-  line-height: 1.45;
-  color: var(--paper-ink);
-}
-
-.paper-watermark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  max-width: 68%;
-  opacity: 0.11;
-  pointer-events: none;
-  user-select: none;
-  z-index: 0;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
-}
-
-.paper-top,
-.instructions,
-#questionsContainer {
-  position: relative;
-  z-index: 1;
-}
-
-.paper-top {
-  text-align: center;
-  border-bottom: 2px solid var(--paper-ink);
-  padding-bottom: 8px;
-  margin-bottom: 12px;
-}
-
-.paper-mode-banner {
-  display: inline-block;
-  font-family: var(--font-ui);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-bold);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  background: var(--color-success-soft);
-  color: var(--color-success);
-  padding: 0.2rem 0.65rem;
-  border-radius: var(--radius-pill);
-  margin-bottom: 0.4rem;
-}
-
-.paper-school {
-  font-size: 1.25rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.paper-exam {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-top: 0.25rem;
-}
-
-.paper-meta {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  font-size: 0.92rem;
-  font-weight: 600;
-  margin-top: 0.75rem;
-}
-
-.instructions {
-  font-size: 0.88rem;
-  line-height: 1.55;
-  border-bottom: 1px solid var(--paper-rule);
-  padding-bottom: 0.75rem;
-  margin-bottom: 1.15rem;
-  white-space: pre-line;
-}
-
-.section-block {
-  margin-bottom: 1.25rem;
-}
-
-.section-title {
-  font-size: 0.98rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 0.25rem;
-  color: var(--paper-ink);
-  border-bottom: 1px dashed var(--paper-rule-strong);
-  padding-bottom: 2px;
-}
-
-.section-subtitle {
-  font-size: 0.85rem;
-  font-style: italic;
-  color: var(--paper-ink-muted);
-  margin-bottom: 0.55rem;
-}
-
-.question-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.55rem 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
 }
 
 .question-item.editing-highlight {
   background: var(--color-accent-soft);
   border-radius: var(--radius-sm);
-  padding: 0.55rem 0.5rem;
-}
-
-.question-body {
-  flex: 1;
-  white-space: pre-line;
-  text-align: left;
-}
-
-.question-diagram {
-  display: block;
-  max-width: 100%;
-  max-height: 220px;
-  margin: 0.55rem auto;
-  border: 1px solid var(--paper-rule);
-  border-radius: var(--radius-sm);
-  padding: 0.25rem;
-  background: var(--paper-bg);
-}
-
-.mcq-options-preview {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1.35rem;
-  margin-top: 4px;
-  padding-left: 16px;
-  font-size: 11pt;
-}
-
-.ar-options-preview {
-  margin-top: 0.35rem;
-  padding-left: 1.25rem;
-  font-size: 0.88rem;
-  line-height: 1.45;
-}
-
-.ar-statement {
-  margin-top: 0.2rem;
-  padding-left: 1.15rem;
-}
-
-.case-subquestions {
-  margin-top: 0.45rem;
-  padding-left: 1.25rem;
-  font-size: 0.92rem;
-}
-
-.case-subquestions div {
-  margin-bottom: 0.2rem;
-}
-
-.or-divider {
-  text-align: center;
-  font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  margin: 0.35rem 0;
-  color: var(--paper-ink-muted);
-}
-
-.or-alt-text {
-  padding-left: 1.15rem;
-}
-
-.answer-box {
-  margin-top: 0.45rem;
-  padding: 0.45rem 0.7rem;
-  background: var(--color-success-soft);
-  border-left: 3px solid var(--color-success);
-  font-family: var(--font-ui);
-  font-size: var(--text-sm);
-  color: var(--color-success);
-  line-height: 1.45;
+  padding: 5pt 6pt;
+  margin: 0 -6pt;
 }
 
 .question-actions {
@@ -1007,16 +825,13 @@ button:active:not(:disabled) {
   font-family: var(--font-ui);
 }
 
-.question-marks {
-  font-family: var(--font-paper);
-  font-weight: 700;
-  white-space: nowrap;
-  margin-right: 0.2rem;
+.question-actions .question-marks {
+  margin-right: var(--space-1);
 }
 
 .empty-state {
   text-align: center;
-  color: var(--paper-ink-muted);
+  color: #4b5563;
   font-style: italic;
   padding: 2rem 1rem;
 }
@@ -1690,7 +1505,7 @@ body {
 
 @media print {
   body {
-    background: var(--paper-bg);
+    background: #ffffff;
     padding: 0;
     height: auto;
     display: block;
@@ -1718,7 +1533,8 @@ body {
   }
   .question-item.editing-highlight {
     background: transparent;
-    padding: 0.55rem 0;
+    padding: 5pt 0;
+    margin: 0;
   }
   .layout {
     display: block;
