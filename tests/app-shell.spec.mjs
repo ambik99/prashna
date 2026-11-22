@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { fixture, loadPaper, preview } from "./helpers.mjs";
+import { fixture, loadPaper, moreMenuButton, preview } from "./helpers.mjs";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/app/");
@@ -73,7 +73,7 @@ test.describe("on a narrow screen", () => {
 });
 
 test("Install App shows how to add the app to a phone's home screen", async ({ page }) => {
-  await page.getByRole("button", { name: "Install App" }).click();
+  await (await moreMenuButton(page, "Install App")).click();
 
   const dialog = page.getByRole("dialog", { name: "Install on iOS & Android" });
   await expect(dialog).toBeVisible();

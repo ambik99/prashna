@@ -933,7 +933,8 @@ function startEdit(questionId) {
   if (!q) return;
 
   editingId = questionId;
-  formHeading.textContent = "2. Edit Question";
+  formHeading.textContent = "3. Edit Question";
+  document.dispatchEvent(new CustomEvent("prashna:edit-question"));
   addQuestionBtn.textContent = "Save Changes";
   cancelEditBtn.classList.remove("hidden");
   errorMsg.style.display = "none";
@@ -980,7 +981,7 @@ function clearFormFields() {
 
 function cancelEdit() {
   editingId = null;
-  formHeading.textContent = "2. Add a Question";
+  formHeading.textContent = "3. Add a Question";
   addQuestionBtn.textContent = "+ Add Question to Paper";
   cancelEditBtn.classList.add("hidden");
   clearFormFields();
@@ -1264,7 +1265,7 @@ function renderPaper() {
       removeBtn.addEventListener("click", () => {
         if (editingId === q.id) {
           editingId = null;
-          formHeading.textContent = "2. Add a Question";
+          formHeading.textContent = "3. Add a Question";
           addQuestionBtn.textContent = "+ Add Question to Paper";
           cancelEditBtn.classList.add("hidden");
           clearFormFields();
@@ -1341,7 +1342,7 @@ function submitQuestionForm() {
   if (editingId !== null) {
     questions = questions.map((q) => (q.id === editingId ? record : q));
     editingId = null;
-    formHeading.textContent = "2. Add a Question";
+    formHeading.textContent = "3. Add a Question";
     addQuestionBtn.textContent = "+ Add Question to Paper";
     cancelEditBtn.classList.add("hidden");
   } else {
