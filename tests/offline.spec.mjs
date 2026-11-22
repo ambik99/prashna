@@ -42,14 +42,14 @@ test.describe("Prashna as an installed app", () => {
     await page.goto("/app/");
     await expect(page).toHaveTitle("Prashna");
 
-    const { manifest } = await readManifest(page, request);
-    expect(manifest).toMatchObject({
-      name: "Prashna",
-      short_name: "Prashna",
-      start_url: "/app/",
-      scope: "/app/",
-      display: "standalone",
-    });
+    const { url, manifest } = await readManifest(page, request);
+    expect(manifest).toMatchObject({ name: "Prashna", short_name: "Prashna", display: "standalone" });
+    // The browser reads these addresses relative to the manifest file, so the
+    // app also installs from a sub-folder (see sub-folder.spec.mjs).
+    const startUrl = new URL(manifest.start_url, url);
+    expect(startUrl.pathname).toBe("/app/");
+    expect(new URL(manifest.scope, url).pathname).toBe("/app/");
+    expect(new URL(manifest.id, startUrl).pathname).toBe("/app/");
   });
 
   test("the प्र icon comes in every size Android, iOS and browser tabs ask for", async ({ page, request }) => {

@@ -1,7 +1,10 @@
 // Minimal static server that serves the site the way Cloudflare Pages does:
 // files by path, and a folder's index.html for folder URLs. No dependencies.
 //
-// Usage: node scripts/serve.mjs [port]   (defaults to PORT env or 4173)
+// Usage: node scripts/serve.mjs [port] [base]
+//   port defaults to the PORT env or 4173.
+//   base serves the site from a sub-folder, the way GitHub Pages serves the
+//   beta site at /prashna/; nothing outside it exists. Defaults to /.
 
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
@@ -10,6 +13,7 @@ import { fileURLToPath } from "node:url";
 
 const SITE_ROOT = resolve(fileURLToPath(new URL("../www", import.meta.url)));
 const PORT = Number(process.argv[2] || process.env.PORT || 4173);
+const BASE = (process.argv[3] || "/").replace(/\/?$/, "/");
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -26,7 +30,9 @@ const TYPES = {
 };
 
 async function resolveFile(urlPath) {
-  const decoded = decodeURIComponent(urlPath.split("?")[0]);
+  const path = urlPath.split("?")[0];
+  if (!path.startsWith(BASE)) return null;
+  const decoded = decodeURIComponent(path.slice(BASE.length - 1));
   const candidate = normalize(join(SITE_ROOT, decoded));
   if (candidate !== SITE_ROOT && !candidate.startsWith(SITE_ROOT + sep)) return null;
   try {
@@ -56,5 +62,5 @@ createServer(async (req, res) => {
   });
   res.end(body);
 }).listen(PORT, () => {
-  console.log(`Serving ${SITE_ROOT} at http://localhost:${PORT}/`);
+  console.log(`Serving ${SITE_ROOT} at http://localhost:${PORT}${BASE}`);
 });

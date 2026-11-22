@@ -1,10 +1,10 @@
 {
-  "id": "/app/",
+  "id": "./",
   "name": "Prashna",
   "short_name": "Prashna",
   "description": "Design CBSE question papers and marking schemes, then print or export them. Works offline.",
-  "start_url": "/app/",
-  "scope": "/app/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f6f4ef",
   "theme_color": "#1e2a4a",
