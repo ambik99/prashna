@@ -161,3 +161,50 @@ test.describe("Word export", () => {
     expect(withScheme).toContain("Jupiter.");
   });
 });
+
+test.describe("Paper typography", () => {
+  test("the Word export uses the same Paper styles and structure as the preview", async ({ page }) => {
+    const [download] = await Promise.all([
+      page.waitForEvent("download"),
+      page.getByRole("button", { name: "Export Word (.doc)" }).click(),
+    ]);
+    const contents = await readFile(await download.path(), "utf8");
+    const paperCss = await (await page.request.get("/app/paper.css")).text();
+
+    // The Paper's stylesheet travels inside the Word file.
+    expect(contents).toContain(paperCss.trim().slice(0, 200));
+    // Same parts as the preview, in the same order.
+    const order = ["paper-school", "paper-exam", "instructions", "section-title", "q-text", "question-marks"].map((c) =>
+      contents.indexOf(`class="${c}"`),
+    );
+    expect(order.every((i) => i > 0)).toBe(true);
+    expect([...order].sort((a, b) => a - b)).toEqual(order);
+  });
+
+  test("Hindi and Bengali text on the Paper uses the self-hosted Noto fonts", async ({ page }) => {
+    await page.getByLabel("School Name").fill("विद्यालय বিদ্যালয়");
+    const usesNoto = await preview(page).evaluate(async (paper) => {
+      await document.fonts.ready;
+      const family = getComputedStyle(paper).fontFamily;
+      const loaded = [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family.replace(/"/g, ""));
+      return {
+        listed: family.includes("Noto Sans Devanagari") && family.includes("Noto Sans Bengali"),
+        devanagari: loaded.includes("Noto Sans Devanagari"),
+        bengali: loaded.includes("Noto Sans Bengali"),
+      };
+    });
+    expect(usesNoto).toEqual({ listed: true, devanagari: true, bengali: true });
+  });
+
+  test("the printed Marking Scheme keeps the same Paper typography", async ({ page }) => {
+    await (await moreMenuButton(page, "Show Marking Scheme")).click();
+    const box = preview(page).locator(".answer-box").first();
+    await expect(box).toBeVisible();
+    await page.emulateMedia({ media: "print" });
+    const fonts = await page.evaluate(() => ({
+      paper: getComputedStyle(document.querySelector(".paper-sheet")).fontFamily,
+      answer: getComputedStyle(document.querySelector(".answer-box")).fontFamily,
+    }));
+    expect(fonts.answer).toBe(fonts.paper);
+  });
+});

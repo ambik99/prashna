@@ -92,13 +92,6 @@
 }
 
 :root {
-  /* The printed Paper: always black ink on white */
-  --paper-bg: #ffffff;
-  --paper-ink: #000000;
-  --paper-ink-muted: #4b5563;
-  --paper-rule: #d1d5db;
-  --paper-rule-strong: #999999;
-
   /* Type */
   --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-serif: "Newsreader", Georgia, "Times New Roman", serif;

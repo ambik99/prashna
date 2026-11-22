@@ -585,7 +585,21 @@ function exportPaperFile() {
   URL.revokeObjectURL(url);
 }
 
-function exportWordFile() {
+// paper.css, embedded in the Word file so it matches the preview.
+let paperCssCache = null;
+async function loadPaperCss() {
+  if (paperCssCache === null) {
+    try {
+      const resp = await fetch("paper.css");
+      paperCssCache = resp.ok ? await resp.text() : "";
+    } catch (err) {
+      paperCssCache = "";
+    }
+  }
+  return paperCssCache;
+}
+
+async function exportWordFile() {
   const activeQuestions = questions.filter((q) => Number(countInputs[q.section].value) > 0 && (!isScienceDivisionsActive() || divisionModeSelect.value === "Combined" || (q.division || "Physics") === divisionModeSelect.value));
   const totalMarks = activeQuestions.reduce((sum, q) => sum + q.marks, 0);
   const school = escapeHtml(schoolInput.value.trim() || "School Name");
@@ -594,19 +608,21 @@ function exportWordFile() {
   const time = escapeHtml(timeInput.value.trim() || "3 Hours");
   const instructions = escapeHtml(instructionsInput.value.trim() || "All questions are compulsory.");
 
-  let bodyHtml = "";
+  // Same structure and class names as the preview, styled by paper.css,
+  // so the Word file matches the preview and the printed Paper.
+  let bodyHtml = '<div class="paper-sheet">';
+  bodyHtml += '<div class="paper-top">';
   if (showMarkingScheme) {
-    bodyHtml += '<p style="text-align:center;font-weight:bold;color:#166534;">MARKING SCHEME</p>';
+    bodyHtml += '<p class="paper-mode-banner">MARKING SCHEME</p>';
   }
-  bodyHtml += '<div style="text-align:center;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;">';
-  bodyHtml += '<h2 style="margin:0;text-transform:uppercase;">' + school + '</h2>';
-  bodyHtml += '<p style="margin:4px 0;font-weight:bold;">' + exam + '</p>';
-  bodyHtml += '<table style="width:100%;font-weight:bold;margin-top:6px;"><tr>';
+  bodyHtml += '<p class="paper-school">' + school + '</p>';
+  bodyHtml += '<p class="paper-exam">' + exam + '</p>';
+  bodyHtml += '<table class="paper-meta-table"><tr>';
   bodyHtml += '<td style="text-align:left;">' + classSub + '</td>';
   bodyHtml += '<td style="text-align:center;">Time: ' + time + '</td>';
   bodyHtml += '<td style="text-align:right;">Max. Marks: ' + totalMarks + '</td>';
   bodyHtml += '</tr></table></div>';
-  bodyHtml += '<p style="border-bottom:1px solid #ccc;padding-bottom:8px;"><strong>General Instructions:</strong> ' + instructions + '</p>';
+  bodyHtml += '<p class="instructions"><strong>General Instructions:</strong> ' + instructions + '</p>';
 
   let qNum = 1;
   SECTIONS.forEach((sec) => {
@@ -615,60 +631,65 @@ function exportWordFile() {
     if (secItems.length === 0) return;
 
     const secTitle = sec === "Section E" ? "Section E (Case-Study / Source-Based)" : sec;
-    bodyHtml += '<h3 style="text-transform:uppercase;border-bottom:1px dashed #999;margin-top:16px;margin-bottom:4px;">' + escapeHtml(secTitle) + '</h3>';
+    bodyHtml += '<div class="section-block">';
+    bodyHtml += '<p class="section-title">' + escapeHtml(secTitle) + '</p>';
     const secNote = noteInputs[sec].value.trim();
     if (secNote) {
-      bodyHtml += '<p style="font-style:italic;color:#444;margin-top:0;margin-bottom:8px;">' + escapeHtml(secNote) + '</p>';
+      bodyHtml += '<p class="section-subtitle">' + escapeHtml(secNote) + '</p>';
     }
 
     secItems.forEach((q) => {
       const marksLabel = "[" + q.marks + (q.marks === 1 ? " Mark]" : " Marks]");
-      bodyHtml += '<table style="width:100%;margin-bottom:10px;"><tr><td style="vertical-align:top;">';
+      bodyHtml += '<table class="question-item" style="width:100%;border-collapse:collapse;"><tr><td class="question-body" style="vertical-align:top;width:99%;">';
       if (q.type === "ar") {
-        bodyHtml += '<p style="margin:0;">' + qNum + '. Two statements are given — Assertion (A) and Reason (R).</p>';
-        bodyHtml += '<p style="margin:2px 0 2px 16px;"><strong>Assertion (A):</strong> ' + escapeHtml(q.assertion) + '</p>';
-        bodyHtml += '<p style="margin:2px 0 4px 16px;"><strong>Reason (R):</strong> ' + escapeHtml(q.reason) + '</p>';
+        bodyHtml += '<p class="q-text">' + qNum + '. Two statements are given — Assertion (A) and Reason (R).</p>';
+        bodyHtml += '<p class="ar-statement"><strong>Assertion (A):</strong> ' + escapeHtml(q.assertion) + '</p>';
+        bodyHtml += '<p class="ar-statement"><strong>Reason (R):</strong> ' + escapeHtml(q.reason) + '</p>';
         AR_OPTIONS.forEach((opt) => {
-          bodyHtml += '<p style="margin:1px 0 1px 16px;">' + escapeHtml(opt) + '</p>';
+          bodyHtml += '<p class="ar-options-preview ar-option">' + escapeHtml(opt) + '</p>';
         });
       } else {
-        bodyHtml += '<p style="margin:0;">' + qNum + '. ' + escapeHtml(q.text) + '</p>';
+        bodyHtml += '<p class="q-text">' + qNum + '. ' + escapeHtml(q.text) + '</p>';
       }
       qNum += 1;
 
       if (q.imageData) {
-        bodyHtml += '<p style="text-align:center;margin:6px 0;"><img src="' + q.imageData + '" style="max-width:360px;max-height:200px;" /></p>';
+        bodyHtml += '<p style="text-align:center;margin:6pt 0;"><img src="' + q.imageData + '" style="max-width:360px;max-height:200px;" /></p>';
       }
 
       if (q.type === "mcq" && Array.isArray(q.options) && q.options.length === 4) {
         const labels = ["(a)", "(b)", "(c)", "(d)"];
-        bodyHtml += '<p style="margin:4px 0 0 16px;">';
+        bodyHtml += '<p class="mcq-options-preview">';
         q.options.forEach((opt, idx) => {
-          bodyHtml += labels[idx] + ' ' + escapeHtml(opt) + (idx < 3 ? '&nbsp;&nbsp;&nbsp;&nbsp;' : '');
+          bodyHtml += labels[idx] + ' ' + escapeHtml(opt) + (idx < 3 ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' : '');
         });
         bodyHtml += '</p>';
       }
 
       if (q.type === "case" && Array.isArray(q.subQuestions)) {
         q.subQuestions.forEach((sub) => {
-          bodyHtml += '<p style="margin:2px 0 2px 16px;">' + escapeHtml(sub) + '</p>';
+          bodyHtml += '<p class="case-subquestions case-subquestion">' + escapeHtml(sub) + '</p>';
         });
       }
 
       if (q.orText) {
-        bodyHtml += '<p style="text-align:center;font-weight:bold;margin:4px 0;">OR</p>';
-        bodyHtml += '<p style="margin:0 0 0 16px;">' + escapeHtml(q.orText) + '</p>';
+        bodyHtml += '<p class="or-divider">OR</p>';
+        bodyHtml += '<p class="or-alt-text">' + escapeHtml(q.orText) + '</p>';
       }
 
       if (showMarkingScheme) {
-        bodyHtml += '<p style="margin:4px 0 0 0;color:#14532d;background:#f0fdf4;padding:4px 8px;"><strong>Marking Scheme:</strong> ' + escapeHtml(q.answer || "No Marking Scheme added yet.") + '</p>';
+        bodyHtml += '<p class="answer-box"><strong>Marking Scheme:</strong> ' + escapeHtml(q.answer || "No Marking Scheme added yet.") + '</p>';
       }
 
-      bodyHtml += '</td><td style="vertical-align:top;text-align:right;white-space:nowrap;font-weight:bold;">' + marksLabel + '</td></tr></table>';
+      bodyHtml += '</td><td class="question-marks" style="vertical-align:top;width:1%;padding-left:12pt;">' + marksLabel + '</td></tr></table>';
     });
+    bodyHtml += '</div>';
   });
+  bodyHtml += '</div>';
 
-  const docHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Question Paper</title></head><body style="font-family:Georgia,Times New Roman,serif;font-size:11pt;line-height:1.45;">' + bodyHtml + '</body></html>';
+  const docHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Question Paper</title><style>' +
+    'body{margin:0;}p{margin:0;}' + (await loadPaperCss()) +
+    '</style></head><body>' + bodyHtml + '</body></html>';
   const blob = new Blob(["\ufeff", docHtml], { type: "application/msword" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -1177,6 +1198,7 @@ function renderPaper() {
 
       if (q.type === "ar") {
         const lead = document.createElement("div");
+        lead.className = "q-text";
         lead.textContent = questionNumber + ". Two statements are given — Assertion (A) and Reason (R).";
         body.appendChild(lead);
 
@@ -1206,6 +1228,7 @@ function renderPaper() {
         body.appendChild(arOpts);
       } else {
         const mainText = document.createElement("div");
+        mainText.className = "q-text";
         mainText.textContent = questionNumber + ". " + q.text;
         body.appendChild(mainText);
       }
