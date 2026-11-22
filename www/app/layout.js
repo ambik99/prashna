@@ -26,8 +26,35 @@
   });
   document.getElementById("templateSelect").addEventListener("change", () => setMoreOpen(false));
 
+  // Question Bank: a slide-out panel that sits over the preview, so the
+  // editor stays in view and Questions can be inserted while it is open.
+  const bankToggleBtn = document.getElementById("bankToggleBtn");
+  const bankPanel = document.getElementById("bankPanel");
+  const bankCloseBtn = document.getElementById("bankCloseBtn");
+
+  function setBankOpen(open, { returnFocus = false } = {}) {
+    bankPanel.hidden = !open;
+    bankToggleBtn.setAttribute("aria-expanded", String(open));
+    document.body.classList.toggle("bank-open", open);
+    if (open) {
+      const topBar = document.querySelector(".app-header");
+      document.documentElement.style.setProperty("--topbar-height", topBar.offsetHeight + "px");
+      document.getElementById("bankSearchInput").focus();
+    } else if (returnFocus) {
+      bankToggleBtn.focus();
+    }
+  }
+
+  bankToggleBtn.addEventListener("click", () => setBankOpen(bankPanel.hidden));
+  bankCloseBtn.addEventListener("click", () => setBankOpen(false, { returnFocus: true }));
+
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !moreMenu.hidden) setMoreOpen(false, { returnFocus: true });
+    if (event.key !== "Escape") return;
+    if (!moreMenu.hidden) {
+      setMoreOpen(false, { returnFocus: true });
+    } else if (!bankPanel.hidden) {
+      setBankOpen(false, { returnFocus: true });
+    }
   });
 
   document.addEventListener("pointerdown", (event) => {

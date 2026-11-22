@@ -26,6 +26,7 @@
       <span id="saveStatus" class="save-status">Auto-saved</span>
     </div>
     <div class="header-actions">
+      <button type="button" id="bankToggleBtn" class="btn-reset" aria-expanded="false" aria-controls="bankPanel">Question Bank</button>
       <div class="more">
         <button type="button" id="moreBtn" class="btn-reset more-btn" aria-expanded="false" aria-controls="moreMenu">More</button>
         <div id="moreMenu" class="more-menu" hidden>
@@ -368,36 +369,6 @@
 
         </div>
       </div>
-      <div class="step" data-step>
-        <h2 class="step-heading"><button type="button" class="step-toggle" aria-expanded="true" aria-controls="stepBank"><span>4. Reusable Question Bank</span></button></h2>
-        <div id="stepBank" class="step-body">
-      <div class="fetch-box">
-        <label style="margin-bottom: 0.45rem;">Auto-Fetch Question Bank (Class 10 &amp; 12)</label>
-        <div class="field-row" style="margin-bottom: 0.5rem;">
-          <select id="fetchClassSelect" aria-label="Fetch Class">
-            <option value="Class 10">Class 10</option>
-            <option value="Class 12">Class 12</option>
-          </select>
-          <select id="fetchSubjectSelect" aria-label="Fetch Subject">
-            <option value="English">English</option>
-            <option value="Hindi">Hindi</option>
-            <option value="Bengali">Bengali</option>
-            <option value="Science" selected>Science</option>
-            <option value="Mathematics Standard">Mathematics Standard</option>
-            <option value="Social Science">Social Science</option>
-            <option value="Information Technology">Information Technology</option>
-          </select>
-        </div>
-        <div class="field" style="margin-bottom: 0.5rem;">
-          <input type="text" id="fetchUrlInput" placeholder="Optional: https://... JSON question bank URL" aria-label="Optional Question Bank JSON URL" />
-        </div>
-        <button type="button" id="fetchBankBtn" class="btn-toggle" style="width: 100%;">Fetch Questions into Bank</button>
-        <p id="fetchStatus" class="fetch-status"></p>
-      </div>
-      <input type="text" id="bankSearchInput" placeholder="Search saved questions..." aria-label="Search Question Bank" />
-      <div id="bankList" class="bank-list"></div>
-        </div>
-      </div>
     </section>
 
     <!-- Right Column: Live Paper Preview -->
@@ -424,6 +395,56 @@
     </section>
     </div>
   </main>
+
+  <!-- Question Bank: a slide-out panel beside the editor -->
+  <aside id="bankPanel" class="bank-panel" aria-labelledby="bankPanelTitle" hidden>
+    <div class="bank-panel-head">
+      <h2 id="bankPanelTitle">Question Bank</h2>
+      <button type="button" id="bankCloseBtn" class="btn-icon bank-close" aria-label="Close Question Bank">✕</button>
+    </div>
+    <div class="bank-panel-body">
+      <input type="search" id="bankSearchInput" placeholder="Search saved questions..." aria-label="Search Question Bank" />
+      <div id="bankList" class="bank-list"></div>
+
+      <section class="bank-source" aria-labelledby="starterTitle">
+        <h3 id="starterTitle">Starter Questions</h3>
+        <p class="bank-source-note">Built-in Questions for Class 10 and Class 12, added to your Question Bank.</p>
+        <div class="field-row">
+          <div>
+            <label for="fetchClassSelect">Class</label>
+            <select id="fetchClassSelect" aria-label="Class for Starter Questions">
+              <option value="Class 10">Class 10</option>
+              <option value="Class 12">Class 12</option>
+            </select>
+          </div>
+          <div>
+            <label for="fetchSubjectSelect">Subject</label>
+            <select id="fetchSubjectSelect" aria-label="Subject for Starter Questions">
+              <option value="English">English</option>
+              <option value="Hindi">Hindi</option>
+              <option value="Bengali">Bengali</option>
+              <option value="Science" selected>Science</option>
+              <option value="Mathematics Standard">Mathematics Standard</option>
+              <option value="Social Science">Social Science</option>
+              <option value="Information Technology">Information Technology</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" id="starterBtn" class="btn-toggle bank-source-btn">Add Starter Questions</button>
+        <p id="starterStatus" class="fetch-status" role="status"></p>
+      </section>
+
+      <section class="bank-source bank-source-small" aria-labelledby="importTitle">
+        <h3 id="importTitle">Import from Link</h3>
+        <label for="fetchUrlInput">Web address of a question file</label>
+        <div class="import-row">
+          <input type="url" id="fetchUrlInput" placeholder="https://..." inputmode="url" autocomplete="off" />
+          <button type="button" id="importLinkBtn" class="btn-reset">Import</button>
+        </div>
+        <p id="importStatus" class="fetch-status" role="status"></p>
+      </section>
+    </div>
+  </aside>
 
   <div id="installModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="installModalTitle">
     <div class="modal-card">
