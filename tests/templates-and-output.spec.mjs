@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import { TEMPLATES, addQuestion, loadTemplate, marksSummary, preview, startEmptyPaper } from "./helpers.mjs";
+import { TEMPLATES, addQuestion, loadTemplate, marksSummary, moreMenuButton, preview, startEmptyPaper } from "./helpers.mjs";
 
 test.beforeEach(async ({ page }) => {
   // Record print requests instead of opening the browser's print dialog, noting
@@ -42,7 +42,7 @@ test.describe("Templates", () => {
     await loadTemplate(page, TEMPLATES.board);
     await page.getByLabel("School Name").fill("About To Be Reset");
 
-    await page.getByRole("button", { name: "Reset Sample" }).click();
+    await (await moreMenuButton(page, "Reset Sample")).click();
 
     const paper = preview(page);
     await expect(paper).not.toContainText("About To Be Reset");
@@ -76,7 +76,7 @@ test.describe("printing", () => {
     const paper = preview(page);
     await expect(paper).not.toContainText("Answer Key:");
 
-    await page.getByRole("button", { name: "Print Answer Key" }).click();
+    await (await moreMenuButton(page, "Print Answer Key")).click();
     expect(await printRequests(page)).toEqual([{ markingSchemeShown: true }]);
 
     // Once printing finishes, the preview returns to how it was.
@@ -154,7 +154,7 @@ test.describe("Word export", () => {
 
     expect((await exportWord(page)).contents).not.toContain("MARKING SCHEME / ANSWER KEY");
 
-    await page.getByRole("button", { name: "Show Marking Scheme" }).click();
+    await (await moreMenuButton(page, "Show Marking Scheme")).click();
     const withScheme = (await exportWord(page)).contents;
     expect(withScheme).toContain("MARKING SCHEME / ANSWER KEY");
     expect(withScheme).toContain("Jupiter.");

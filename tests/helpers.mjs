@@ -18,7 +18,20 @@ export const preview = (page) => page.getByRole("region", { name: "Question Pape
 // The marks summary above the editor (Section totals and Target Marks).
 export const marksSummary = (page) => page.getByRole("region", { name: "Section Marks Breakdown" });
 
+// The top bar's "More" menu holds the less frequent actions.
+export async function openMoreMenu(page) {
+  const more = page.getByRole("button", { name: "More", exact: true });
+  if ((await more.getAttribute("aria-expanded")) !== "true") await more.click();
+}
+
+// A button inside the "More" menu (opening the menu first).
+export async function moreMenuButton(page, name) {
+  await openMoreMenu(page);
+  return page.getByRole("button", { name, exact: true });
+}
+
 export async function loadTemplate(page, name) {
+  await openMoreMenu(page);
   await page.getByLabel("Load CBSE Template").selectOption({ label: name });
 }
 
@@ -28,6 +41,7 @@ export async function chooseTargetMarks(page, label) {
 
 // Clicks Save Paper and returns the downloaded Paper file's path and contents.
 export async function savePaper(page) {
+  await openMoreMenu(page);
   const [download] = await Promise.all([
     page.waitForEvent("download"),
     page.getByRole("button", { name: "Save Paper (.json)" }).click(),
@@ -44,7 +58,7 @@ export async function chooseFile(page, button, filePath) {
 }
 
 export async function loadPaper(page, filePath) {
-  await chooseFile(page, page.getByRole("button", { name: "Load Paper" }), filePath);
+  await chooseFile(page, await moreMenuButton(page, "Load Paper"), filePath);
 }
 
 // The per-Question buttons in the preview, in Paper order (0 is the first Question).

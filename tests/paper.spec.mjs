@@ -7,6 +7,7 @@ import {
   loadPaper,
   loadTemplate,
   marksSummary,
+  moreMenuButton,
   preview,
   savePaper,
 } from "./helpers.mjs";
@@ -99,7 +100,7 @@ test("a Paper file saved by the original tool still loads", async ({ page }) => 
   await expect(paper).toContainText("Silver chloride turns grey in sunlight.");
   await expect(paper).toContainText("Explain esterification and saponification reaction");
 
-  await page.getByRole("button", { name: "Show Marking Scheme" }).click();
+  await (await moreMenuButton(page, "Show Marking Scheme")).click();
   await expect(paper).toContainText("P = 1/f (in m), SI unit Dioptre (D); P = +4 D.");
 
   // Nothing in the file is lost: saving again keeps every original field.

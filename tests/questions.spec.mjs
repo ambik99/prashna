@@ -4,6 +4,7 @@ import {
   chooseFile,
   fixture,
   marksSummary,
+  moreMenuButton,
   preview,
   questionButton,
   startEmptyPaper,
@@ -166,7 +167,7 @@ test.describe("changing Questions", () => {
   test("editing a Question fills the form and saves the change", async ({ page }) => {
     await questionButton(page, "Edit", 1).click();
 
-    await expect(page.getByRole("heading", { name: "2. Edit Question" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "3. Edit Question" })).toBeVisible();
     await expect(page.getByLabel("Question Text")).toHaveValue("Define a tissue.");
 
     await page.getByLabel("Question Text").fill("Define an organ.");
@@ -176,7 +177,7 @@ test.describe("changing Questions", () => {
     await expect(paper).toContainText("2. Define an organ.");
     await expect(paper).not.toContainText("Define a tissue.");
     await expect(marksSummary(page)).toContainText("Section A: 2/20Q");
-    await expect(page.getByRole("heading", { name: "2. Add a Question" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "3. Add a Question" })).toBeVisible();
   });
 
   test("cancelling an edit leaves the Question unchanged", async ({ page }) => {
@@ -186,7 +187,7 @@ test.describe("changing Questions", () => {
 
     await expect(preview(page)).toContainText("1. Define a cell.");
     await expect(preview(page)).not.toContainText("Something else entirely.");
-    await expect(page.getByRole("heading", { name: "2. Add a Question" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "3. Add a Question" })).toBeVisible();
   });
 
   test("a Question can be moved down and back up within its Section", async ({ page }) => {
@@ -230,13 +231,13 @@ test("the Marking Scheme can be shown and hidden in the preview", async ({ page 
   const paper = preview(page);
   await expect(paper).not.toContainText("Mitochondria (1 mark).");
 
-  await page.getByRole("button", { name: "Show Marking Scheme" }).click();
+  await (await moreMenuButton(page, "Show Marking Scheme")).click();
   await expect(paper).toContainText("Marking Scheme / Answer Key");
   await expect(paper).toContainText("Mitochondria (1 mark).");
   // A Question without Marking Scheme text says so.
   await expect(paper).toContainText("No answer key added yet.");
 
-  await page.getByRole("button", { name: "Hide Marking Scheme" }).click();
+  await (await moreMenuButton(page, "Hide Marking Scheme")).click();
   await expect(paper).not.toContainText("Mitochondria (1 mark).");
-  await expect(page.getByRole("button", { name: "Show Marking Scheme" })).toBeVisible();
+  await expect(await moreMenuButton(page, "Show Marking Scheme")).toBeVisible();
 });
