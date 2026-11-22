@@ -6,6 +6,16 @@ const searchBank = (page) => page.getByLabel("Search Question Bank");
 const bankInsertButtons = (page) => page.getByRole("button", { name: "+ Insert", exact: true });
 const bankDeleteButtons = (page) => page.getByRole("button", { name: "Delete", exact: true });
 
+// Chooses a class and subject, then adds its Starter Questions (or a link's Questions, if one is filled in).
+async function fetchIntoBank(page, { className = "Class 10", subject = "Science" } = {}) {
+  await page.getByLabel("Fetch Class").selectOption(className);
+  await page.getByLabel("Fetch Subject").selectOption(subject);
+  await page.getByRole("button", { name: "Fetch Questions into Bank" }).click();
+}
+
+// A Class 10 Science Starter Question.
+const STARTER_SCIENCE_QUESTION = "The focal length of a plane mirror is:";
+
 // The two example Questions every new Question Bank starts with.
 const EXAMPLE_ASSERTION = "A: Silver chloride turns grey in sunlight.";
 
@@ -66,12 +76,10 @@ test("a Question deleted from the Question Bank stays deleted after reopening", 
 
 test.describe("Starter Questions", () => {
   test("adding Starter Questions puts a subject's built-in Questions in the Question Bank", async ({ page }) => {
-    await page.getByLabel("Fetch Class").selectOption("Class 10");
-    await page.getByLabel("Fetch Subject").selectOption("Science");
-    await page.getByRole("button", { name: "Fetch Questions into Bank" }).click();
+    await fetchIntoBank(page);
 
     await expect(page.getByText("Loaded 3 curated CBSE Class 10 Science questions into your bank.")).toBeVisible();
-    await expect(page.getByText("The focal length of a plane mirror is:")).toBeVisible();
+    await expect(page.getByText(STARTER_SCIENCE_QUESTION)).toBeVisible();
     await expect(bankInsertButtons(page)).toHaveCount(5);
   });
 
@@ -89,6 +97,7 @@ test.describe("Starter Questions", () => {
 });
 
 test.describe("Import from Link", () => {
+  // A colleague's question file; the test answers requests for it from tests/fixtures.
   const LINK = "https://questions.example.test/shared-questions.json";
 
   test("Questions from a question file at a link are added to the Question Bank", async ({ page }) => {
@@ -96,7 +105,7 @@ test.describe("Import from Link", () => {
     await page.route(LINK, (route) => route.fulfill({ contentType: "application/json", body }));
 
     await page.getByLabel("Optional Question Bank JSON URL").fill(LINK);
-    await page.getByRole("button", { name: "Fetch Questions into Bank" }).click();
+    await fetchIntoBank(page);
 
     await expect(page.getByText("Fetched 2 question(s) from URL!")).toBeVisible();
     await expect(page.getByText("Which organ produces insulin?")).toBeVisible();
@@ -105,15 +114,13 @@ test.describe("Import from Link", () => {
 
   test("a link that can't be reached shows a warning and adds Starter Questions instead", async ({ page }) => {
     await page.route(LINK, (route) => route.abort());
-    await page.getByLabel("Fetch Class").selectOption("Class 10");
-    await page.getByLabel("Fetch Subject").selectOption("Science");
 
     await page.getByLabel("Optional Question Bank JSON URL").fill(LINK);
-    await page.getByRole("button", { name: "Fetch Questions into Bank" }).click();
+    await fetchIntoBank(page);
 
     await expect(
       page.getByText("URL unreachable or blocked by browser CORS; loaded built-in Class 10 Science bank instead."),
     ).toBeVisible();
-    await expect(page.getByText("The focal length of a plane mirror is:")).toBeVisible();
+    await expect(page.getByText(STARTER_SCIENCE_QUESTION)).toBeVisible();
   });
 });

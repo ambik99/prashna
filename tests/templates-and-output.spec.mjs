@@ -38,7 +38,7 @@ test.describe("Templates", () => {
     });
   }
 
-  test("Reset Sample replaces the Paper with the starter Template", async ({ page }) => {
+  test("Reset replaces the Paper with the starter Template", async ({ page }) => {
     await loadTemplate(page, TEMPLATES.board);
     await page.getByLabel("School Name").fill("About To Be Reset");
 
@@ -72,7 +72,7 @@ test.describe("printing", () => {
     expect(await printRequests(page)).toEqual([{ markingSchemeShown: false }]);
   });
 
-  test("Print Answer Key prints with the Marking Scheme, then puts the preview back", async ({ page }) => {
+  test("printing the Marking Scheme prints it, then puts the preview back", async ({ page }) => {
     const paper = preview(page);
     await expect(paper).not.toContainText("Answer Key:");
 
@@ -97,16 +97,49 @@ test.describe("Word export", () => {
   test("Export Word downloads the Paper as a Word file named after the class and subject", async ({ page }) => {
     await startEmptyPaper(page);
     await page.getByLabel("School Name").fill("Word Export Academy");
+    await page.getByLabel("Examination Title").fill("Annual Examination (2026–27)");
     await page.getByLabel("Subject", { exact: true }).fill("Social Science");
-    await addQuestion(page, { section: "Section C", marks: 3, text: "Describe the causes of the First World War." });
+    await page.getByLabel("Time Allowed").fill("2 Hours");
+    await page.getByLabel("General Instructions").fill("Write neatly.");
+    await addQuestion(page, {
+      section: "Section A",
+      type: "Multiple Choice (MCQ)",
+      marks: 1,
+      text: "Who wrote the Indian national anthem?",
+      options: ["Tagore", "Gandhi", "Nehru", "Bose"],
+    });
+    await addQuestion(page, {
+      section: "Section A",
+      type: "Assertion–Reason (CBSE Preset)",
+      marks: 1,
+      assertion: "The Himalayas are young fold mountains.",
+      reason: "They were formed by plate collision.",
+    });
+    await addQuestion(page, {
+      section: "Section C",
+      type: "Standard (Short / Long Answer)",
+      marks: 3,
+      text: "Describe the causes of the First World War.",
+    });
 
     const doc = await exportWord(page);
 
     expect(doc.name).toBe("class-10-social-science.doc");
-    expect(doc.contents).toContain("Word Export Academy");
-    expect(doc.contents).toContain("Class 10 — Social Science");
-    expect(doc.contents).toContain("Max. Marks: 3");
-    expect(doc.contents).toContain("1. Describe the causes of the First World War.");
+    for (const detail of [
+      "Word Export Academy",
+      "Annual Examination (2026–27)",
+      "Class 10 — Social Science",
+      "Time: 2 Hours",
+      "Write neatly.",
+      "Max. Marks: 5",
+    ]) {
+      expect(doc.contents).toContain(detail);
+    }
+    expect(doc.contents).toContain("1. Who wrote the Indian national anthem?");
+    expect(doc.contents).toContain("(a) Tagore");
+    expect(doc.contents).toContain("2. Two statements are given — Assertion (A) and Reason (R).");
+    expect(doc.contents).toContain("The Himalayas are young fold mountains.");
+    expect(doc.contents).toContain("3. Describe the causes of the First World War.");
     expect(doc.contents).toContain("[3 Marks]");
   });
 
