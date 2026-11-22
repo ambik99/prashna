@@ -1,0 +1,11 @@
+{
+  "name": "cbse-paper-designer",
+  "version": "10.0.0",
+  "description": "CBSE Question Paper Designer Android App",
+  "private": true,
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2"
+  }
+}
