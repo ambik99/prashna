@@ -1,25 +1,18 @@
 {
-  "name": "CBSE Question Paper Designer",
-  "short_name": "CBSE Paper",
-  "description": "Design, preview, and export CBSE question papers and marking schemes offline.",
-  "start_url": "./",
-  "scope": "./",
+  "id": "/app/",
+  "name": "Prashna",
+  "short_name": "Prashna",
+  "description": "Design CBSE question papers and marking schemes, then print or export them. Works offline.",
+  "start_url": "/app/",
+  "scope": "/app/",
   "display": "standalone",
   "background_color": "#f6f4ef",
   "theme_color": "#1e2a4a",
   "orientation": "any",
   "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
