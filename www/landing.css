@@ -151,7 +151,7 @@ button { font: inherit; color: inherit; }
 .nav-links a { font-size: 13px; font-weight: 500; color: var(--fg-70); transition: color 150ms ease-out; }
 .nav-links a:hover { color: var(--fg); }
 .nav-cta { justify-self: end; display: flex; align-items: center; gap: 6px; }
-.nav-cta .theme-toggle { color: var(--fg); font-size: 20px; }
+.nav-cta [data-theme-toggle] { color: var(--fg); }
 
 .btn {
   display: inline-flex;

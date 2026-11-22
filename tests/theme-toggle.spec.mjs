@@ -67,12 +67,13 @@ test("the chosen theme is remembered and shared by the Landing Page and the app"
   expect(await background(page)).toBe(BACKGROUND.landing.dark);
 });
 
-test("the chosen theme shows from the first paint, with no flash of the other", async ({ page }) => {
+test("the chosen theme shows before the page has loaded, with no flash of the other", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/app/");
   await darkTheme(page).click();
 
-  // Record the background as soon as the page starts to draw.
+  // Record the background as soon as the page's content is in place
+  // (DOMContentLoaded), the earliest a test can look.
   await page.addInitScript(() => {
     document.addEventListener("DOMContentLoaded", () => {
       window.__firstBackground = getComputedStyle(document.body).backgroundColor;
@@ -95,4 +96,14 @@ test("the Paper preview stays white in the dark theme", async ({ page }) => {
     return null;
   });
   expect(sheetBackground).toBe("rgb(255, 255, 255)");
+});
+
+test.describe("without JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("the Landing Page shows no toggle and stays readable", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.getByRole("banner").getByRole("button")).toHaveText(["Get the App"]);
+    expect(await background(page)).toBe(BACKGROUND.landing.light);
+  });
 });

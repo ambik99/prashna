@@ -98,9 +98,8 @@ h1 {
 }
 
 /* Light and dark theme toggle (theme-toggle.css) */
-.header-actions .theme-toggle {
+.header-actions [data-theme-toggle] {
   color: var(--color-text);
-  font-size: 1.25rem;
 }
 
 /* "More" menu */
