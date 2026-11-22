@@ -626,7 +626,6 @@ async function exportWordFile() {
 
   let qNum = 1;
   SECTIONS.forEach((sec) => {
-    if (Number(countInputs[sec].value) === 0) return;
     const secItems = activeQuestions.filter((q) => q.section === sec);
     if (secItems.length === 0) return;
 

@@ -75,7 +75,7 @@ Coverage column: the ticket whose tests cover the item.
 | [ ] | "Show Marking Scheme" shows each Question's Marking Scheme in the preview with a "Marking Scheme / Answer Key" banner; the button switches to "Hide Marking Scheme". | #3 |
 | [ ] | "Print / Save as PDF" opens the browser's print dialog for the Paper. | #4 |
 | [ ] | "Print Answer Key" prints the Paper with the Marking Scheme, then returns the preview to how it was. | #4 |
-| [ ] | "Export Word (.doc)" downloads a Word file of the Paper named after the class and subject, including the Marking Scheme when it is showing. | #4 |
+| [ ] | "Export Word (.doc)" downloads a Word file of the Paper named after the class and subject, including the Marking Scheme when it is showing; a single Science Division Paper has only that division's Questions. | #4, #24 |
 
 ## Saving, Templates and resetting
 

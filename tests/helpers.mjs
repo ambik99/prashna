@@ -72,6 +72,15 @@ export async function savePaper(page) {
   return { path, contents: JSON.parse(await readFile(path, "utf8")) };
 }
 
+// Clicks Export Word and returns the Word file's name and contents.
+export async function exportWord(page) {
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    page.getByRole("button", { name: "Export Word (.doc)" }).click(),
+  ]);
+  return { name: download.suggestedFilename(), contents: await readFile(await download.path(), "utf8") };
+}
+
 // Clicks a button that opens a file chooser and picks the given file.
 export async function chooseFile(page, button, filePath) {
   const [chooser] = await Promise.all([page.waitForEvent("filechooser"), button.click()]);

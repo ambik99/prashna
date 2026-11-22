@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { readFile } from "node:fs/promises";
-import { TEMPLATES, addQuestion, answerConfirmation, loadTemplate, marksSummary, moreMenuButton, preview, startEmptyPaper } from "./helpers.mjs";
+import { TEMPLATES, addQuestion, answerConfirmation, exportWord, loadTemplate, marksSummary, moreMenuButton, preview, startEmptyPaper } from "./helpers.mjs";
 
 test.beforeEach(async ({ page }) => {
   // Record print requests instead of opening the browser's print dialog, noting
@@ -87,14 +86,6 @@ test.describe("printing", () => {
 });
 
 test.describe("Word export", () => {
-  async function exportWord(page) {
-    const [download] = await Promise.all([
-      page.waitForEvent("download"),
-      page.getByRole("button", { name: "Export Word (.doc)" }).click(),
-    ]);
-    return { name: download.suggestedFilename(), contents: await readFile(await download.path(), "utf8") };
-  }
-
   test("Export Word downloads the Paper as a Word file named after the class and subject", async ({ page }) => {
     await startEmptyPaper(page);
     await page.getByLabel("School Name").fill("Word Export Academy");
@@ -164,11 +155,7 @@ test.describe("Word export", () => {
 
 test.describe("Paper typography", () => {
   test("the Word export uses the same Paper styles and structure as the preview", async ({ page }) => {
-    const [download] = await Promise.all([
-      page.waitForEvent("download"),
-      page.getByRole("button", { name: "Export Word (.doc)" }).click(),
-    ]);
-    const contents = await readFile(await download.path(), "utf8");
+    const { contents } = await exportWord(page);
     const paperCss = await (await page.request.get("/app/paper.css")).text();
 
     // The Paper's stylesheet travels inside the Word file.

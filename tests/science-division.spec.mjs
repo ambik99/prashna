@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { readFile } from "node:fs/promises";
-import { TEMPLATES, addQuestion, loadTemplate, marksSummary, preview } from "./helpers.mjs";
+import { TEMPLATES, addQuestion, exportWord, loadTemplate, marksSummary, preview } from "./helpers.mjs";
 
 const divisionChoice = (page) => page.getByLabel("Science Division (Class 9 & 10)");
 
@@ -53,39 +52,32 @@ test("a single Science Division Paper shows only that division's Questions", asy
   await expect(marksSummary(page)).not.toContainText("Physics:");
 });
 
-// Exports the Paper to Word and returns the Word file's text.
-async function exportWord(page) {
-  const [download] = await Promise.all([
-    page.waitForEvent("download"),
-    page.getByRole("button", { name: "Export Word (.doc)" }).click(),
-  ]);
-  return readFile(await download.path(), "utf8");
-}
-
-// The Starter Sample's three Questions, one per Science Division.
-const STARTER_QUESTIONS = {
+// The Starter Sample Template's three Questions, one per Science Division,
+// in Paper order: Chemistry is Question 1, Biology 2 and Physics 3.
+const STARTER_SAMPLE_QUESTIONS = {
   Chemistry: "Which gas is evolved when dilute hydrochloric acid reacts with zinc granules?",
   Biology: "Define photosynthesis",
-  Physics: "A student connects a 6 V battery across a resistor of 12 ohms",
+  Physics: "Read the passage carefully and answer the questions that follow",
 };
 
 test("Word export of a single Science Division Paper has only that division's Questions", async ({ page }) => {
-  await divisionChoice(page).selectOption({ label: "Chemistry Only" });
+  await divisionChoice(page).selectOption({ label: "Physics Only" });
 
-  const word = await exportWord(page);
-  expect(word).toContain("Class 10 — Science (Chemistry)");
-  expect(word).toContain("Max. Marks: 1");
-  expect(word).toContain(`1. ${STARTER_QUESTIONS.Chemistry}`);
-  expect(word).not.toContain(STARTER_QUESTIONS.Biology);
-  expect(word).not.toContain(STARTER_QUESTIONS.Physics);
-  // Numbered as on the preview: one Question, so no Question 2.
-  expect(word).not.toContain('class="q-text">2.');
+  const { contents } = await exportWord(page);
+  expect(contents).toContain("Class 10 — Science (Physics)");
+  expect(contents).toContain("Max. Marks: 4");
+  // Numbered as on the preview: the Physics Question becomes Question 1.
+  expect(contents).toContain(`1. ${STARTER_SAMPLE_QUESTIONS.Physics}`);
+  expect(contents).not.toContain(STARTER_SAMPLE_QUESTIONS.Chemistry);
+  expect(contents).not.toContain(STARTER_SAMPLE_QUESTIONS.Biology);
 });
 
 test("Word export of a combined Science Paper has every division's Questions", async ({ page }) => {
-  const word = await exportWord(page);
-  expect(word).toContain("Class 10 — Science<");
-  expect(word).toContain("Max. Marks: 8");
-  for (const text of Object.values(STARTER_QUESTIONS)) expect(word).toContain(text);
-  expect(word).toContain('class="q-text">3.');
+  const { contents } = await exportWord(page);
+  expect(contents).toContain("Class 10 — Science");
+  expect(contents).not.toContain("Science (");
+  expect(contents).toContain("Max. Marks: 8");
+  expect(contents).toContain(`1. ${STARTER_SAMPLE_QUESTIONS.Chemistry}`);
+  expect(contents).toContain(`2. ${STARTER_SAMPLE_QUESTIONS.Biology}`);
+  expect(contents).toContain(`3. ${STARTER_SAMPLE_QUESTIONS.Physics}`);
 });
