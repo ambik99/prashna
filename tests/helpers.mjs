@@ -13,6 +13,17 @@ export const TEMPLATES = {
   board: "Board Pattern Starter (Class X)",
 };
 
+// Waits until the app's offline copy is stored and answering this page, as
+// it is after a teacher's first visit. Needs { serviceWorkers: "allow" }.
+export async function waitForOfflineCopy(page) {
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+    if (!navigator.serviceWorker.controller) {
+      await new Promise((done) => navigator.serviceWorker.addEventListener("controllerchange", done, { once: true }));
+    }
+  });
+}
+
 // The Paper preview, as a teacher sees it beside the editor.
 export const preview = (page) => page.getByRole("region", { name: "Question Paper Preview" });
 // The marks summary above the editor (Section totals and Target Marks).

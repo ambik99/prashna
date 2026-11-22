@@ -30,6 +30,8 @@ npm test
 
 `offline.spec.mjs` visits the app once, turns the network off and checks the app still works. It also checks that every file in `www/app/` is in the offline cache, so a new app file must be added to the list in `www/app/sw.js`.
 
+`update-notice.spec.mjs` simulates a new deployment by changing what the server answers for the app page (`context.route`), then checks the "New version available" notice appears without the app reloading itself.
+
 The app icons are generated: change `scripts/make-icons.mjs` and run `node scripts/make-icons.mjs`.
 
 The Landing Page's screenshots (`www/images/`) are real captures of the app: after changing how the app looks, run `node scripts/make-screenshots.mjs` (needs ffmpeg).

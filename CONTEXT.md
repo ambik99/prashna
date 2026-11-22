@@ -65,3 +65,7 @@ _Avoid_: Homepage, website, marketing site
 **Get the App**:
 The single call to action that installs Prashna, or explains how to on devices without an install prompt.
 _Avoid_: Download, install now
+
+**Update Notice**:
+The small "New version available" message the app shows when a new version of Prashna has been downloaded, offering Refresh to open it. The app never reloads by itself.
+_Avoid_: Update prompt, upgrade banner, toast

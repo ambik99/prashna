@@ -261,6 +261,9 @@ Confident and few.
 ### Get the App Guide
 Shared by the app and the Landing Page (app/get-app.css). A dialog: 400px, 14px corners, Float shadow, serif title, numbered steps each with a small picture of the button to look for, and a pill Done button. On screens up to 880px it rises from the bottom as a sheet with thumb-height actions (48px).
 
+### Update Notice
+The app only (app/update-notice.css). A pill bar centred at the bottom of the screen with the Float shadow: "New version available", a quiet Later button and a pill accent Refresh button. It rises 8px into place with the ease-out, sits above the phone tab bar with 44px buttons, and never covers the app or reloads it by itself.
+
 ### Paper Sheet
 The app's live A4 preview: a white sheet with literal print colours that stays white in dark mode.
 
