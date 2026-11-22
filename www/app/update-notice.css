@@ -1,0 +1,103 @@
+/* Update notice (see update-notice.js): a small floating bar at the bottom
+   of the screen, above the phone tab bar, that never covers the whole app. */
+
+.update-notice {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-5);
+  z-index: 60;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: calc(100vw - 2 * var(--space-4));
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  box-shadow: var(--shadow-lg);
+  animation: update-notice-in 220ms var(--ease-out);
+}
+
+.update-notice[hidden] {
+  display: none;
+}
+
+.update-notice-text {
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  margin-right: var(--space-2);
+}
+
+.update-notice button {
+  min-height: 36px;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out), background-color var(--duration-fast) var(--ease-out);
+}
+
+.update-notice button:active {
+  transform: scale(0.97);
+}
+
+.update-notice button:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.update-notice-later {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.update-notice-later:hover {
+  background: var(--color-surface-muted);
+}
+
+.update-notice-refresh {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.update-notice-refresh:hover {
+  background: var(--color-accent-hover);
+}
+
+@keyframes update-notice-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+}
+
+/* Phones: above the bottom tab bar, with thumb-height buttons */
+@media (max-width: 880px) {
+  .update-notice {
+    bottom: calc(var(--tab-bar-height, 58px) + var(--safe-bottom, 0px) + var(--space-3));
+  }
+  .update-notice button {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .update-notice {
+    animation: none;
+  }
+  .update-notice button {
+    transition: none;
+  }
+}
+
+@media print {
+  .update-notice {
+    display: none !important;
+  }
+}

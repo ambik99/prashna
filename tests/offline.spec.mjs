@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { TEMPLATES, addQuestion, loadTemplate, moreMenuButton, preview } from "./helpers.mjs";
+import { TEMPLATES, addQuestion, loadTemplate, moreMenuButton, preview, waitForOfflineCopy } from "./helpers.mjs";
 
 // Every file the app is made of, as URLs under /app/. The service worker
 // script itself is left out: the browser always checks it on the network.
@@ -83,12 +83,7 @@ test.describe("working offline", () => {
   // One online visit, then the network goes off.
   test.beforeEach(async ({ page, context }) => {
     await page.goto("/app/");
-    await page.evaluate(async () => {
-      await navigator.serviceWorker.ready;
-      if (!navigator.serviceWorker.controller) {
-        await new Promise((done) => navigator.serviceWorker.addEventListener("controllerchange", done, { once: true }));
-      }
-    });
+    await waitForOfflineCopy(page);
     await context.setOffline(true);
   });
 

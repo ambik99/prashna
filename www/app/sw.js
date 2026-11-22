@@ -1,9 +1,12 @@
 // Keeps every app file on the device so Prashna works offline after the
-// first visit. Files are always served from the cache. Each time the app is
-// opened online, the whole set is downloaded again in the background and
+// first visit. Files are always served from the cache. Whenever the app is
+// opened or brought back to the screen online, it asks this worker to check
+// for a new release: the whole set is downloaded again in the background and
 // stored only once every file has arrived, so a release arrives as a whole
-// rather than file by file, and it shows up on the next visit without
-// anyone having to bump a version.
+// rather than file by file. If any file differs from the stored copy, open
+// windows are told so they can offer a Refresh (update-notice.js). Nothing
+// ever reloads the app by itself, and no one has to bump a version: the
+// files themselves are compared.
 //
 // List every file in www/app here (except this one). The offline browser
 // tests fail if a file is missing.
@@ -17,11 +20,13 @@ const APP_FILES = [
   "./confirm.js",
   "./layout.js",
   "./get-app.js",
+  "./update-notice.js",
   "./fonts.css",
   "./tokens.css",
   "./paper.css",
   "./styles.css",
   "./get-app.css",
+  "./update-notice.css",
   "./fonts/inter.woff2",
   "./fonts/newsreader.woff2",
   "./fonts/newsreader-italic.woff2",
@@ -44,33 +49,67 @@ const APP_FILES = [
 const APP_PAGE = new URL("./", self.registration.scope).href;
 const APP_PAGE_PATHS = [new URL(APP_PAGE).pathname, new URL("index.html", APP_PAGE).pathname];
 
-// Downloads every app file and replaces the cached set with them. If any file
-// fails (for example offline), the cached set is left as it was.
+const sameBytes = (a, b) => {
+  if (a.byteLength !== b.byteLength) return false;
+  const x = new Uint8Array(a);
+  const y = new Uint8Array(b);
+  for (let i = 0; i < x.length; i++) if (x[i] !== y[i]) return false;
+  return true;
+};
+
+// Downloads every app file and, if any differs from the cached set, replaces
+// the cached set with them. Returns true when an earlier set was replaced by
+// a different one (a new release), false when nothing changed or nothing was
+// stored before. If any file fails (for example offline), the cached set is
+// left as it was.
 async function storeAppFiles(cacheMode) {
   const downloads = await Promise.all(
     APP_FILES.map(async (file) => {
       const request = new Request(file, { cache: cacheMode });
       const response = await fetch(request);
       if (!response.ok) throw new Error(`${file}: ${response.status}`);
-      // A response the server reached through a redirect can't answer a page
-      // load, so store a plain copy.
-      const stored = response.redirected
-        ? new Response(await response.blob(), { status: response.status, headers: response.headers })
-        : response;
-      return [request.url, stored];
+      // Store a plain copy: a response the server reached through a redirect
+      // can't answer a page load, and the bytes are needed for the comparison.
+      const body = await response.arrayBuffer();
+      return { url: request.url, body, headers: response.headers, status: response.status };
     }),
   );
   const cache = await caches.open(CACHE_NAME);
-  await Promise.all(downloads.map(([url, response]) => cache.put(url, response)));
-  // Drop files that are no longer part of the app.
-  const current = new Set(downloads.map(([url]) => url));
   const stored = await cache.keys();
-  await Promise.all(stored.filter((request) => !current.has(request.url)).map((request) => cache.delete(request)));
+  const current = new Set(downloads.map(({ url }) => url));
+  const changed = await Promise.all(
+    downloads.map(async ({ url, body }) => {
+      const cached = await cache.match(url);
+      return !cached || !sameBytes(body, await cached.arrayBuffer());
+    }),
+  );
+  const removed = stored.filter((request) => !current.has(request.url));
+  if (!changed.includes(true) && removed.length === 0) return false;
+
+  await Promise.all(
+    downloads.map(({ url, body, headers, status }) => cache.put(url, new Response(body, { status, headers }))),
+  );
+  // Drop files that are no longer part of the app.
+  await Promise.all(removed.map((request) => cache.delete(request)));
+  return stored.length > 0;
+}
+
+// Tells every open Prashna window that a new release is stored and a
+// Refresh will open it.
+async function announceNewRelease() {
+  const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+  for (const client of windows) client.postMessage({ type: "new-version-available" });
+}
+
+async function checkForNewRelease(cacheMode) {
+  if (await storeAppFiles(cacheMode)) await announceNewRelease();
 }
 
 self.addEventListener("install", (event) => {
   // Skip the browser's HTTP cache so the first stored copies are current.
-  event.waitUntil(storeAppFiles("reload").then(() => self.skipWaiting()));
+  // A new version of this worker is itself a new release, so open windows
+  // hear about it like any other.
+  event.waitUntil(checkForNewRelease("reload").then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (event) => {
@@ -91,8 +130,11 @@ self.addEventListener("fetch", (event) => {
   const opensApp = APP_PAGE_PATHS.includes(new URL(request.url).pathname);
   const key = opensApp ? APP_PAGE : request;
   event.respondWith(caches.match(key, { ignoreSearch: true }).then((cached) => cached || fetch(request)));
+});
 
-  // Each launch checks for a new release. The server answers unchanged files
-  // with "not modified", so this is cheap; offline it simply fails.
-  if (request.mode === "navigate") event.waitUntil(storeAppFiles("no-cache").catch(() => {}));
+// The app asks for a check each time it opens or comes back to the screen.
+// The server answers unchanged files with "not modified", so this is cheap;
+// offline it simply fails.
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "check-for-new-version") event.waitUntil(checkForNewRelease("no-cache").catch(() => {}));
 });
