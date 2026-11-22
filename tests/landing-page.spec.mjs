@@ -26,7 +26,9 @@ test("the site root shows the Landing Page", async ({ page }) => {
 
   await expect(page).toHaveURL(/\/$/);
   await expect(page).toHaveTitle(/Prashna/);
-  await expect(headline(page)).toHaveText("Set question papers in minutes, not evenings.");
+  // The second line of the headline changes every few seconds; screen
+  // readers hear the first one.
+  await expect(headline(page)).toHaveAccessibleName("Set question papers in minutes, not evenings.");
   await expect(page.getByText("Made by a CBSE teacher")).toBeVisible();
   await expect(getTheApp(page)).toBeVisible();
   await expect(page.getByRole("link", { name: "Try it in your browser" }).first()).toBeVisible();
@@ -35,14 +37,21 @@ test("the site root shows the Landing Page", async ({ page }) => {
 test("the Landing Page has every section, in order", async ({ page }) => {
   await page.goto("/");
 
-  const headings = await page.getByRole("heading", { level: 2 }).allTextContents();
+  const steps = page.getByRole("tablist", { name: "How it works" }).getByRole("tab");
+  expect(await steps.evaluateAll((tabs) => tabs.map((t) => t.getAttribute("aria-label")))).toEqual([
+    "Set up",
+    "Add questions",
+    "Preview",
+    "Print",
+  ]);
+  const headings = await page.getByRole("main").getByRole("heading", { level: 2 }).allTextContents();
   expect(headings.map((h) => h.trim())).toEqual([
-    "Everything a CBSE Paper needs",
-    "How it works",
-    "On your computer and your phone",
+    "Everything a CBSE Paper needs, in one place.",
+    "Print it, or take it to Word.",
     "Your papers never leave your device.",
     "Made by a teacher",
     "Questions teachers ask",
+    "Set your next Paper in minutes.",
   ]);
   const footer = page.getByRole("contentinfo");
   await expect(footer).toContainText("not affiliated with CBSE");
@@ -75,15 +84,35 @@ test("once Prashna is installed, Get the App becomes Open app", async ({ page })
   await expect(page).toHaveURL(/\/app\/$/);
 });
 
-test("the screenshots are real captures of the app", async ({ page }) => {
+test("the product tour shows a real screenshot for each step", async ({ page }) => {
   await page.goto("/");
+  await page.getByRole("button", { name: "Pause tour" }).click();
 
-  for (const name of ["Prashna on a computer", "Prashna on a phone: editing a Question", "Prashna on a phone: the Paper preview"]) {
-    const image = page.getByRole("img", { name, exact: false }).first();
-    await image.scrollIntoViewIfNeeded();
+  const steps = [
+    ["Set up", "Prashna on a computer"],
+    ["Add questions", "Prashna on a phone: editing a Question"],
+    ["Preview", "Prashna on a phone: the Paper preview"],
+    ["Print", "The printed Paper"],
+  ];
+  for (const [step, imageName] of steps) {
+    await page.getByRole("tab", { name: step }).click();
+    await expect(page.getByRole("tab", { name: step })).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByText(step, { exact: true }).first()).toBeVisible();
+    const image = page.getByRole("tabpanel", { name: step }).getByRole("img", { name: imageName, exact: false });
     await expect(image).toBeVisible();
-    expect(await image.evaluate((img) => img.complete && img.naturalWidth > 0)).toBe(true);
+    await expect.poll(() => image.evaluate((img) => img.complete && img.naturalWidth > 0)).toBe(true);
   }
+});
+
+test("the tour's arrows step through How it works", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Pause tour" }).click();
+
+  await page.getByRole("button", { name: "Next step" }).click();
+  await expect(page.getByRole("tab", { name: "Add questions" })).toHaveAttribute("aria-selected", "true");
+  await page.getByRole("button", { name: "Previous step" }).click();
+  await page.getByRole("button", { name: "Previous step" }).click();
+  await expect(page.getByRole("tab", { name: "Print" })).toHaveAttribute("aria-selected", "true");
 });
 
 test("the maker's details are clearly marked placeholders", async ({ page }) => {

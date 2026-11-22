@@ -61,11 +61,6 @@ try {
   await preparePaper(desktop);
   await desktop.screenshot({ path: join(work, "desktop.png") });
   toWebp(join(work, "desktop.png"), "app-desktop", [1280, 2160]);
-  // Phones show the hero at a readable size: the marks blueprint and the A4
-  // preview, cropped from the same capture: the whole width of the Paper,
-  // from its top margin down (CSS x 525-1340, y 205-900).
-  execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", join(work, "desktop.png"), "-vf", "crop=1223:1043:787:307", join(work, "desktop-crop.png")]);
-  toWebp(join(work, "desktop-crop.png"), "app-desktop-crop", [720, 1080]);
 
   // The printed Paper: the preview sheet as it prints (without the
   // per-Question buttons, which print hides too), cropped to one A4 page.

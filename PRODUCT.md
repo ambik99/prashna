@@ -37,7 +37,7 @@ Made by a CBSE teacher (a Computer Science teacher in Malbazar, West Bengal) for
 
 - Name: Prashna, "Question papers for CBSE teachers". Icon: Devanagari प्र in white on an ink-navy rounded square.
 - The single call to action is **Get the App**; never "Download".
-- Landing Page direction pinned by spec #1: inspired by Resurf's principles (warm off-white, generous whitespace, serif headlines, real screenshots, a dark pill button), without copying its copy, logo or layout. Ink navy is the one accent.
+- Landing Page direction: spec #1 asked for Resurf's principles without copying its layout. On 2026-11-22 the maker chose to follow Resurf's layout, structure and motion closely instead, with Prashna's own copy, fonts, icon and screenshots (never Resurf's copy, logo or images).
 - The Landing Page must not feel like startup or tech hype, nor bare like a notice board; it must load fast on a weak connection and read comfortably on a phone.
 
 ## Evidence on Hand
