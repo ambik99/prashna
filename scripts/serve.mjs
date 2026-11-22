@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 
 const SITE_ROOT = resolve(fileURLToPath(new URL("../www", import.meta.url)));
 const PORT = Number(process.argv[2] || process.env.PORT || 4173);
-const BASE = (process.argv[3] || "/").replace(/\/?$/, "/");
+const BASE = `/${process.argv[3] || ""}/`.replace(/\/+/g, "/");
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",

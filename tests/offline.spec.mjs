@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { TEMPLATES, addQuestion, loadTemplate, moreMenuButton, preview, waitForOfflineCopy } from "./helpers.mjs";
+import { TEMPLATES, addQuestion, loadTemplate, moreMenuButton, preview, readManifest, waitForOfflineCopy } from "./helpers.mjs";
 
 // Every file the app is made of, as URLs under /app/. The service worker
 // script itself is left out: the browser always checks it on the network.
@@ -29,12 +29,6 @@ const imageSize = (page, src) =>
     src,
   );
 
-// The web app manifest the page links to, and its address.
-async function readManifest(page, request) {
-  const url = new URL(await page.locator('link[rel="manifest"]').getAttribute("href"), page.url());
-  return { url, manifest: await (await request.get(url.href)).json() };
-}
-
 // Installing and offline use have no on-screen controls to find by role or
 // label, so these tests read the page's <head> links and the manifest.
 test.describe("Prashna as an installed app", () => {
@@ -42,14 +36,12 @@ test.describe("Prashna as an installed app", () => {
     await page.goto("/app/");
     await expect(page).toHaveTitle("Prashna");
 
-    const { url, manifest } = await readManifest(page, request);
+    const { manifest, installed } = await readManifest(page, request);
     expect(manifest).toMatchObject({ name: "Prashna", short_name: "Prashna", display: "standalone" });
-    // The browser reads these addresses relative to the manifest file, so the
-    // app also installs from a sub-folder (see sub-folder.spec.mjs).
-    const startUrl = new URL(manifest.start_url, url);
-    expect(startUrl.pathname).toBe("/app/");
-    expect(new URL(manifest.scope, url).pathname).toBe("/app/");
-    expect(new URL(manifest.id, startUrl).pathname).toBe("/app/");
+    // Addresses are relative, so the app also installs from a sub-folder
+    // (see sub-folder.spec.mjs). Its identity stays /app/, so devices that
+    // installed Prashna earlier keep the same app.
+    expect(installed).toEqual({ opens: "/app/", scope: "/app/", identity: "/app/" });
   });
 
   test("the प्र icon comes in every size Android, iOS and browser tabs ask for", async ({ page, request }) => {
