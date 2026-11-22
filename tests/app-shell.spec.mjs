@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { fixture, loadPaper, preview } from "./helpers.mjs";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/app/");
 });
 
 test("empty Paper Details show placeholders on the Paper", async ({ page }) => {
@@ -81,4 +81,11 @@ test("Install App shows how to add the app to a phone's home screen", async ({ p
 
   await dialog.getByRole("button", { name: "Got it" }).click();
   await expect(dialog).toBeHidden();
+});
+
+test("visiting the site root opens the app", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(page).toHaveURL(/\/app\/$/);
+  await expect(preview(page)).toBeVisible();
 });

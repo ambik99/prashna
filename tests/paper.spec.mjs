@@ -15,7 +15,7 @@ import {
 const FIXTURE_V10 = fixture("paper-saved-by-v10.json");
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/app/");
 });
 
 test("Paper Details typed in the editor appear in the preview", async ({ page }) => {

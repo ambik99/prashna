@@ -10,7 +10,7 @@ import {
 } from "./helpers.mjs";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/app/");
   await startEmptyPaper(page);
 });
 

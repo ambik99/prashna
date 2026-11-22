@@ -1,9 +1,0 @@
-{
-  "appId": "com.cbse.paperdesigner",
-  "appName": "CBSE Paper Designer",
-  "webDir": "www",
-  "bundledWebRuntime": false,
-  "android": {
-    "allowMixedContent": true
-  }
-}

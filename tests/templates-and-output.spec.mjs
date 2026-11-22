@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
       window.__prints.push({ markingSchemeShown: paper.innerText.includes("Answer Key:") });
     };
   });
-  await page.goto("/");
+  await page.goto("/app/");
 });
 
 const printRequests = (page) => page.evaluate(() => window.__prints);
