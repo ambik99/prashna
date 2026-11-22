@@ -1,18 +1,25 @@
 import { test, expect } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 import { waitForOfflineCopy } from "./helpers.mjs";
 
 // The app page as a new deployment would serve it: the same page with a
 // different title, so a teacher can tell which version is open.
 const NEW_TITLE = "Prashna (new version)";
+// The new deployment's Paper styles carry this mark, which the Word export embeds.
+const NEW_PAPER_STYLES = "/* new version of the Paper styles */";
 
 // Simulates deploying a changed app: from now on the server answers the app
-// page with the new version. The offline copy's background download goes
-// through these routes too.
+// page and the Paper styles with their new versions. The offline copy's
+// background download goes through these routes too.
 async function deployNewVersion(context) {
   await context.route(/\/app\/(index\.html)?(\?.*)?$/, async (route) => {
     const response = await route.fetch();
     const body = (await response.text()).replace("<title>Prashna</title>", `<title>${NEW_TITLE}</title>`);
     await route.fulfill({ response, body });
+  });
+  await context.route(/\/app\/paper\.css(\?.*)?$/, async (route) => {
+    const response = await route.fetch();
+    await route.fulfill({ response, body: `${await response.text()}\n${NEW_PAPER_STYLES}\n` });
   });
 }
 
@@ -51,6 +58,21 @@ test.describe("update notice", () => {
     expect(reloads).toBe(0);
     await expect(page).toHaveTitle("Prashna");
     await expect(page.getByLabel("Question Text")).toHaveValue("Half-typed question");
+  });
+
+  test("an app left open keeps using its own version until Refresh", async ({ page, context }) => {
+    await deployNewVersion(context);
+    await returnToApp(page);
+    await expect(updateNotice(page)).toBeVisible();
+
+    // The Word export still uses the Paper styles of the version that is open.
+    const [download] = await Promise.all([
+      page.waitForEvent("download"),
+      page.getByRole("button", { name: "Export Word (.doc)" }).click(),
+    ]);
+    const wordFile = await readFile(await download.path(), "utf8");
+    expect(wordFile).toContain(".paper-sheet");
+    expect(wordFile).not.toContain(NEW_PAPER_STYLES);
   });
 
   test("choosing Refresh opens the new version", async ({ page, context }) => {

@@ -1,17 +1,22 @@
 // Keeps every app file on the device so Prashna works offline after the
-// first visit. Files are always served from the cache. Whenever the app is
-// opened or brought back to the screen online, it asks this worker to check
-// for a new release: the whole set is downloaded again in the background and
-// stored only once every file has arrived, so a release arrives as a whole
-// rather than file by file. If any file differs from the stored copy, open
-// windows are told so they can offer a Refresh (update-notice.js). Nothing
-// ever reloads the app by itself, and no one has to bump a version: the
-// files themselves are compared.
+// first visit. Files are always served from the cache.
+//
+// New versions: whenever the app opens or comes back to the screen online,
+// it asks this worker to check for a new version. The whole set is
+// downloaded again in the background and compared with the stored files, so
+// no one has to bump a version number. A changed set is kept aside, whole,
+// and open windows are told so they can offer a Refresh (update-notice.js).
+// The app left open keeps using the files it started with; the kept-aside
+// version takes over the next time the app page loads (Refresh, or opening
+// Prashna again). Nothing ever reloads the app by itself.
 //
 // List every file in www/app here (except this one). The offline browser
 // tests fail if a file is missing.
 
+// The files the app runs from.
 const CACHE_NAME = "prashna-v1";
+// A downloaded new version, waiting for the app page to load again.
+const NEXT_CACHE_NAME = "prashna-next";
 const APP_FILES = [
   "./",
   "./index.html",
@@ -49,74 +54,114 @@ const APP_FILES = [
 const APP_PAGE = new URL("./", self.registration.scope).href;
 const APP_PAGE_PATHS = [new URL(APP_PAGE).pathname, new URL("index.html", APP_PAGE).pathname];
 
-const sameBytes = (a, b) => {
-  if (a.byteLength !== b.byteLength) return false;
-  const x = new Uint8Array(a);
-  const y = new Uint8Array(b);
-  for (let i = 0; i < x.length; i++) if (x[i] !== y[i]) return false;
-  return true;
-};
+// Cache changes run one at a time, so a page load never takes over a new
+// version that is only half stored.
+let cacheWork = Promise.resolve();
+function oneAtATime(task) {
+  cacheWork = cacheWork.then(task, task);
+  return cacheWork;
+}
 
-// Downloads every app file and, if any differs from the cached set, replaces
-// the cached set with them. Returns true when an earlier set was replaced by
-// a different one (a new release), false when nothing changed or nothing was
-// stored before. If any file fails (for example offline), the cached set is
-// left as it was.
-async function storeAppFiles(cacheMode) {
-  const downloads = await Promise.all(
+// Downloads every app file. Throws if any file fails (for example offline).
+function downloadAppFiles(cacheMode) {
+  return Promise.all(
     APP_FILES.map(async (file) => {
       const request = new Request(file, { cache: cacheMode });
       const response = await fetch(request);
       if (!response.ok) throw new Error(`${file}: ${response.status}`);
-      // Store a plain copy: a response the server reached through a redirect
-      // can't answer a page load, and the bytes are needed for the comparison.
-      const body = await response.arrayBuffer();
-      return { url: request.url, body, headers: response.headers, status: response.status };
+      // Keep a plain copy: a response the server reached through a redirect
+      // can't answer a page load, and the bytes are needed for comparing.
+      const bytes = await response.arrayBuffer();
+      return { url: request.url, bytes, status: response.status, headers: response.headers };
     }),
   );
-  const cache = await caches.open(CACHE_NAME);
-  const stored = await cache.keys();
-  const current = new Set(downloads.map(({ url }) => url));
-  const changed = await Promise.all(
-    downloads.map(async ({ url, body }) => {
-      const cached = await cache.match(url);
-      return !cached || !sameBytes(body, await cached.arrayBuffer());
-    }),
-  );
-  const removed = stored.filter((request) => !current.has(request.url));
-  if (!changed.includes(true) && removed.length === 0) return false;
-
-  await Promise.all(
-    downloads.map(({ url, body, headers, status }) => cache.put(url, new Response(body, { status, headers }))),
-  );
-  // Drop files that are no longer part of the app.
-  await Promise.all(removed.map((request) => cache.delete(request)));
-  return stored.length > 0;
 }
 
-// Tells every open Prashna window that a new release is stored and a
-// Refresh will open it.
-async function announceNewRelease() {
+function sameBytes(stored, downloaded) {
+  if (stored.byteLength !== downloaded.byteLength) return false;
+  const storedView = new Uint8Array(stored);
+  const downloadedView = new Uint8Array(downloaded);
+  return storedView.every((byte, i) => byte === downloadedView[i]);
+}
+
+// Whether a cache holds exactly these files, byte for byte.
+async function holdsSameFiles(cache, files) {
+  const keys = await cache.keys();
+  if (keys.length !== files.length) return false;
+  for (const { url, bytes } of files) {
+    const stored = await cache.match(url);
+    if (!stored || !sameBytes(await stored.arrayBuffer(), bytes)) return false;
+  }
+  return true;
+}
+
+// Replaces a cache's contents with these files.
+async function fillCache(cacheName, files) {
+  const cache = await caches.open(cacheName);
+  await Promise.all(files.map(({ url, bytes, status, headers }) => cache.put(url, new Response(bytes, { status, headers }))));
+  const current = new Set(files.map(({ url }) => url));
+  const stale = (await cache.keys()).filter((request) => !current.has(request.url));
+  await Promise.all(stale.map((request) => cache.delete(request)));
+}
+
+// Downloads the app and stores it. The first download becomes the app's
+// files; later ones that differ from the newest stored version are kept
+// aside as the next version. Returns true when a new version was kept aside.
+async function downloadNewVersion(cacheMode) {
+  const files = await downloadAppFiles(cacheMode);
+  return oneAtATime(async () => {
+    const running = await caches.open(CACHE_NAME);
+    if ((await running.keys()).length === 0) {
+      await fillCache(CACHE_NAME, files);
+      return false;
+    }
+    const newest = (await caches.has(NEXT_CACHE_NAME)) ? await caches.open(NEXT_CACHE_NAME) : running;
+    if (await holdsSameFiles(newest, files)) return false;
+    // Replace any earlier waiting version as a whole.
+    await caches.delete(NEXT_CACHE_NAME);
+    await fillCache(NEXT_CACHE_NAME, files);
+    return true;
+  });
+}
+
+// Makes the waiting new version, if any, the files the app runs from.
+function takeOverNextVersion() {
+  return oneAtATime(async () => {
+    if (!(await caches.has(NEXT_CACHE_NAME))) return;
+    const next = await caches.open(NEXT_CACHE_NAME);
+    const files = [];
+    for (const request of await next.keys()) {
+      const response = await next.match(request);
+      files.push({ url: request.url, bytes: await response.arrayBuffer(), status: response.status, headers: response.headers });
+    }
+    await fillCache(CACHE_NAME, files);
+    await caches.delete(NEXT_CACHE_NAME);
+  });
+}
+
+// Tells every open Prashna window that a Refresh will open a new version.
+async function announceNewVersion() {
   const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
   for (const client of windows) client.postMessage({ type: "new-version-available" });
 }
 
-async function checkForNewRelease(cacheMode) {
-  if (await storeAppFiles(cacheMode)) await announceNewRelease();
+async function checkForNewVersion(cacheMode) {
+  if (await downloadNewVersion(cacheMode)) await announceNewVersion();
 }
 
 self.addEventListener("install", (event) => {
-  // Skip the browser's HTTP cache so the first stored copies are current.
-  // A new version of this worker is itself a new release, so open windows
-  // hear about it like any other.
-  event.waitUntil(checkForNewRelease("reload").then(() => self.skipWaiting()));
+  // Skip the browser's HTTP cache so the stored copies are current. A new
+  // version of this worker is itself a new version of the app, so open
+  // windows hear about it like any other.
+  event.waitUntil(checkForNewVersion("reload").then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (event) => {
+  const kept = [CACHE_NAME, NEXT_CACHE_NAME];
   event.waitUntil(
     caches
       .keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
+      .then((keys) => Promise.all(keys.filter((key) => !kept.includes(key)).map((key) => caches.delete(key))))
       .then(() => self.clients.claim()),
   );
 });
@@ -126,15 +171,22 @@ self.addEventListener("fetch", (event) => {
   // Only the app's own files; Import from Link and other sites go straight to the network.
   if (request.method !== "GET" || !request.url.startsWith(self.registration.scope)) return;
 
-  // Opening the app, with or without a query string, always gets the app page.
+  // Opening the app, with or without a query string, always gets the app
+  // page, and is when a waiting new version takes over.
   const opensApp = APP_PAGE_PATHS.includes(new URL(request.url).pathname);
   const key = opensApp ? APP_PAGE : request;
-  event.respondWith(caches.match(key, { ignoreSearch: true }).then((cached) => cached || fetch(request)));
+  const ready = opensApp && request.mode === "navigate" ? takeOverNextVersion() : Promise.resolve();
+  event.respondWith(
+    ready
+      .catch(() => {})
+      .then(() => caches.match(key, { ignoreSearch: true, cacheName: CACHE_NAME }))
+      .then((cached) => cached || fetch(request)),
+  );
 });
 
 // The app asks for a check each time it opens or comes back to the screen.
 // The server answers unchanged files with "not modified", so this is cheap;
 // offline it simply fails.
 self.addEventListener("message", (event) => {
-  if (event.data?.type === "check-for-new-version") event.waitUntil(checkForNewRelease("no-cache").catch(() => {}));
+  if (event.data?.type === "check-for-new-version") event.waitUntil(checkForNewVersion("no-cache").catch(() => {}));
 });
