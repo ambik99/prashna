@@ -1,47 +1,18 @@
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
+import {
+  TEMPLATES,
+  chooseTargetMarks,
+  fixture,
+  loadPaper,
+  loadTemplate,
+  marksSummary,
+  preview,
+  savePaper,
+} from "./helpers.mjs";
 
 // A Paper file saved by version 10.0 of the tool before any redesign work began.
-const FIXTURE_V10 = fileURLToPath(new URL("./fixtures/paper-saved-by-v10.json", import.meta.url));
-
-// Template names exactly as the tool lists them.
-const STARTER_TEMPLATE = "Starter Sample (8 Marks)";
-const UNIT_TEST_II_TEMPLATE = "Unit Test-II Format (20 Marks)";
-const UNIT_TEST_TEMPLATE = "Unit Test Pattern (40 Marks)";
-
-// The Paper preview, as a teacher sees it beside the editor.
-const preview = (page) => page.getByRole("region", { name: "Question Paper Preview" });
-// The marks summary above the editor (Section totals and Target Marks).
-const marksSummary = (page) => page.getByRole("region", { name: "Section Marks Breakdown" });
-
-async function loadTemplate(page, name) {
-  await page.getByLabel("Load CBSE Template").selectOption({ label: name });
-}
-
-async function chooseTargetMarks(page, label) {
-  await page.getByLabel("Target Total Marks").selectOption({ label });
-}
-
-// Clicks Save Paper and returns the downloaded Paper file's contents.
-async function savePaper(page) {
-  const [download] = await Promise.all([
-    page.waitForEvent("download"),
-    page.getByRole("button", { name: "Save Paper (.json)" }).click(),
-  ]);
-  expect(download.suggestedFilename()).toMatch(/\.json$/);
-  const path = await download.path();
-  return { path, contents: JSON.parse(await readFile(path, "utf8")) };
-}
-
-// Clicks Load Paper and picks the given file in the file chooser.
-async function loadPaper(page, filePath) {
-  const [chooser] = await Promise.all([
-    page.waitForEvent("filechooser"),
-    page.getByRole("button", { name: "Load Paper" }).click(),
-  ]);
-  await chooser.setFiles(filePath);
-}
+const FIXTURE_V10 = fixture("paper-saved-by-v10.json");
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
@@ -65,7 +36,7 @@ test("Paper Details typed in the editor appear in the preview", async ({ page })
 
 test("Section totals and Target Marks add up for a loaded Template", async ({ page }) => {
   // This Template has one Question each in Sections A (1 mark), B (3) and E (4): 8 marks.
-  await loadTemplate(page, STARTER_TEMPLATE);
+  await loadTemplate(page, TEMPLATES.starter);
 
   const summary = marksSummary(page);
   await expect(summary).toContainText("Section A: 1/20Q (1 / 20M)");
@@ -85,7 +56,7 @@ test("Section totals and Target Marks add up for a loaded Template", async ({ pa
 });
 
 test("a saved Paper file loads back exactly", async ({ page }) => {
-  await loadTemplate(page, UNIT_TEST_II_TEMPLATE);
+  await loadTemplate(page, TEMPLATES.unitTestII);
   await page.getByLabel("School Name").fill("Round Trip Vidyalaya");
   await chooseTargetMarks(page, "Target: 50 Marks");
   const paper = preview(page);
@@ -93,7 +64,7 @@ test("a saved Paper file loads back exactly", async ({ page }) => {
   const saved = await savePaper(page);
 
   // Replace the Paper with something else, then load the saved file.
-  await loadTemplate(page, STARTER_TEMPLATE);
+  await loadTemplate(page, TEMPLATES.starter);
   await expect(paper).not.toContainText("Round Trip Vidyalaya");
 
   await loadPaper(page, saved.path);
@@ -138,7 +109,7 @@ test("a Paper file saved by the original tool still loads", async ({ page }) => 
 });
 
 test("the Paper survives closing and reopening the app", async ({ page }) => {
-  await loadTemplate(page, UNIT_TEST_TEMPLATE);
+  await loadTemplate(page, TEMPLATES.unitTest);
   await page.getByLabel("School Name").fill("Reload Proof School");
   await page.getByLabel("Subject", { exact: true }).fill("Physics");
   await expect(preview(page)).toContainText("Reload Proof School");

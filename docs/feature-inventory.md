@@ -11,8 +11,8 @@ Coverage column: the ticket whose tests cover the item.
 | | Feature | Tests |
 |---|---|---|
 | [ ] | Enter school name, examination title, class (Nur, LKG, UKG, Class 1 to Class 12), subject, time allowed and general instructions; the preview header updates as you type. | #2 |
-| [ ] | Empty fields show placeholders in the preview ("School Name", "Examination Title", "Subject", "3 Hours", "All questions are compulsory."). | #3 |
-| [ ] | "Show School Crest Watermark" shows or hides a faint crest image behind the Paper preview. *(quirk: the crest is one fixed school's crest, built into the tool)* | #3 |
+| [ ] | Empty fields show placeholders in the preview ("School Name", "Examination Title", "Subject", "3 Hours", "All questions are compulsory."). | #4 |
+| [ ] | "Show School Crest Watermark" shows or hides a faint crest image behind the Paper preview. *(quirk: the crest is one fixed school's crest, built into the tool)* | #4 |
 | [ ] | New Papers start with Caesar School's name and a Class 10 Science header. *(quirk)* | — |
 
 ## Target Marks and marks summary
@@ -22,7 +22,7 @@ Coverage column: the ticket whose tests cover the item.
 | [ ] | Choose Target Marks: No Target, 20, 50, 60, 70, 80 or 100. | #2 |
 | [ ] | The marks summary shows each Section in use as "Section X: questions added / questions planned (marks added / marks planned)", highlighted when on target or over. | #2 |
 | [ ] | The summary shows the Paper's total ("Total: N Marks") and the preview header shows "Max. Marks: N". | #2 |
-| [ ] | Against Target Marks the summary shows "N marks remaining", "On Target (N/N)" or "N marks over target". | #2 (remaining), #3 (on target, over) |
+| [ ] | Against Target Marks the summary shows "N marks remaining", "On Target (N/N)" or "N marks over target". | #2 (remaining), #4 (on target, over) |
 
 ## Sections
 
@@ -40,14 +40,14 @@ Coverage column: the ticket whose tests cover the item.
 | [ ] | Science Division controls appear only for Class 9 or 10 when the subject is exactly "Science". *(quirk: "Science (086)" or "General Science" don't count)* | #3 |
 | [ ] | Choose Combined, Physics only, Chemistry only or Biology only; a single division adds "(Physics)" etc. to the preview header and shows only that division's Questions. | #3 |
 | [ ] | Set planned marks for Physics, Chemistry and Biology; the marks summary shows each division's marks against its plan. | #3 |
-| [ ] | Tag each Question with its Science Division. *(quirk: untagged Questions count as Physics)* | #3 |
+| [ ] | Tag each Question with its Science Division. *(quirk: untagged Questions count as Physics)* | #3 (tagging) |
 
 ## Questions
 
 | | Feature | Tests |
 |---|---|---|
 | [ ] | Add a Standard (short or long answer) Question to a chosen Section with its marks. | #3 |
-| [ ] | Add an MCQ with options (a) to (d). | #3 |
+| [ ] | Add an MCQ with options (a) to (d). *(quirk: the four option boxes have no labels, only placeholder text)* | #3 |
 | [ ] | Add an Assertion–Reason Question; the standard CBSE options are filled in automatically. | #3 |
 | [ ] | Add a Case-Study Question: a passage plus sub-questions, one per line. | #3 |
 | [ ] | The form shows only the fields relevant to the chosen question type. | #3 |
@@ -65,7 +65,7 @@ Coverage column: the ticket whose tests cover the item.
 |---|---|---|
 | [ ] | Quick Insert tabs: Math and Science symbol and formula buttons insert at the cursor. | #3 |
 | [ ] | Hindi tab: letter buttons, plus phonetic typing in English letters with a Devanagari preview and Insert. | #3 |
-| [ ] | Bengali tab: letter buttons, plus phonetic typing with a Bengali preview and Insert. | #3 |
+| [ ] | Bengali tab: letter buttons, plus phonetic typing with a Bengali preview and Insert. *(quirk: the phonetic mapping is approximate, for example "ami" gives অমি rather than আমি, and "nodi" gives নোদি rather than নদী)* | #3 |
 
 ## Preview, Marking Scheme, print and export
 
@@ -73,9 +73,9 @@ Coverage column: the ticket whose tests cover the item.
 |---|---|---|
 | [ ] | Live A4 preview of the Paper beside the editor. | #2 |
 | [ ] | "Show Marking Scheme" shows each Question's Marking Scheme in the preview with a "Marking Scheme / Answer Key" banner; the button switches to "Hide Marking Scheme". | #3 |
-| [ ] | "Print / Save as PDF" opens the browser's print dialog for the Paper. | #3 |
-| [ ] | "Print Answer Key" prints the Paper with the Marking Scheme, then returns the preview to how it was. | #3 |
-| [ ] | "Export Word (.doc)" downloads a Word file of the Paper named after the class and subject. | #3 |
+| [ ] | "Print / Save as PDF" opens the browser's print dialog for the Paper. | #4 |
+| [ ] | "Print Answer Key" prints the Paper with the Marking Scheme, then returns the preview to how it was. | #4 |
+| [ ] | "Export Word (.doc)" downloads a Word file of the Paper named after the class and subject. | #4 |
 
 ## Saving, Templates and resetting
 
@@ -83,28 +83,28 @@ Coverage column: the ticket whose tests cover the item.
 |---|---|---|
 | [ ] | The current Paper is saved on the device automatically after every change ("Auto-saved"), and is there after closing and reopening. | #2 |
 | [ ] | "Save Paper (.json)" downloads the Paper as a file named after the class and subject. | #2 |
-| [ ] | "Load Paper" opens a saved Paper file and replaces the current Paper ("Loaded from file"); an invalid file shows "Invalid paper file" or "Could not read JSON". *(quirk: no confirmation before replacing)* | #2 (load), #3 (errors) |
-| [ ] | Load a Template: Starter Sample (8 Marks), Unit Test-II Format (20 Marks), Unit Test Pattern (40 Marks), Board Pattern Starter (Class X). *(quirk: each Template holds only a few example Questions, so it doesn't reach its named marks: 8, 6, 12 and 16 marks)* *(quirk: replaces the current Paper with no confirmation)* | #2, #3 |
-| [ ] | "Reset Sample" replaces the current Paper with the Starter Sample. *(quirk: no confirmation)* | #3 |
+| [ ] | "Load Paper" opens a saved Paper file and replaces the current Paper ("Loaded from file"); an invalid file shows "Invalid paper file" or "Could not read JSON". *(quirk: no confirmation before replacing)* | #2 (load), #4 (errors) |
+| [ ] | Load a Template: Starter Sample (8 Marks), Unit Test-II Format (20 Marks), Unit Test Pattern (40 Marks), Board Pattern Starter (Class X). *(quirk: each Template holds only a few example Questions, so it doesn't reach its named marks: 8, 6, 12 and 16 marks)* *(quirk: replaces the current Paper with no confirmation)* | #2, #4 |
+| [ ] | "Reset Sample" replaces the current Paper with the Starter Sample. *(quirk: no confirmation)* | #4 |
 
 ## Question Bank
 
 | | Feature | Tests |
 |---|---|---|
-| [ ] | Save any Question on the Paper to the Question Bank ("+ Bank"). | #3 |
-| [ ] | Search the Question Bank. | #3 |
-| [ ] | Insert a Question from the Question Bank into the current Paper. | #3 |
-| [ ] | Delete a Question from the Question Bank. *(quirk: no confirmation)* | #3 |
-| [ ] | The Question Bank is kept on the device between sessions. | #3 |
-| [ ] | Starter Questions: choose Class 10 or 12 and a subject, then add that subject's built-in Questions to the Question Bank. *(quirk: labelled "Auto-Fetch Question Bank" though nothing is fetched online)* | #3 |
-| [ ] | Import from Link: paste the web address of a question file to add its Questions to the Question Bank. *(quirk: if the link fails, it adds the Starter Questions for the chosen class and subject instead, with a warning)* | #3 |
+| [ ] | Save any Question on the Paper to the Question Bank ("+ Bank"). | #4 |
+| [ ] | Search the Question Bank. | #4 |
+| [ ] | Insert a Question from the Question Bank into the current Paper. | #4 |
+| [ ] | Delete a Question from the Question Bank. *(quirk: no confirmation)* | #4 |
+| [ ] | The Question Bank is kept on the device between sessions. | #4 |
+| [ ] | Starter Questions: choose Class 10 or 12 and a subject, then add that subject's built-in Questions to the Question Bank. *(quirk: labelled "Auto-Fetch Question Bank" though nothing is fetched online)* | #4 |
+| [ ] | Import from Link: paste the web address of a question file to add its Questions to the Question Bank. *(quirk: if the link fails, it adds the Starter Questions for the chosen class and subject instead, with a warning)* | #4 |
 
 ## App shell
 
 | | Feature | Tests |
 |---|---|---|
-| [ ] | On narrow screens, "Editor" and "Paper Preview" tabs switch between the two panels. | #3 |
-| [ ] | "Install App" shows instructions for adding the app to an Android or iPhone home screen. | #3 |
+| [ ] | On narrow screens, "Editor" and "Paper Preview" tabs switch between the two panels. | #4 |
+| [ ] | "Install App" shows instructions for adding the app to an Android or iPhone home screen. | #4 |
 | [ ] | Works offline after the first visit, and can be added to a phone's home screen. | #14 |
 
 ## Notes from the maker
