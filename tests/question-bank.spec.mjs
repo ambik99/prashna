@@ -20,7 +20,7 @@ const STARTER_SCIENCE_QUESTION = "The focal length of a plane mirror is:";
 const EXAMPLE_ASSERTION = "A: Silver chloride turns grey in sunlight.";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/app/");
 });
 
 test("a Question on the Paper can be saved to the Question Bank and is kept after reopening", async ({ page }) => {

@@ -5,7 +5,7 @@ const marksPerQuestion = (page, section) => page.getByLabel(`${section} marks pe
 const numberOfQuestions = (page, section) => page.getByLabel(`${section} number of questions`);
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/app/");
   // One Question each in Sections A (1 mark), B (3) and E (4): 8 marks.
   await loadTemplate(page, TEMPLATES.starter);
 });

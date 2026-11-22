@@ -17,7 +17,7 @@ Then:
 npm test
 ```
 
-`npm test` starts a local server automatically. To look at the site yourself, run `npm run serve` and open http://localhost:4173/.
+`npm test` starts a local server automatically. To look at the site yourself, run `npm run serve` and open http://localhost:4173/ (it takes you to the app at /app/).
 
 ## Writing tests
 

@@ -16,7 +16,7 @@ export default defineConfig({
   projects: [{ name: "desktop-chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
     command: `node scripts/serve.mjs ${PORT}`,
-    url: `http://localhost:${PORT}/`,
+    url: `http://localhost:${PORT}/app/`,
     reuseExistingServer: true,
   },
 });

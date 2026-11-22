@@ -4,7 +4,7 @@ import { TEMPLATES, addQuestion, loadTemplate, marksSummary, preview } from "./h
 const divisionChoice = (page) => page.getByLabel("Science Division (Class 9 & 10)");
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/app/");
   // A Class 10 Science Paper whose 8 marks split as Physics 4, Chemistry 1, Biology 3.
   await loadTemplate(page, TEMPLATES.starter);
 });

@@ -11,7 +11,7 @@ async function openQuickInsert(page, tab) {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/app/");
 });
 
 test("Math symbol buttons insert at the cursor", async ({ page }) => {
