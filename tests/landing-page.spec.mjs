@@ -115,11 +115,15 @@ test("the tour's arrows step through How it works", async ({ page }) => {
   await expect(page.getByRole("tab", { name: "Print" })).toHaveAttribute("aria-selected", "true");
 });
 
-test("the maker's details are clearly marked placeholders", async ({ page }) => {
+test("the maker's quote and details are shown", async ({ page }) => {
   await page.goto("/");
 
   const maker = page.getByRole("region", { name: "Made by a teacher" });
-  await expect(maker.getByText("Placeholder", { exact: false }).first()).toBeVisible();
+  await expect(maker.getByText("Stay hungry, stay foolish.")).toBeVisible();
+  await expect(maker.getByText("Ambik Mojumder", { exact: true })).toBeVisible();
+  await expect(maker.getByText("Computer Science Faculty, Caesar School")).toBeVisible();
+  await expect(maker.getByText("Placeholder", { exact: false })).toHaveCount(0);
+  // The contact email is still to come.
   await expect(page.getByRole("contentinfo").getByText("Placeholder", { exact: false })).toBeVisible();
 });
 
