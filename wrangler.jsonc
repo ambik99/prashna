@@ -9,5 +9,6 @@
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "none"
   },
-  "preview_urls": true
+  // Needed by `wrangler preview`, which Cloudflare runs for pull requests.
+  "previews": {}
 }
