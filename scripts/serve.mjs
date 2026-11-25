@@ -1,4 +1,4 @@
-// Minimal static server that serves the site the way Cloudflare Pages does:
+// Minimal static server that serves the site the way Cloudflare does:
 // files by path, and a folder's index.html for folder URLs. No dependencies.
 //
 // Usage: node scripts/serve.mjs [port] [base]
