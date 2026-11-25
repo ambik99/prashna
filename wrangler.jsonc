@@ -1,0 +1,13 @@
+// Cloudflare serves the www folder as it is: no build step and no Worker code.
+// Folder URLs open their index.html, and /app/index.html redirects to /app/
+// (sw.js handles that redirect). Every pull request gets a preview link.
+{
+  "name": "prashna",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./www",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "preview_urls": true
+}
