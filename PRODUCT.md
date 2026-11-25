@@ -23,7 +23,7 @@ Made by a CBSE teacher (a Computer Science teacher in Malbazar, West Bengal) for
 - Used as an installable web app (PWA) on Android, iPhone and desktop. The app lives at `/app/`; the Landing Page at the site root introduces it.
 - The live preview is the printed A4 Paper. Output goes to a printer, a PDF, or a Word file the teacher may edit further.
 - One Paper at a time on a device; other Papers are kept as saved files. Teachers reuse Questions through their own Question Bank.
-- Hosting is Cloudflare Pages (free `pages.dev` address for now). Anonymous, cookieless visit counts only.
+- Hosting is Cloudflare (a Worker serving static files, at the free address https://prashna.ambik99.workers.dev/ for now). Anonymous, cookieless visit counts only.
 
 ## Capabilities and Constraints
 

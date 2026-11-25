@@ -1,6 +1,6 @@
 # Beta site on GitHub Pages
 
-Until Cloudflare Pages is connected (#6), the site is published for beta testing at:
+The live site is on Cloudflare at https://prashna.ambik99.workers.dev/ (app at `/app/`). The same site is also published for beta testing at:
 
 - Landing Page: https://ambik99.github.io/prashna/
 - App: https://ambik99.github.io/prashna/app/
