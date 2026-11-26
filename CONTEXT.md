@@ -42,6 +42,18 @@ _Avoid_: Answer key, solutions, answer sheet
 A ready-made Paper (sections, questions and details) that replaces the current Paper when loaded.
 _Avoid_: Format, pattern, preset, sample
 
+**AI Generated Paper**:
+A complete Paper with its Marking Scheme that Prashna writes with AI from a Class, Subject, Blueprint and optional Focus, and that replaces the current Paper when loaded, as a Template does.
+_Avoid_: AI paper, auto paper, sample paper, generated template
+
+**Blueprint**:
+The official CBSE pattern for one Class and Subject: its Sections, question types, marks and time allowed.
+_Avoid_: Pattern, guideline, design, scheme
+
+**Focus**:
+The optional chapters or topics a teacher asks an AI Generated Paper to concentrate on; without it the Paper covers the full syllabus.
+_Avoid_: Topic filter, syllabus selection
+
 ### Reusing questions
 
 **Question Bank**:

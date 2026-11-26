@@ -28,8 +28,8 @@ Made by a CBSE teacher (a Computer Science teacher in Malbazar, West Bengal) for
 ## Capabilities and Constraints
 
 - Vocabulary follows `CONTEXT.md` (Paper, Section, Question, Marking Scheme, Template, Question Bank, Get the App, and so on).
-- Plain HTML, CSS and JavaScript, no framework and no build step. All fonts are self-hosted.
-- No accounts and no server: Papers and the Question Bank never leave the device.
+- Moving from plain HTML, CSS and JavaScript to Vite + React + TypeScript for the app and Astro + Tailwind for the Landing Page, with a build step (spec #45, `docs/adr/0001` and `0003`). All fonts are self-hosted.
+- No accounts. Papers and the Question Bank never leave the device. The one server part is a Cloudflare Worker endpoint for AI Generated Papers (`docs/adr/0002`). It receives only the request (Class, Subject, Focus, difficulty), works only online, and is protected by a bot check, per-device rate limits and a daily spending cap. Once it ships, the privacy promise reads: "Your papers stay on your device. AI requests are sent only when you ask for one."
 - Not affiliated with CBSE; no CBSE logo anywhere.
 - Undecided: custom domain; whether the repository becomes public.
 
