@@ -10,7 +10,7 @@
   // Wrangler runs this before `deploy`, `preview` and `dev`.
   "build": {
     "command": "npm run build",
-    "watch_dir": ["apps/app/src", "apps/app/public", "apps/landing/src", "packages/paper/src", "www"]
+    "watch_dir": ["apps/app/src", "apps/app/public", "apps/landing/src", "apps/landing/public", "packages/paper/src"]
   },
   "assets": {
     "directory": "./dist",

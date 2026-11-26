@@ -1,0 +1,15 @@
+---
+import Button from "./Button.astro";
+import { reveal, sectionTitle } from "../ui.ts";
+---
+
+<section class="pt-160 px-24 pb-140 text-center grid justify-items-center" aria-labelledby="closing-title">
+  <h2 id="closing-title" class:list={[sectionTitle, reveal]}>Set your next Paper in minutes.</h2>
+  <div class:list={[reveal, "mt-32 flex flex-wrap justify-center gap-10 max-sm:w-full"]} style="--delay:.05s">
+    <Button variant="dark" wide getApp><svg><use href="#i-download"></use></svg>Get the App</Button>
+    <Button variant="light" wide href="app/">Try it in your browser</Button>
+  </div>
+  <small class:list={[reveal, "mt-16 text-[13px] text-muted"]} style="--delay:.1s"
+    >Free · Works offline · No sign-up · Android, iPhone and computers</small
+  >
+</section>

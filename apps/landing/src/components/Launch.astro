@@ -1,0 +1,28 @@
+---
+// Launch animation: once per browser session (the flag is set in the page's
+// <head>). The logo rises in, the credit follows, then the layer fades away
+// as the hero reveals start. About 1.6s; a tap or key skips it (landing.ts).
+---
+
+<div
+  class:list={[
+    "launch hidden",
+    "launching:fixed launching:inset-0 launching:z-1000 launching:flex launching:flex-col launching:items-center launching:justify-center launching:gap-18 launching:p-16 launching:bg-page launching:animate-launch-out",
+    "[&.is-skipping]:animate-launch-skip! motion-reduce:hidden!",
+  ]}
+  aria-hidden="true"
+>
+  <img
+    class="w-72 h-72 rounded-[18px] will-change-[opacity,filter,transform] animate-launch-logo"
+    src="app/icon-192.png"
+    alt=""
+    width="72"
+    height="72"
+    fetchpriority="high"
+  />
+  <p
+    class="text-[13px] tracking-[0.01em] text-muted text-center will-change-[opacity,filter,transform] animate-launch-credit"
+  >
+    Created by <span class="block mt-2 font-display font-[300] text-[22px] tracking-[-0.02em] text-fg">Ambik Mojumder</span>
+  </p>
+</div>

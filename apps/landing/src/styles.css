@@ -1,1 +1,144 @@
+/* The Landing Page's Tailwind setup. Follows Resurf's layout and motion
+   (resurf.so), chosen by the maker, with Prashna's own content, fonts and
+   screenshots. Every colour comes from tokens.css (the --landing-* values),
+   which the page loads from the app, so light and dark follow theme.js.
+
+   Tailwind's default theme is switched off: its variable names (--font-serif,
+   --ease-out, --text-sm ...) are also tokens.css names that the shared Get the
+   App guide and theme toggle read, and must not be overridden here. */
+
 @import "tailwindcss";
+
+/* theme.js sets <html data-theme>; the head script adds .js and .launching. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant js (&:where(.js *));
+@custom-variant launching (&:where(.launching *));
+/* JavaScript marks revealed elements .is-in and the tour's new caption .is-new. */
+@custom-variant in-view (&.is-in);
+
+@theme {
+  --*: initial;
+
+  /* 1 unit = 1px, so spacing utilities read like the design: p-24 is 24px. */
+  --spacing: 1px;
+
+  /* Desktop first: max-md is 860px and below, max-sm is 640px and below. */
+  --breakpoint-sm: 641px;
+  --breakpoint-md: 861px;
+
+  --font-display: "Newsreader", ui-serif, Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ease-soft: cubic-bezier(0.23, 1, 0.32, 1);
+
+  --animate-reveal: blur-fade-slide-in 0.6s ease-out var(--delay, 0s) both;
+  --animate-line-in: blur-fade-slide-in 0.6s ease-out both;
+  --animate-line-out: hero-line-out 0.4s ease-in both;
+  --animate-fade-in: blur-fade-in 0.3s ease-out both;
+  --animate-caption: fade-slide-up 0.3s ease-out both;
+  --animate-drift: formats-drift 38s linear infinite;
+  --animate-launch-logo: blur-fade-slide-in 0.6s var(--ease-soft) both;
+  --animate-launch-credit: blur-fade-slide-in 0.6s var(--ease-soft) 0.35s both;
+  --animate-launch-out: launch-out 0.4s var(--ease-soft) 1.2s both;
+  --animate-launch-skip: launch-out 0.2s var(--ease-soft) both;
+
+  @keyframes blur-fade-slide-in {
+    0% { opacity: 0; filter: blur(10px); transform: translateY(10px); }
+    100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+  }
+  @keyframes fade-slide-up {
+    0% { opacity: 0; transform: translateY(4px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes blur-fade-in {
+    0% { opacity: 0; filter: blur(6px); }
+    100% { opacity: 1; filter: blur(0); }
+  }
+  @keyframes hero-line-out {
+    0% { opacity: 1; filter: blur(0); transform: translateY(0); }
+    100% { opacity: 0; filter: blur(10px); transform: translateY(-10px); }
+  }
+  @keyframes formats-drift {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 6px)); }
+  }
+  @keyframes launch-out {
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+  }
+}
+
+@theme inline {
+  --color-fg: var(--landing-fg);
+  --color-fg-90: var(--landing-fg-90);
+  --color-fg-70: var(--landing-fg-70);
+  --color-fg-45: var(--landing-fg-45);
+  --color-fg-hover: var(--landing-fg-hover);
+  --color-muted: var(--landing-muted);
+  --color-tint-3: var(--landing-tint-3);
+  --color-tint-4: var(--landing-tint-4);
+  --color-tint-5: var(--landing-tint-5);
+  --color-tint-8: var(--landing-tint-8);
+  --color-page: var(--landing-page);
+  --color-raised: var(--landing-raised);
+  --color-on-fg: var(--landing-on-fg);
+  --color-on-white: var(--landing-on-white);
+  --color-ring: var(--landing-ring);
+  --color-format: var(--landing-format);
+  --color-panel: var(--landing-panel);
+  --color-chip-total: var(--landing-chip-total);
+  --color-chip-left: var(--landing-chip-left);
+  --color-ok: var(--landing-ok-bg);
+  --color-on-ok: var(--landing-ok-fg);
+  --color-placeholder: var(--landing-placeholder-bg);
+  --color-placeholder-border: var(--landing-placeholder-border);
+  --color-on-placeholder: var(--landing-placeholder-fg);
+  /* Screenshots, Paper sheets and device frames look the same in both themes. */
+  --color-white: #fff;
+  --color-frame: #15171c;
+  --color-word: #2b579a;
+
+  --shadow-chip: var(--landing-shadow-chip);
+  --shadow-float: var(--landing-shadow-float);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-page);
+    color: var(--color-fg);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  /* Headings keep the browser's bold unless a utility says otherwise, as
+     before Tailwind's reset. */
+  h1, h2, h3, h4 {
+    font-weight: bold;
+  }
+  :focus-visible {
+    outline: 1.6px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: var(--color-fg);
+    color: var(--color-on-fg);
+  }
+}
+
+/* The grain over the colourful swirls behind the screenshots. */
+:root {
+  --swirl-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}

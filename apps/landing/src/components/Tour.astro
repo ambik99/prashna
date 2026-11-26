@@ -1,0 +1,95 @@
+---
+// The product tour: four steps with real screenshots, advancing on their own
+// until paused (landing.ts).
+import Swirl from "./Swirl.astro";
+import { reveal, sheetShadow } from "../ui.ts";
+
+const slide = "tour-slide absolute inset-0 grid place-items-center py-[7%] px-[10%] max-sm:py-[8%] max-sm:px-[6%] [&.is-active]:animate-fade-in";
+const shotImg = "w-full h-full object-cover object-top";
+const phoneFrame = "h-full aspect-[390/844] p-6 rounded-[30px] bg-frame shadow-[0_18px_40px_-12px_rgba(0,0,0,0.45)]";
+const phoneImg = "h-full w-full object-cover object-top rounded-[24px] bg-white";
+const roundButton =
+  "absolute z-2 border-0 rounded-[999px] shadow-float cursor-pointer text-on-white [&_svg]:shrink-0";
+const arrow = `tour-arrow ${roundButton} top-1/2 [translate:0_-50%] grid place-items-center w-40 h-40 max-sm:w-34 max-sm:h-34 bg-[rgba(255,255,255,0.92)] hover:bg-white active:scale-94 [transition:transform_120ms_ease-out,background-color_150ms_ease-out] [&_svg]:w-16 [&_svg]:h-16`;
+const thumb =
+  "tour-thumb flex-[0_0_auto] w-136 h-85 max-sm:w-104 max-sm:h-66 p-0 border-0 rounded-[6px] overflow-hidden bg-white shadow-float cursor-pointer opacity-85 [transition:opacity_150ms_ease-out,transform_120ms_ease-out] hover:opacity-100 active:scale-97 aria-selected:opacity-100 aria-selected:outline-[1.6px] aria-selected:outline-solid aria-selected:outline-ring aria-selected:outline-offset-3";
+---
+
+<section
+  class:list={[reveal, "mt-64 mx-auto w-[min(960px,calc(100%-48px))] max-sm:w-[calc(100%-32px)]"]}
+  style="--delay:.25s"
+  aria-label="Prashna product tour"
+  aria-roledescription="carousel"
+>
+  <div
+    class="relative aspect-[16/10] max-sm:aspect-[4/5] rounded-[12px] overflow-hidden isolate shadow-[0_1px_2px_rgba(0,0,0,0.06),0_24px_48px_-16px_rgba(0,0,0,0.18)]"
+  >
+    <Swirl />
+    <div class:list={[slide, "is-active"]} role="tabpanel" id="slide-0" aria-label="Set up">
+      <div
+        class="h-full aspect-[1280/800] max-sm:h-auto max-sm:w-[160%] max-sm:max-w-none rounded-[8px] overflow-hidden bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_18px_40px_-12px_rgba(0,0,0,0.35)]"
+      >
+        <img
+          class={shotImg}
+          src="images/app-desktop-1280.webp"
+          srcset="images/app-desktop-1280.webp 1280w, images/app-desktop-2160.webp 2160w"
+          sizes="(min-width: 1000px) 760px, 140vw"
+          width="1280"
+          height="800"
+          alt="Prashna on a computer: the Paper Details beside the live A4 Paper preview"
+        />
+      </div>
+    </div>
+    <div class={slide} role="tabpanel" id="slide-1" aria-label="Add questions" hidden>
+      <div class={phoneFrame}>
+        <img
+          class={phoneImg}
+          src="images/phone-edit-780.webp"
+          width="390"
+          height="844"
+          alt="Prashna on a phone: editing a Question, a multiple choice Question being typed"
+          loading="lazy"
+        />
+      </div>
+    </div>
+    <div class={slide} role="tabpanel" id="slide-2" aria-label="Preview" hidden>
+      <div class="flex gap-[6%] h-full justify-center">
+        <div class={phoneFrame}>
+          <img class={phoneImg} src="images/phone-preview-780.webp" width="390" height="844" alt="Prashna on a phone: the Paper preview" loading="lazy" />
+        </div>
+      </div>
+    </div>
+    <div class={slide} role="tabpanel" id="slide-3" aria-label="Print" hidden>
+      <div class:list={["h-full aspect-[560/792] bg-white rounded-[3px]", sheetShadow]}>
+        <img
+          class={shotImg}
+          src="images/paper-a4-1120.webp"
+          width="560"
+          height="792"
+          alt="The printed Paper: a Class 10 Science Pre-Board Paper with Sections A to E"
+          loading="lazy"
+        />
+      </div>
+    </div>
+    <button type="button" class:list={[arrow, "tour-prev left-16 max-sm:left-8"]} aria-label="Previous step"><svg><use href="#i-left"></use></svg></button>
+    <button type="button" class:list={[arrow, "tour-next right-16 max-sm:right-8"]} aria-label="Next step"><svg><use href="#i-right"></use></svg></button>
+    <button
+      type="button"
+      class:list={[
+        "tour-play",
+        roundButton,
+        "right-16 bottom-16 inline-flex items-center gap-8 h-40 pr-18 pl-16 bg-[rgba(255,255,255,0.95)] text-[13px] font-[500] [&_svg]:w-12 [&_svg]:h-12",
+      ]}
+      aria-label="Pause tour"><svg><use href="#i-pause"></use></svg><span>Pause</span></button
+    >
+  </div>
+  <p class="tour-caption mt-32 text-center text-[16px] text-muted min-h-26 [&_strong]:text-fg [&_strong]:font-[500] [&.is-new]:animate-caption" aria-live="polite">
+    <strong>Set up</strong> Enter the school, examination, class and subject, or start from a Template.
+  </p>
+  <div class="mt-28 mx-auto flex justify-center max-sm:justify-start gap-20 max-sm:gap-12 overflow-x-auto p-4 [scrollbar-width:none]" role="tablist" aria-label="How it works">
+    <button type="button" class={thumb} role="tab" aria-selected="true" aria-controls="slide-0" aria-label="Set up"><img class={shotImg} src="images/app-desktop-1280.webp" alt="" /></button>
+    <button type="button" class={thumb} role="tab" aria-selected="false" aria-controls="slide-1" aria-label="Add questions"><img class="w-full h-full object-cover object-[50%_30%]" src="images/phone-edit-390.webp" alt="" loading="lazy" /></button>
+    <button type="button" class={thumb} role="tab" aria-selected="false" aria-controls="slide-2" aria-label="Preview"><img class="w-full h-full object-cover object-[50%_30%]" src="images/phone-preview-390.webp" alt="" loading="lazy" /></button>
+    <button type="button" class={thumb} role="tab" aria-selected="false" aria-controls="slide-3" aria-label="Print"><img class={shotImg} src="images/paper-a4-560.webp" alt="" loading="lazy" /></button>
+  </div>
+</section>

@@ -1,0 +1,44 @@
+---
+// The maker's quote, then the questions teachers ask.
+import { contentWidth, quoteCard, reveal, sectionHead, sectionTitle } from "../ui.ts";
+
+const FAQ = [
+  {
+    q: "How do I install Prashna on an iPhone?",
+    a: "Open this page in Safari, tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. Get the App shows you the two steps.",
+  },
+  { q: "Is it free?", a: "Yes. Prashna is free, with no sign-up and nothing to pay." },
+  {
+    q: "Is Prashna an official CBSE app?",
+    a: "No. Prashna is made by a teacher and is not affiliated with CBSE. It follows the Section pattern CBSE Papers use.",
+  },
+];
+const delays = ["", ".06s", ".12s"];
+---
+
+<section class:list={[contentWidth, "pt-140"]} id="maker" aria-labelledby="maker-title">
+  <div class={sectionHead}><h2 id="maker-title" class:list={[sectionTitle, reveal]}>Made by a teacher</h2></div>
+  <div class="mt-56 mx-auto grid grid-cols-1 gap-8 w-[min(560px,100%)]">
+    <figure class:list={[reveal, quoteCard]}>
+      <blockquote class="text-[15px] leading-[22px] text-fg-90">“Stay hungry, stay foolish.”</blockquote>
+      <figcaption class="flex items-center gap-12 [&_p]:text-[14px] [&_p]:font-[500] [&_p]:leading-[20px] [&_p+p]:font-[400] [&_p+p]:text-muted">
+        <img class="w-32 h-32 rounded-[999px]" src="app/icon-192.png" alt="" />
+        <div><p>Ambik Mojumder</p><p>Computer Science Faculty, Caesar School</p></div>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class:list={[sectionHead, "mt-120"]} id="faq"><h2 class:list={[sectionTitle, reveal]}>Questions teachers ask</h2></div>
+  <div class="mt-56 mx-auto grid grid-cols-3 max-md:grid-cols-1 gap-8 w-[min(832px,100%)]">
+    {
+      FAQ.map(({ q, a }, i) => (
+        <div class:list={[reveal, quoteCard]} style={delays[i] ? `--delay:${delays[i]}` : undefined}>
+          <div>
+            <p class="text-[15px] font-[500] text-fg">{q}</p>
+            <p class="mt-8 text-[14px] leading-[21px] text-muted [&_strong]:text-fg-90 [&_strong]:font-[500]" set:html={a} />
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

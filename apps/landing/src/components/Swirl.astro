@@ -1,0 +1,21 @@
+---
+// The colourful swirl behind the screenshots, with a fine grain over it.
+interface Props {
+  alt?: boolean;
+}
+const { alt = false } = Astro.props;
+const gradient = alt
+  ? "before:bg-[repeating-conic-gradient(from_190deg_at_50%_0%,#e7d35a_0deg_6deg,#5fb0f2_10deg_15deg,#f4a487_19deg_23deg,#4fc28f_27deg_30deg,#e7d35a_34deg_40deg)]"
+  : "before:bg-[repeating-conic-gradient(from_8deg_at_50%_6%,#f29bb0_0deg_7deg,#67b5f1_11deg_17deg,#e5cc58_21deg_25deg,#f29bb0_29deg_36deg)]";
+---
+
+<div
+  class:list={[
+    "absolute inset-0 -z-1 overflow-hidden bg-[#f39fb2]",
+    "before:absolute before:-inset-[20%] before:[filter:blur(22px)_saturate(1.1)]",
+    gradient,
+    "after:absolute after:inset-0 after:opacity-35 after:mix-blend-overlay after:bg-(image:--swirl-noise)",
+  ]}
+  aria-hidden="true"
+>
+</div>

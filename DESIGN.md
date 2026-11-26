@@ -285,7 +285,7 @@ The app's live A4 preview: a white sheet with literal print colours that stays w
 
 ## Landing Page
 
-The maker chose to model the Landing Page (www/index.html, www/landing.css, www/landing.js) on Resurf's product site, with Prashna's own content. Its values live in landing.css, separate from tokens.css.
+The maker chose to model the Landing Page (`apps/landing`, Astro + Tailwind) on Resurf's product site, with Prashna's own content. Its palette is the `--landing-*` group in tokens.css, kept apart from the app's values; the page's Tailwind theme (`apps/landing/src/styles.css`) reads it.
 
 - **Colour:** near-black ink (oklch 0.2) on a cool #f8f8f8 ground; secondary text oklch 0.55; surfaces are the ink at 3% to 8% opacity rather than solid fills. Dark mode turns to light ink on #111214 with white-at-4% to 11% surfaces. The only colour comes from the screenshots and the pastel swirl behind them; screenshots and the small Paper sheets stay white.
 - **Type:** Newsreader at weight 300 for headings (hero 45px, sections 40px, tracking -0.025em to -0.035em); Inter 500 for card titles (16px) and 400 for copy (14px to 16px).

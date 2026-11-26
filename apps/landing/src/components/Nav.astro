@@ -1,0 +1,30 @@
+---
+import Button from "./Button.astro";
+
+const link = "text-[13px] font-[500] text-fg-70 transition-colors duration-150 ease-[ease-out] hover:text-fg";
+---
+
+<header
+  class="fixed inset-x-0 top-0 z-50 h-60 grid grid-cols-[1fr_auto_1fr] items-center px-24 max-sm:grid-cols-[1fr_auto] max-sm:px-16"
+>
+  {/* Progressive blur under the bar */}
+  <div
+    class="absolute inset-x-0 top-0 -bottom-24 -z-1 pointer-events-none bg-[linear-gradient(var(--color-page)_0%,color-mix(in_oklab,var(--color-page)_70%,transparent)_55%,transparent)] backdrop-blur-[6px] [mask:linear-gradient(#000_40%,transparent)] [-webkit-mask:linear-gradient(#000_40%,transparent)]"
+    aria-hidden="true"
+  >
+  </div>
+  <a class="justify-self-start inline-flex items-center gap-8 font-[600] text-[15px]" href="#top" aria-label="Prashna home"
+    ><img class="w-22 h-22 rounded-[6px]" src="app/icon-192.png" alt="" />Prashna</a
+  >
+  <nav class="flex gap-28 max-sm:hidden" aria-label="Sections">
+    <a class={link} href="#features">Features</a>
+    <a class={link} href="#output">Print &amp; Word</a>
+    <a class={link} href="#devices">Privacy</a>
+    <a class={link} href="#faq">FAQ</a>
+  </nav>
+  <div class="justify-self-end flex items-center gap-6">
+    {/* app/theme.js turns this into the light and dark theme toggle */}
+    <button type="button" data-theme-toggle></button>
+    <Button variant="dark" small getApp>Get the App</Button>
+  </div>
+</header>

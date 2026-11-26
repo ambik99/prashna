@@ -1,0 +1,50 @@
+---
+// Classes and subjects drifting past in two rows (each row repeats once so
+// the drift loops seamlessly).
+import { reveal } from "../ui.ts";
+
+const SUBJECTS = [
+  ["flask", "Science"],
+  ["sigma", "Mathematics"],
+  ["globe", "Social Science"],
+  ["abc", "English"],
+  ["book", "Hindi"],
+  ["code", "Computer Science"],
+];
+const CLASSES = [
+  ["cap", "Nursery"],
+  ["cap", "Class 5"],
+  ["cap", "Class 8"],
+  ["cap", "Class 10"],
+  ["cap", "Class 12"],
+  ["book", "Bengali"],
+];
+const row = "flex gap-12 w-max animate-drift group-hover:[animation-play-state:paused]! motion-reduce:animate-none";
+const format =
+  "flex-[0_0_auto] w-150 h-100 p-14 rounded-[12px] bg-format shadow-[inset_0_0_0_1px_var(--color-tint-5)] flex flex-col justify-between text-left text-[14px] font-[500] text-fg-90 [&_svg]:w-18 [&_svg]:h-18 [&_svg]:opacity-55";
+---
+
+<section class="pt-140 text-center" aria-label="Classes and subjects">
+  <p class:list={[reveal, "max-w-[340px] mx-auto text-[16px] leading-[24px] text-muted"]}>
+    Nursery to Class 12, any subject. Every Paper prints the same way.
+  </p>
+  <div
+    class:list={[
+      reveal,
+      "group mt-40 mx-auto w-[min(960px,100%)] grid gap-12 overflow-hidden [mask:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [-webkit-mask:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]",
+    ]}
+    style="--delay:.05s"
+    aria-hidden="true"
+  >
+    <div class={row}>
+      {[...SUBJECTS, ...SUBJECTS].map(([icon, name]) => (
+        <span class={format}><svg><use href={`#i-${icon}`}></use></svg>{name}</span>
+      ))}
+    </div>
+    <div class:list={[row, "[animation-direction:reverse]! -ml-80"]}>
+      {[...CLASSES, ...CLASSES].map(([icon, name]) => (
+        <span class={format}><svg><use href={`#i-${icon}`}></use></svg>{name}</span>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+---
+// The page's buttons: dark (the main action) or light, full size or small.
+// With getApp it is a Get the App button (app/get-app.js gives it its
+// behaviour); otherwise it is a link to href.
+interface Props {
+  variant: "dark" | "light";
+  small?: boolean;
+  /** Full width on phones, as in the hero and closing actions. */
+  wide?: boolean;
+  getApp?: boolean;
+  href?: string;
+}
+const { variant, small = false, wide = false, getApp = false, href } = Astro.props;
+
+const classes = [
+  "inline-flex items-center justify-center gap-8 border-0 font-[500] cursor-pointer whitespace-nowrap",
+  "[transition:background-color_150ms_ease-out,transform_120ms_ease-out] active:scale-97",
+  "[&_svg]:w-15 [&_svg]:h-15 [&_svg]:shrink-0",
+  small ? "h-30 px-12 text-[13px] rounded-[7px]" : "h-40 text-[14px] rounded-[8px]",
+  !small && (variant === "dark" ? "pl-18 pr-20" : "px-20"),
+  variant === "dark" ? "bg-fg text-on-fg hover:bg-fg-hover" : "bg-tint-5 text-fg-90 hover:bg-tint-8",
+  wide && "max-sm:flex-[1_1_100%] max-sm:h-46",
+];
+---
+
+{
+  getApp ? (
+    <button type="button" class:list={classes} data-get-app data-open-app="app/">
+      <slot />
+    </button>
+  ) : (
+    <a class:list={classes} href={href}>
+      <slot />
+    </a>
+  )
+}

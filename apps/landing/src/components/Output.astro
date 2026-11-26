@@ -1,0 +1,68 @@
+---
+import Swirl from "./Swirl.astro";
+import { contentWidth, reveal, sectionHead, sectionSub, sectionTitle, sheetShadow } from "../ui.ts";
+
+const bigCard = "rounded-[16px] bg-tint-4 overflow-hidden";
+const bigArt = "relative h-460 max-sm:h-380 isolate grid place-items-center p-40 max-sm:p-24 overflow-hidden";
+const bigBody = "pt-20 px-20 pb-24 [&_h3]:flex [&_h3]:gap-8 [&_h3]:items-center [&_h3]:text-[16px] [&_h3]:font-[500] [&_h3]:text-fg-90 [&_p]:mt-6 [&_p]:text-[14px] [&_p]:text-muted";
+const row =
+  "mt-8 px-12 py-10 rounded-[9px] bg-raised shadow-chip flex items-center justify-between gap-8 text-[12px] font-[500] [&_small]:block [&_small]:mt-2 [&_small]:text-[10.5px] [&_small]:font-[400] [&_small]:text-muted";
+const included = "px-8 py-2 rounded-[999px] bg-ok text-on-ok text-[10.5px]";
+---
+
+<section class:list={[contentWidth, "pt-160 max-sm:pt-112"]} id="output" aria-labelledby="output-title">
+  <div class={sectionHead}>
+    <h2 id="output-title" class:list={[sectionTitle, reveal]}>Print it, or take it to Word.</h2>
+    <p class:list={[sectionSub, reveal]} style="--delay:.05s">What you see is what prints. The Marking Scheme prints on its own.</p>
+  </div>
+  <div class="mt-56 grid grid-cols-2 max-md:grid-cols-1 gap-8">
+    <article class:list={[reveal, bigCard]}>
+      <div class={bigArt}>
+        <Swirl />
+        <div class:list={["w-[62%] mt-90 bg-white rounded-[3px]", sheetShadow]}>
+          <img
+            src="images/paper-a4-560.webp"
+            srcset="images/paper-a4-560.webp 560w, images/paper-a4-1120.webp 1120w"
+            sizes="300px"
+            width="560"
+            height="792"
+            loading="lazy"
+            alt="The printed A4 Paper with its school header, General Instructions and Section A"
+          />
+        </div>
+      </div>
+      <div class={bigBody}>
+        <h3>Print or save as PDF</h3>
+        <p>A4, laid out like a Board Paper, with or without the Marking Scheme.</p>
+      </div>
+    </article>
+    <article class:list={[reveal, bigCard]} style="--delay:.08s">
+      <div class={bigArt}>
+        <Swirl alt />
+        <div class:list={["w-full max-w-[340px] p-14 rounded-[12px] bg-panel", sheetShadow]} aria-hidden="true">
+          <div class="flex items-center justify-between text-[12px] font-[500]">
+            Export Word (.doc) <span class="text-[11px] text-muted font-[400]">Class 10 — Science</span>
+          </div>
+          <div class={row}>
+            <span>Paper Details<small>School, examination, time, instructions</small></span><span class={included}>Included</span>
+          </div>
+          <div class={row}>
+            <span>Sections A to E<small>6 Questions · 16 marks</small></span><span class={included}>Included</span>
+          </div>
+          <div class={row}>
+            <span>Alternative Questions<small>Printed with “OR”</small></span><span class={included}>Included</span>
+          </div>
+          <div class={row}>
+            <span>Marking Scheme<small>When it is showing</small></span><span
+              class="relative w-34 h-20 shrink-0 rounded-[999px] bg-ring after:absolute after:right-2 after:top-2 after:w-16 after:h-16 after:rounded-[999px] after:bg-white"
+            ></span>
+          </div>
+        </div>
+      </div>
+      <div class={bigBody}>
+        <h3>Export to Word</h3>
+        <p>A .doc file you can edit, with the same Paper typography.</p>
+      </div>
+    </article>
+  </div>
+</section>
