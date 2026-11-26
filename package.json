@@ -3,12 +3,29 @@
   "version": "10.0.0",
   "description": "Question papers for CBSE teachers",
   "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/app",
+    "apps/landing",
+    "packages/paper",
+    "worker"
+  ],
   "scripts": {
+    "build": "npm run build -w apps/app -w apps/landing && node scripts/assemble.mjs",
+    "typecheck": "tsc -p packages/paper && tsc -p worker && tsc -p apps/app",
     "serve": "node scripts/serve.mjs",
-    "test": "playwright test",
+    "dev": "wrangler dev",
+    "test": "npm run build && npm run typecheck && npm run test:unit && npm run test:browser",
+    "test:unit": "vitest run",
+    "test:browser": "playwright test",
     "test:install-browsers": "playwright install chromium"
   },
   "devDependencies": {
-    "@playwright/test": "^1.65.1"
+    "@cloudflare/workers-types": "^5.20261125.1",
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^26.6.11",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.2",
+    "wrangler": "^4.168.0"
   }
 }

@@ -1,0 +1,9 @@
+{
+  "name": "@prashna/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@prashna/paper": "^0.0.0"
+  }
+}

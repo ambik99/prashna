@@ -17,7 +17,7 @@ Then:
 npm test
 ```
 
-`npm test` starts a local server automatically. To look at the site yourself, run `npm run serve` and open http://localhost:4173/ for the Landing Page, or http://localhost:4173/app/ for the app.
+`npm test` builds the site into `dist/`, type-checks, runs the unit tests (Vitest), then runs these browser tests against `dist/` with a local server it starts automatically. To run only the browser tests against the last build, use `npm run test:browser`. To look at the site yourself, run `npm run build` and `npm run serve`, then open http://localhost:4173/ for the Landing Page, or http://localhost:4173/app/ for the app. See `docs/development.md` for the project layout.
 
 ## Writing tests
 

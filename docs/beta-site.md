@@ -5,7 +5,7 @@ The live site is on Cloudflare at https://prashna.ambik99.workers.dev/ (app at `
 - Landing Page: https://ambik99.github.io/prashna/
 - App: https://ambik99.github.io/prashna/app/
 
-Every push to `main` publishes the `www` folder through `.github/workflows/beta-site.yml`. The repo's Actions tab shows each publish. The app's Update Notice appears on open copies after a publish (see #15).
+Every push to `main` builds the site and publishes `dist/` through `.github/workflows/beta-site.yml`. The beta site has no Worker, so `/api/*` (AI Generated Papers) works only on Cloudflare. The repo's Actions tab shows each publish. The app's Update Notice appears on open copies after a publish (see #15).
 
 ## Owner's one-time setup
 
@@ -21,4 +21,4 @@ Browsers keep an installed app and its saved work (the current Paper and the Que
 
 ## Sub-folder
 
-GitHub Pages serves the site from `/prashna/`, not from the root, so every link in `www` must be relative (`app/`, `./`), never `/app/`. The browser tests check this: `tests/sub-folder.spec.mjs` runs against the site served from `/prashna/` (`node scripts/serve.mjs 4174 /prashna/`).
+GitHub Pages serves the site from `/prashna/`, not from the root, so every link in the built site must be relative (`app/`, `./`), never `/app/`. The browser tests check this: `tests/sub-folder.spec.mjs` runs against the site served from `/prashna/` (`node scripts/serve.mjs 4174 /prashna/`).

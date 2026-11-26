@@ -9,3 +9,9 @@ playwright-report/
 .impeccable/hook.cache.json
 .impeccable/questions/
 .impeccable/review/
+
+# Builds
+dist/
+apps/*/dist/
+apps/landing/.astro/
+.wrangler/
