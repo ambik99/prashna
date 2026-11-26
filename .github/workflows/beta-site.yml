@@ -1,5 +1,6 @@
 # Publishes the beta site to GitHub Pages (https://ambik99.github.io/prashna/)
-# on every push to main. The site is the www folder as it is: no build step.
+# on every push to main. It publishes the built site (dist/, see
+# scripts/assemble.mjs). The Worker's /api/* routes exist only on Cloudflare.
 # See docs/beta-site.md for the owner's one-time setup.
 
 name: Beta site
@@ -27,9 +28,15 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: www
+          path: dist
       - id: deployment
         uses: actions/deploy-pages@v4

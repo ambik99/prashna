@@ -1,13 +1,23 @@
-// Cloudflare serves the www folder as it is: no build step and no Worker code.
-// Folder URLs open their index.html, and /app/index.html redirects to /app/
-// (sw.js handles that redirect). Every pull request gets a preview link.
+// Cloudflare serves the built site in dist/ (put together by
+// `npm run build`, see scripts/assemble.mjs). Folder URLs open their
+// index.html, and /app/index.html redirects to /app/ (sw.js handles that
+// redirect). Only /api/* runs the Worker (worker/src/index.ts). Every pull
+// request gets a preview link.
 {
   "name": "prashna",
+  "main": "./worker/src/index.ts",
   "compatibility_date": "2026-11-01",
+  // Wrangler runs this before `deploy`, `preview` and `dev`.
+  "build": {
+    "command": "npm run build",
+    "watch_dir": ["apps/app/src", "apps/landing/src", "packages/paper/src", "www"]
+  },
   "assets": {
-    "directory": "./www",
+    "directory": "./dist",
+    "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "none"
+    "not_found_handling": "none",
+    "run_worker_first": ["/api/*"]
   },
   // Needed by `wrangler preview`, which Cloudflare runs for pull requests.
   "previews": {}

@@ -11,7 +11,7 @@ import { readFile, stat } from "node:fs/promises";
 import { extname, join, normalize, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const SITE_ROOT = resolve(fileURLToPath(new URL("../www", import.meta.url)));
+const SITE_ROOT = resolve(fileURLToPath(new URL("../dist", import.meta.url)));
 const PORT = Number(process.argv[2] || process.env.PORT || 4173);
 const BASE = `/${process.argv[3] || ""}/`.replace(/\/+/g, "/");
 

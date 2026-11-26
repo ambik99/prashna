@@ -1,0 +1,15 @@
+{
+  "name": "@prashna/landing",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^7.4.13",
+    "tailwindcss": "^4.3.5"
+  }
+}
