@@ -1,17 +1,17 @@
 # Development
 
-Prashna is moving from plain files in `www/` to Vite + React + TypeScript for the app and Astro + Tailwind for the Landing Page (spec #45, `docs/adr/`). During the move both live in the repo.
+The app is built with Vite + React + TypeScript. The Landing Page is moving from plain files in `www/` to Astro + Tailwind (spec #45, `docs/adr/`); until then both versions live in the repo.
 
 ## Layout
 
 | Folder | What it is |
 |---|---|
-| `www/` | The current Landing Page and app, served as they are until their new versions replace them. |
-| `apps/app/` | The app in Vite + React + TypeScript (`@prashna/app`). Replaces `www/app/` in #48. |
+| `www/` | The current Landing Page, served as it is until the Astro version replaces it (#50). It loads shared files from `app/` (theme, Get the App, fonts, icons). |
+| `apps/app/` | The app in Vite + React + TypeScript (`@prashna/app`), served at `/app/`. `public/` holds files served as they are at `/app/`, including those the Landing Page shares (`theme.js`, `get-app.js`, `tokens.css`, fonts, icons) and `paper.css`, which the Word export reads. `src/sw.ts` is the offline copy, built to `sw.js` with the list of built files written in. |
 | `apps/landing/` | The Landing Page in Astro + Tailwind (`@prashna/landing`). Replaces the rest of `www/` in #50. |
 | `packages/paper/` | The Paper schema (Zod) shared by the app and the Worker (`@prashna/paper`). `parsePaper` opens Papers from any earlier version. |
 | `worker/` | The Cloudflare Worker. It answers `/api/*`; Cloudflare serves everything else from `dist/`. |
-| `scripts/assemble.mjs` | Puts the served site together in `dist/`: the Landing Page at the root and the app at `app/`. Its `SOURCES` setting says whether each part comes from `www/` or from its new build. |
+| `scripts/assemble.mjs` | Puts the served site together in `dist/`: the Landing Page at the root and the app at `app/`. Its `LANDING` setting says whether the Landing Page comes from `www/` or from the Astro build. |
 
 ## Commands
 

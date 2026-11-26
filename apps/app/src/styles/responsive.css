@@ -1,0 +1,146 @@
+/* Touch inputs, the desktop layout and narrow screens, plus Quick Insert and the .hidden helper. Part of the app's styles: index.css imports these in order, so the cascade is the old styles.css's. */
+
+/* Inputs never below 16px on touch screens, so iOS never zooms the page */
+@media (pointer: coarse) {
+  input[type="text"],
+  input[type="search"],
+  input[type="url"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Desktop: a fixed top bar and marks summary, with the editor and the
+   preview scrolling side by side underneath. */
+@media (min-width: 881px) {
+  body {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+  }
+  .app-header {
+    flex: none;
+    flex-wrap: nowrap;
+    max-width: none;
+    margin: 0;
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .summary-bar {
+    flex: none;
+    max-width: none;
+    margin: var(--space-4) var(--space-6) 0;
+    padding: var(--space-2) var(--space-4);
+  }
+  .layout {
+    flex: 1;
+    min-height: 0;
+    max-width: none;
+    margin: 0;
+    padding: var(--space-4) var(--space-6) 0;
+    grid-template-columns: minmax(340px, 400px) 1fr;
+    align-items: stretch;
+  }
+  .editor-panel {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    margin-bottom: var(--space-6);
+  }
+  .preview-pane {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: var(--space-6);
+  }
+}
+
+/* Phones: three-across rows become two across, the third field below */
+@media (max-width: 600px) {
+  .field-row-3,
+  .field-row-placement {
+    grid-template-columns: 1fr 1fr;
+  }
+  .field-row-3 > :nth-child(3) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 380px) {
+  .field-row,
+  .field-row-3,
+  .section-row-fields,
+  .mcq-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.helper-tabs {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.helper-tab-btn {
+  flex: 1;
+  min-width: 64px;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  background: var(--color-surface-muted);
+  border-color: var(--color-border);
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+}
+
+.helper-tab-btn.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-bottom: var(--space-2);
+}
+
+.sym-chip {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  min-height: 32px;
+}
+
+.translit-row {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.translit-preview {
+  font-family: var(--font-paper);
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-md);
+  min-height: 2rem;
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.hidden {
+  display: none !important;
+}

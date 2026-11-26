@@ -15,7 +15,7 @@ import { chromium } from "@playwright/test";
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
-const APP = fileURLToPath(new URL("../www/app/", import.meta.url));
+const APP = fileURLToPath(new URL("../apps/app/public/", import.meta.url));
 const INK_NAVY = "#1e2a4a"; // --color-accent in tokens.css
 
 const ICONS = [
@@ -76,6 +76,6 @@ await page.evaluate(async (url) => {
 for (const { file, size, kind } of ICONS) {
   const png = await page.evaluate(drawIcon, { size, navy: INK_NAVY, ...KINDS[kind] });
   await writeFile(`${APP}${file}`, Buffer.from(png.split(",")[1], "base64"));
-  console.log(`Saved www/app/${file}`);
+  console.log(`Saved apps/app/public/${file}`);
 }
 await browser.close();

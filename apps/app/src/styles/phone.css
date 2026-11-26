@@ -1,0 +1,266 @@
+/* Phones and small tablets: one view at a time, the bottom tab bar and bottom sheets. Part of the app's styles: index.css imports these in order, so the cascade is the old styles.css's. */
+
+/* Phone and small tablet: top bar, one view at a time, bottom tab bar,
+   actions in bottom sheets */
+@media (max-width: 880px) {
+  :root {
+    --tab-bar-height: 58px;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  body {
+    min-height: 100dvh;
+    padding: 0 0 calc(var(--tab-bar-height) + var(--safe-bottom) + var(--space-4));
+  }
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-wrap: nowrap;
+    max-width: none;
+    margin: 0;
+    padding: calc(var(--safe-top) + var(--space-2)) max(var(--space-4), env(safe-area-inset-right, 0px)) var(--space-2) max(var(--space-4), env(safe-area-inset-left, 0px));
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+  h1 {
+    font-size: var(--text-lg);
+  }
+  .title-sep,
+  .save-status {
+    display: none;
+  }
+  .paper-title {
+    font-size: var(--text-sm);
+  }
+  /* Print and Export move into the More sheet; the Bank is a tab */
+  #bankToggleBtn {
+    display: none;
+  }
+  .more-btn {
+    min-height: 40px;
+  }
+  /* While a sheet is open the top bar (which holds it) sits above the tab bar */
+  body.sheet-open .app-header {
+    z-index: 500;
+  }
+  .template-select,
+  .target-select {
+    font-size: 16px;
+  }
+  .summary-bar {
+    margin: var(--space-3);
+    padding: var(--space-3);
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-2);
+  }
+  .summary-left {
+    justify-content: space-between;
+  }
+  /* One row of pills that scrolls sideways inside the bar, not the page */
+  .summary-pills {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    margin: 0 calc(-1 * var(--space-3));
+    padding: 0 var(--space-3);
+    scroll-padding: 0 var(--space-3);
+  }
+  .summary-pills::-webkit-scrollbar {
+    display: none;
+  }
+  .pill {
+    flex: none;
+    white-space: nowrap;
+  }
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 0 var(--space-3);
+    gap: 0;
+  }
+  .layout.mobile-view-editor .preview-pane {
+    display: none;
+  }
+  .layout.mobile-view-preview .editor-panel {
+    display: none;
+  }
+  .step-toggle {
+    padding: var(--space-3) var(--space-4);
+    min-height: 48px;
+  }
+  /* Keep a step's heading clear of the sticky top bar when scrolled to */
+  .step-heading {
+    scroll-margin-top: calc(var(--safe-top) + 64px);
+  }
+  .more-primary + .more-group {
+    border-top: 1px solid var(--color-border);
+  }
+  .step-body {
+    padding: 0 var(--space-4) var(--space-4);
+  }
+  input[type="text"],
+  input[type="search"],
+  input[type="url"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px;
+    min-height: 44px;
+  }
+  .paper-sheet {
+    padding: 1.15rem 0.9rem;
+    font-size: 10.5pt;
+  }
+  .paper-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+  .question-item {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .question-actions {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+  .question-actions button {
+    min-height: 36px;
+    min-width: 36px;
+  }
+
+  /* Bottom tab bar: Edit · Preview · Bank */
+  .tab-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 350;
+    height: calc(var(--tab-bar-height) + var(--safe-bottom));
+    padding: 0 env(safe-area-inset-right, 0px) var(--safe-bottom) env(safe-area-inset-left, 0px);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+  }
+  .tab-bar-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: var(--space-1) 0;
+    background: transparent;
+    border-radius: 0;
+    color: var(--color-text-subtle);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+  }
+  .tab-bar-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+  .tab-bar-btn[aria-selected="true"] {
+    color: var(--color-accent);
+  }
+  .tab-bar-btn:active:not(:disabled) {
+    transform: none;
+    background: var(--color-surface-muted);
+  }
+
+  /* The More menu becomes a bottom sheet */
+  .sheet-backdrop:not([hidden]) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 390;
+    background: var(--color-overlay);
+    animation: fade-in 200ms var(--ease-out);
+  }
+  .more-menu {
+    position: fixed;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 400;
+    width: auto;
+    max-height: 85dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--space-2) var(--space-4) calc(var(--space-4) + var(--safe-bottom));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-bottom: 0;
+    animation: sheet-in 280ms var(--ease-out);
+  }
+  .more-menu::before {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 5px;
+    margin: 0 auto var(--space-2);
+    border-radius: var(--radius-pill);
+    background: var(--color-border-strong);
+    opacity: 0.6;
+  }
+  .more-primary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+    padding-top: 0;
+  }
+  .more-primary button {
+    min-height: 48px;
+  }
+  .more-item {
+    min-height: 48px;
+    font-size: var(--text-md);
+  }
+
+  /* The Question Bank fills the screen above the tab bar */
+  .bank-panel {
+    top: 0;
+    bottom: calc(var(--tab-bar-height) + var(--safe-bottom));
+    width: 100%;
+    border-left: 0;
+    box-shadow: none;
+    padding-top: var(--safe-top);
+    animation: fade-in 180ms var(--ease-out);
+  }
+  .bank-close {
+    display: none;
+  }
+
+  /* Confirmations rise from the bottom, within thumb reach */
+  .confirm-dialog {
+    margin: auto 0 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-bottom: 0;
+    padding-bottom: calc(var(--space-5) + var(--safe-bottom));
+  }
+  .confirm-dialog[open] {
+    animation: sheet-in 280ms var(--ease-out);
+  }
+  .confirm-actions button {
+    flex: 1;
+    min-height: 48px;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}

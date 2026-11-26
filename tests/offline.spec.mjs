@@ -3,10 +3,11 @@ import { readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { TEMPLATES, addQuestion, loadTemplate, moreMenuButton, preview, readManifest, waitForOfflineCopy } from "./helpers.mjs";
 
-// Every file the app is made of, as URLs under /app/. The service worker
-// script itself is left out: the browser always checks it on the network.
+// Every file the built app is made of (dist/app/, from `npm run build`), as
+// URLs under /app/. The service worker script itself is left out: the
+// browser always checks it on the network.
 async function appFiles() {
-  const root = fileURLToPath(new URL("../www/app/", import.meta.url));
+  const root = fileURLToPath(new URL("../dist/app/", import.meta.url));
   const entries = await readdir(root, { recursive: true, withFileTypes: true });
   return entries
     .filter((entry) => entry.isFile() && entry.name !== "sw.js")

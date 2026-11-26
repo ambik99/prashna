@@ -1,0 +1,82 @@
+/* The Paper preview around paper.css. Part of the app's styles: index.css imports these in order, so the cascade is the old styles.css's. */
+
+/* The Paper's typography lives in paper.css (shared with print and Word).
+   Here: only how the preview sheet sits in the app. Always light: see
+   .theme-light in tokens.css. */
+.paper-sheet {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 2rem 2.25rem;
+  box-shadow: var(--shadow-md);
+}
+
+.question-item.editing-highlight {
+  background: var(--color-accent-soft);
+  border-radius: var(--radius-sm);
+  padding: 5pt 6pt;
+  margin: 0 -6pt;
+}
+
+.question-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-ui);
+}
+
+.question-actions .question-marks {
+  margin-right: var(--space-1);
+}
+
+.empty-state {
+  text-align: center;
+  color: #4b5563;
+  font-style: italic;
+  padding: 2rem 1rem;
+}
+
+.division-badge {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: var(--weight-semibold);
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--radius-sm);
+  margin-left: 0.4rem;
+}
+
+.fetch-box {
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.fetch-status {
+  font-size: var(--text-xs);
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.panel,
+.paper-sheet {
+  min-width: 0;
+}
+
+.tab-bar,
+.sheet-backdrop,
+.more-primary {
+  display: none;
+}

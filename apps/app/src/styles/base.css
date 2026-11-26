@@ -1,0 +1,110 @@
+/* Page basics, keyboard focus and the theme toggle's place in the top bar. Part of the app's styles: index.css imports these in order, so the cascade is the old styles.css's. */
+
+/* App styles. All values come from tokens.css. */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* No grey flash on tap: every control has its own :active feedback */
+  -webkit-tap-highlight-color: transparent;
+  /* An app, not a document: no rubber-band or pull-to-refresh on the page */
+  overscroll-behavior: none;
+}
+
+/* The React root adds no box: the page's parts lay out as children of body. */
+#root {
+  display: contents;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  padding: var(--space-6);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Keyboard focus: always visible, never on mouse click */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.app-header {
+  max-width: var(--content-width);
+  margin: 0 auto var(--space-4) auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.save-status {
+  font-size: var(--text-xs);
+  color: var(--color-success);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+}
+
+h1 {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+}
+
+.brand {
+  white-space: nowrap;
+}
+
+.title-sep {
+  width: 1px;
+  height: 1.25rem;
+  background: var(--color-border-strong);
+  flex: none;
+}
+
+.paper-title {
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+}
+
+/* Light and dark theme toggle (theme-toggle.css) */
+.header-actions [data-theme-toggle] {
+  color: var(--color-text);
+}
