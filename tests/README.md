@@ -36,7 +36,7 @@ npm test
 
 The app icons are generated: change `scripts/make-icons.mjs` and run `node scripts/make-icons.mjs`.
 
-The Landing Page's screenshots (`www/images/`) are real captures of the app: after changing how the app looks, run `node scripts/make-screenshots.mjs` (needs ffmpeg).
+The Landing Page's screenshots (`apps/landing/public/images/`) are real captures of the app: after changing how the app looks, run `node scripts/make-screenshots.mjs` (needs ffmpeg).
 
 ## Fixtures
 

@@ -4,7 +4,7 @@
 //   node scripts/make-screenshots.mjs
 //
 // Needs the Playwright browser (npm run test:install-browsers) and ffmpeg on
-// the PATH (to write WebP). Writes www/images/*.webp.
+// the PATH (to write WebP). Writes apps/landing/public/images/*.webp.
 
 import { chromium } from "@playwright/test";
 import { spawn, execFileSync } from "node:child_process";
@@ -15,7 +15,7 @@ import { fileURLToPath } from "node:url";
 
 const PORT = 4179;
 const APP = `http://localhost:${PORT}/app/`;
-const OUT = fileURLToPath(new URL("../www/images/", import.meta.url));
+const OUT = fileURLToPath(new URL("../apps/landing/public/images/", import.meta.url));
 // A made-up school, so the screenshots name no real one.
 const SCHOOL = "Riverside Public School, Siliguri";
 

@@ -1,0 +1,59 @@
+---
+import Button from "./Button.astro";
+import { reveal } from "../ui.ts";
+
+// The grey second line changes every few seconds (landing.ts).
+const LINES = ["not evenings.", "with the Marking Scheme.", "ready to print on A4.", "that work offline."];
+---
+
+<section class="flex flex-col items-center text-center pt-140 px-24 max-sm:pt-112 max-sm:px-16" aria-labelledby="hero-title">
+  <a
+    class:list={[
+      reveal,
+      "inline-flex items-center gap-6 py-4 pr-8 pl-4 rounded-[999px] bg-raised shadow-chip text-[12px] text-fg-90",
+    ]}
+    href="#maker"
+    ><img class="w-18 h-18 rounded-[999px]" src="app/icon-192.png" alt="" />Made by a CBSE teacher<svg class="w-11 h-11 opacity-50"
+      ><use href="#i-arrow-ur"></use></svg
+    ></a
+  >
+  <h1
+    id="hero-title"
+    class:list={[reveal, "mt-20 font-display font-[300] text-[clamp(34px,4.6vw,45px)] leading-[1.16] tracking-[-0.035em]"]}
+    style="--delay:.05s"
+  >
+    <span class="block text-balance">Set question papers in minutes,</span>
+    <span class="hero-rotator grid justify-items-center text-fg-45" aria-hidden="true">
+      {
+        LINES.map((line, i) => (
+          <span
+            class:list={[
+              "hero-line [grid-area:1/1] whitespace-nowrap max-sm:whitespace-normal opacity-0 [filter:blur(10px)] [transform:translateY(10px)]",
+              "data-[state=in]:animate-line-in data-[state=out]:animate-line-out",
+              "motion-reduce:data-[state=in]:animate-none motion-reduce:data-[state=out]:animate-none",
+              "motion-reduce:data-[state=in]:opacity-100 motion-reduce:data-[state=in]:[filter:none] motion-reduce:data-[state=in]:[transform:none]",
+            ]}
+            data-state={i === 0 ? "in" : "idle"}
+          >
+            {line}
+          </span>
+        ))
+      }
+    </span>
+    <span class="sr-only">not evenings.</span>
+  </h1>
+  <p class:list={[reveal, "mt-26 max-w-[480px] text-[15px] leading-[24px] text-muted text-balance"]} style="--delay:.1s">
+    Prashna helps CBSE teachers design question papers and marking schemes, then print or export to Word. Free, works
+    offline, no sign-up.
+  </p>
+  <div class:list={[reveal, "mt-40 flex flex-wrap justify-center gap-10 max-sm:w-full"]} style="--delay:.15s">
+    <Button variant="dark" wide getApp><svg><use href="#i-download"></use></svg>Get the App</Button>
+    <Button variant="light" wide href="app/">Try it in your browser</Button>
+  </div>
+  <ul class:list={[reveal, "mt-20 flex flex-wrap justify-center gap-x-12 gap-y-4 text-[13px] text-muted"]} style="--delay:.2s">
+    <li>Android &amp; iPhone</li><li class="opacity-50" aria-hidden="true">·</li><li>Chrome, Edge &amp; Safari</li><li
+      class="opacity-50"
+      aria-hidden="true">·</li
+    ><li>Print, PDF &amp; Word</li>
+  </ul>
+</section>

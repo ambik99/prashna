@@ -1,0 +1,23 @@
+---
+// A feature card: a small illustration above a title and a sentence.
+import { card, reveal } from "../ui.ts";
+
+interface Props {
+  title: string;
+  /** A tag beside the title, e.g. "Class 9–10". */
+  tag?: string;
+  delay?: string;
+}
+const { title, tag, delay } = Astro.props;
+---
+
+<article class:list={[reveal, card]} style={delay ? `--delay:${delay}` : undefined}>
+  <div class="h-200 grid place-items-center p-24 overflow-hidden"><slot name="art" /></div>
+  <div class="px-16 pb-20">
+    <h3 class="flex items-center justify-between gap-8 text-[16px] font-[500] text-fg-90">
+      {title}
+      {tag && <span class="shrink-0 px-8 py-2 rounded-[999px] bg-tint-8 text-[12px] font-[500] text-fg-70">{tag}</span>}
+    </h3>
+    <p class="mt-6 text-[14px] leading-[21px] text-muted"><slot /></p>
+  </div>
+</article>

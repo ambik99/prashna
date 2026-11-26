@@ -132,3 +132,67 @@
 
   --content-width: 1120px;
 }
+
+/*
+ * Landing Page (apps/landing). A quieter, near-monochrome palette of its own
+ * (Resurf's look, chosen by the maker), kept here so every design value
+ * lives in one file. The Landing Page's Tailwind theme reads these. In the
+ * dark theme the page goes dark; its screenshots and Paper sheets stay white.
+ */
+:root {
+  --landing-fg: oklch(0.2 0.004 78);
+  --landing-fg-90: oklab(0.2 0.0008 0.0039 / 0.9);
+  --landing-fg-70: oklab(0.2 0.0008 0.0039 / 0.7);
+  --landing-fg-45: oklab(0.2 0.0008 0.0039 / 0.45);
+  --landing-muted: oklch(0.55 0.004 78);
+  --landing-tint-3: oklab(0.2 0.0008 0.0039 / 0.03);
+  --landing-tint-4: oklab(0.2 0.0008 0.0039 / 0.04);
+  --landing-tint-5: oklab(0.2 0.0008 0.0039 / 0.05);
+  --landing-tint-8: oklab(0.2 0.0008 0.0039 / 0.08);
+  --landing-page: #f8f8f8;
+  --landing-raised: oklch(1 0.004 78);
+  --landing-on-fg: oklch(0.95 0 78);
+  --landing-fg-hover: oklch(0.3 0.004 78);
+  --landing-ring: oklch(0.6 0.18 262);
+  --landing-format: oklab(0.95 0 0 / 0.55);
+  --landing-panel: rgba(240, 240, 240, 0.92);
+  --landing-chip-total: oklch(0.93 0.03 262);
+  --landing-chip-left: oklch(0.95 0.05 85);
+  --landing-ok-bg: oklch(0.94 0.06 150);
+  --landing-ok-fg: oklch(0.45 0.12 150);
+  /* Icons on the tour's white buttons, dark in both themes. */
+  --landing-on-white: oklch(0.2 0.004 78);
+  --landing-placeholder-border: #d9b35c;
+  --landing-placeholder-bg: #fff4d6;
+  --landing-placeholder-fg: #6b4a00;
+  --landing-shadow-chip: 0 0 0 1px rgba(0, 0, 0, 0.04), inset 0 0.85px 0.5px #fff, 0 1px 2px rgba(0, 0, 0, 0.09), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --landing-shadow-float: 0 1px 2px rgba(0, 0, 0, 0.06), 0 4px 12px -4px rgba(0, 0, 0, 0.12);
+}
+
+:root[data-theme="dark"] {
+  --landing-fg: oklch(0.95 0.004 78);
+  --landing-fg-90: oklab(0.95 0 0.002 / 0.9);
+  --landing-fg-70: oklab(0.95 0 0.002 / 0.7);
+  --landing-fg-45: oklab(0.95 0 0.002 / 0.45);
+  --landing-muted: oklch(0.72 0.004 78);
+  --landing-tint-3: oklab(1 0 0 / 0.04);
+  --landing-tint-4: oklab(1 0 0 / 0.05);
+  --landing-tint-5: oklab(1 0 0 / 0.07);
+  --landing-tint-8: oklab(1 0 0 / 0.11);
+  --landing-page: #111214;
+  --landing-raised: #1e1f23;
+  --landing-on-fg: oklch(0.2 0.004 78);
+  --landing-fg-hover: oklch(0.85 0.004 78);
+  --landing-ring: oklch(0.72 0.14 262);
+  --landing-format: oklab(1 0 0 / 0.04);
+  --landing-panel: rgba(30, 31, 35, 0.94);
+  --landing-chip-total: oklch(0.34 0.06 262);
+  --landing-chip-left: oklch(0.36 0.06 85);
+  --landing-ok-bg: oklch(0.32 0.06 150);
+  --landing-ok-fg: oklch(0.85 0.1 150);
+  --landing-placeholder-border: #7a6224;
+  --landing-placeholder-bg: #33290f;
+  --landing-placeholder-fg: #f0d491;
+  --landing-shadow-chip: 0 0 0 1px rgba(255, 255, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --landing-shadow-float: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px -4px rgba(0, 0, 0, 0.6);
+}
