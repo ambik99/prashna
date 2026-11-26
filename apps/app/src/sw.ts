@@ -1,72 +1,45 @@
-// Keeps every app file on the device so Prashna works offline after the
-// first visit. Files are always served from the cache.
+/// <reference lib="webworker" />
+// The offline copy: keeps every app file on the device so Prashna works
+// offline after the first visit. Files are always served from the cache.
 //
 // New versions: whenever the app opens or comes back to the screen online,
 // it asks this worker to check for a new version. The whole set is
 // downloaded again in the background and compared with the stored files, so
 // no one has to bump a version number. A changed set is kept aside, whole,
-// and open windows are told so they can offer a Refresh (update-notice.js).
+// and open windows are told so they can offer a Refresh (UpdateNotice.tsx).
 // The app left open keeps using the files it started with; the kept-aside
 // version takes over the next time the app page loads (Refresh, or opening
 // Prashna again). Nothing ever reloads the app by itself.
 //
-// List every file in www/app here (except this one). The offline browser
-// tests fail if a file is missing.
+// The list of app files is written in at build time by vite-plugin-pwa
+// (self.__WB_MANIFEST): every file of the built app except this one.
+
+export {};
+
+declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: Array<{ url: string } | string> };
 
 // The files the app runs from.
 const CACHE_NAME = "prashna-v1";
 // A downloaded new version, waiting for the app page to load again.
 const NEXT_CACHE_NAME = "prashna-next";
-const APP_FILES = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./app.js",
-  "./confirm.js",
-  "./layout.js",
-  "./get-app.js",
-  "./update-notice.js",
-  "./theme.js",
-  "./fonts.css",
-  "./tokens.css",
-  "./paper.css",
-  "./styles.css",
-  "./get-app.css",
-  "./update-notice.css",
-  "./theme-toggle.css",
-  "./LICENSE-theme-toggles.txt",
-  "./fonts/inter.woff2",
-  "./fonts/newsreader.woff2",
-  "./fonts/newsreader-italic.woff2",
-  "./fonts/noto-sans-devanagari.woff2",
-  "./fonts/noto-sans-bengali.woff2",
-  "./fonts/LICENSE-inter.txt",
-  "./fonts/LICENSE-newsreader.txt",
-  "./fonts/LICENSE-noto-sans-bengali.txt",
-  "./fonts/LICENSE-noto-sans-devanagari.txt",
-  "./icon-16.png",
-  "./icon-32.png",
-  "./icon-192.png",
-  "./icon-512.png",
-  "./icon-maskable-192.png",
-  "./icon-maskable-512.png",
-  "./apple-touch-icon.png",
-];
+const APP_FILES = ["./", ...self.__WB_MANIFEST.map((entry) => `./${typeof entry === "string" ? entry : entry.url}`)];
 
+type StoredFile = { url: string; bytes: ArrayBuffer; status: number; headers: Headers };
 // The app's one page, which every visit to /app/ opens.
 const APP_PAGE = new URL("./", self.registration.scope).href;
 const APP_PAGE_PATHS = [new URL(APP_PAGE).pathname, new URL("index.html", APP_PAGE).pathname];
 
 // Cache changes run one at a time, so a page load never takes over a new
 // version that is only half stored.
-let cacheWork = Promise.resolve();
-function oneAtATime(task) {
-  cacheWork = cacheWork.then(task, task);
-  return cacheWork;
+let cacheWork: Promise<unknown> = Promise.resolve();
+function oneAtATime<T>(task: () => Promise<T>): Promise<T> {
+  const run = cacheWork.then(task, task);
+  cacheWork = run;
+  return run;
 }
 
 // Downloads every app file. Throws if any file fails (for example offline).
-function downloadAppFiles(cacheMode) {
+function downloadAppFiles(cacheMode: RequestCache): Promise<StoredFile[]> {
   return Promise.all(
     APP_FILES.map(async (file) => {
       const request = new Request(file, { cache: cacheMode });
@@ -80,7 +53,7 @@ function downloadAppFiles(cacheMode) {
   );
 }
 
-function sameBytes(stored, downloaded) {
+function sameBytes(stored: ArrayBuffer, downloaded: ArrayBuffer): boolean {
   if (stored.byteLength !== downloaded.byteLength) return false;
   const storedView = new Uint8Array(stored);
   const downloadedView = new Uint8Array(downloaded);
@@ -88,7 +61,7 @@ function sameBytes(stored, downloaded) {
 }
 
 // Whether a cache holds exactly these files, byte for byte.
-async function holdsSameFiles(cache, files) {
+async function holdsSameFiles(cache: Cache, files: StoredFile[]): Promise<boolean> {
   const keys = await cache.keys();
   if (keys.length !== files.length) return false;
   for (const { url, bytes } of files) {
@@ -99,7 +72,7 @@ async function holdsSameFiles(cache, files) {
 }
 
 // Replaces a cache's contents with these files.
-async function fillCache(cacheName, files) {
+async function fillCache(cacheName: string, files: StoredFile[]): Promise<void> {
   const cache = await caches.open(cacheName);
   await Promise.all(files.map(({ url, bytes, status, headers }) => cache.put(url, new Response(bytes, { status, headers }))));
   const current = new Set(files.map(({ url }) => url));
@@ -110,7 +83,7 @@ async function fillCache(cacheName, files) {
 // Downloads the app and stores it. The first download becomes the app's
 // files; later ones that differ from the newest stored version are kept
 // aside as the next version. Returns true when a new version was kept aside.
-async function downloadNewVersion(cacheMode) {
+async function downloadNewVersion(cacheMode: RequestCache): Promise<boolean> {
   const files = await downloadAppFiles(cacheMode);
   return oneAtATime(async () => {
     const running = await caches.open(CACHE_NAME);
@@ -128,13 +101,14 @@ async function downloadNewVersion(cacheMode) {
 }
 
 // Makes the waiting new version, if any, the files the app runs from.
-function takeOverNextVersion() {
+function takeOverNextVersion(): Promise<void> {
   return oneAtATime(async () => {
     if (!(await caches.has(NEXT_CACHE_NAME))) return;
     const next = await caches.open(NEXT_CACHE_NAME);
-    const files = [];
+    const files: StoredFile[] = [];
     for (const request of await next.keys()) {
       const response = await next.match(request);
+      if (!response) continue;
       files.push({ url: request.url, bytes: await response.arrayBuffer(), status: response.status, headers: response.headers });
     }
     await fillCache(CACHE_NAME, files);
@@ -148,7 +122,7 @@ async function announceNewVersion() {
   for (const client of windows) client.postMessage({ type: "new-version-available" });
 }
 
-async function checkForNewVersion(cacheMode) {
+async function checkForNewVersion(cacheMode: RequestCache): Promise<void> {
   if (await downloadNewVersion(cacheMode)) await announceNewVersion();
 }
 

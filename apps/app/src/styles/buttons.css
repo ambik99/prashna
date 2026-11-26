@@ -1,0 +1,155 @@
+/* Buttons, press feedback and hover. Part of the app's styles: index.css imports these in order, so the cascade is the old styles.css's. */
+
+/* Buttons */
+
+button {
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    transform 100ms var(--ease-out);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Press feedback the moment a finger lands, on every input type */
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  flex: 1;
+  font-size: var(--text-base);
+  padding: var(--space-3) var(--space-4);
+}
+
+/* Print is the main action: the dark pill */
+.btn-print {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  border-radius: var(--radius-pill);
+  padding-inline: var(--space-5);
+}
+
+.btn-reset {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+
+.btn-toggle {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-soft-text);
+}
+
+.btn-toggle.active {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+/* Destructive confirmations: the error red */
+.btn-danger {
+  background: var(--color-danger);
+  color: var(--color-surface);
+}
+
+.btn-icon {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  border-color: var(--color-border);
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.btn-icon:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-bank,
+.btn-edit,
+.btn-remove {
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.btn-bank {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.btn-edit {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-soft-text);
+}
+
+.btn-remove {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+/* Hover only where a real pointer can hover, so taps don't leave it stuck */
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover,
+  .btn-print:hover,
+  .btn-toggle.active:hover {
+    background: var(--color-accent-hover);
+  }
+  .btn-reset:hover {
+    background: var(--color-surface-muted);
+  }
+  .btn-toggle:hover {
+    background: var(--color-accent-soft-hover);
+  }
+  .btn-icon:hover:not(:disabled) {
+    background: var(--color-border);
+  }
+  .btn-bank:hover {
+    background: var(--color-success-soft-hover);
+  }
+  .btn-edit:hover {
+    background: var(--color-accent-soft-hover);
+  }
+  .btn-danger:hover {
+    filter: brightness(1.08);
+  }
+  .btn-remove:hover {
+    background: var(--color-danger-soft-hover);
+  }
+  .more-item:hover,
+  .step-toggle:hover {
+    background: var(--color-surface-muted);
+  }
+  .sym-chip:hover {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent-soft-hover);
+  }
+}
+
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: var(--space-5) 0;
+}
+
+.error-msg {
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+  margin-top: var(--space-2);
+  display: none;
+}

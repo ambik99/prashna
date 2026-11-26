@@ -1,0 +1,55 @@
+/* Reduced motion and printing. Part of the app's styles: index.css imports these in order, so the cascade is the old styles.css's. */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  body {
+    background: #ffffff;
+    padding: 0;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+  /* The print page is narrower than the phone breakpoint: never let the
+     phone tab switching hide the Paper. */
+  .preview-pane {
+    display: block !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+  .app-header,
+  .bank-panel,
+  .tab-bar,
+  .sheet-backdrop,
+  .summary-bar,
+  .editor-panel,
+  .btn-icon,
+  .btn-bank,
+  .btn-edit,
+  .btn-remove,
+  .division-badge {
+    display: none !important;
+  }
+  .question-item.editing-highlight {
+    background: transparent;
+    padding: 5pt 0;
+    margin: 0;
+  }
+  .layout {
+    display: block;
+    padding: 0;
+  }
+  .paper-sheet {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    max-width: none;
+  }
+}

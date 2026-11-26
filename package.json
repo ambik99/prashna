@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "build": "npm run build -w apps/app -w apps/landing && node scripts/assemble.mjs",
-    "typecheck": "tsc -p packages/paper && tsc -p worker && tsc -p apps/app",
+    "typecheck": "tsc -p packages/paper && tsc -p worker && tsc -p apps/app && tsc -p apps/app/tsconfig.sw.json",
     "serve": "node scripts/serve.mjs",
     "dev": "wrangler dev",
     "test": "npm run build && npm run typecheck && npm run test:unit && npm run test:browser",

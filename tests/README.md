@@ -28,7 +28,7 @@ npm test
 
 ## Offline
 
-`offline.spec.mjs` visits the app once, turns the network off and checks the app still works. It also checks that every file in `www/app/` is in the offline cache, so a new app file must be added to the list in `www/app/sw.js`.
+`offline.spec.mjs` visits the app once, turns the network off and checks the app still works. It also checks that every file of the built app (`dist/app/`) is in the offline cache. The build writes that list into the service worker (`apps/app/src/sw.ts`, through `vite-plugin-pwa`), so new files are covered automatically.
 
 `update-notice.spec.mjs` simulates a new deployment by changing what the server answers for the app page (`context.route`), then checks the "New version available" notice appears without the app reloading itself.
 

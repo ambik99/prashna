@@ -1,4 +1,4 @@
-/* Update notice (see update-notice.js): a small floating bar at the bottom
+/* Update notice (see components/UpdateNotice.tsx): a small floating bar at the bottom
    of the screen, above the phone tab bar, that never covers the whole app. */
 
 .update-notice {

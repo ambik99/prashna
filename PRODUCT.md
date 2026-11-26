@@ -42,7 +42,7 @@ Made by a CBSE teacher (a Computer Science teacher in Malbazar, West Bengal) for
 
 ## Evidence on Hand
 
-- The real app at `www/app/`, which screenshots must be taken from.
+- The real app (`apps/app/`, served at `/app/`), which screenshots must be taken from.
 - Built-in Templates, including "Board Pattern Starter (Class X)".
 - The maker's name, title, quote and contact email are pending (issue #20): use clearly marked placeholders. No testimonials, user counts or endorsements exist; never invent them.
 

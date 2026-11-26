@@ -1,0 +1,13 @@
+/* The app's styles, split by part of the page. Order matters: this is the
+   order of the original single stylesheet. All values come from tokens.css. */
+
+@import "./base.css";
+@import "./top-bar.css";
+@import "./editor.css";
+@import "./buttons.css";
+@import "./paper-preview.css";
+@import "./responsive.css";
+@import "./confirm-dialog.css";
+@import "./bank-panel.css";
+@import "./phone.css";
+@import "./motion-and-print.css";

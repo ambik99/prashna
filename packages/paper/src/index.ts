@@ -3,7 +3,7 @@
 //
 // Saved files and stored Papers from older versions of Prashna have no
 // `version` and may miss fields. `parsePaper` fills them in the way the old
-// app did (www/app/app.js, applyPaperData) and returns a current Paper.
+// app did (its applyPaperData, before the move to React) and returns a current Paper.
 
 import { z } from "zod";
 
