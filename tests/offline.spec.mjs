@@ -39,9 +39,8 @@ test.describe("Prashna as an installed app", () => {
 
     const { manifest, installed } = await readManifest(page, request);
     expect(manifest).toMatchObject({ name: "Prashna", short_name: "Prashna", display: "standalone" });
-    // Addresses are relative, so the app also installs from a sub-folder
-    // (see sub-folder.spec.mjs). Its identity stays /app/, so devices that
-    // installed Prashna earlier keep the same app.
+    // Its identity stays /app/, so devices that installed Prashna earlier
+    // keep the same app.
     expect(installed).toEqual({ opens: "/app/", scope: "/app/", identity: "/app/" });
   });
 

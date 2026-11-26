@@ -2,8 +2,7 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
-// The app is served at /app/ on Cloudflare and at /prashna/app/ on the beta
-// site, so every built path is relative ("./").
+// Every built path is relative ("./"), so the app works wherever /app/ is served.
 export default defineConfig({
   base: "./",
   plugins: [

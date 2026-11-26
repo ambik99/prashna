@@ -1,5 +1,4 @@
-// Puts the built site together in dist/, the folder Cloudflare and the beta
-// site serve: the Landing Page (apps/landing, Astro) at the root and the app
+// Puts the built site together in dist/, the folder Cloudflare serves: the Landing Page (apps/landing, Astro) at the root and the app
 // (apps/app, React) at app/.
 
 import { cp, rm, stat } from "node:fs/promises";

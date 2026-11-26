@@ -27,6 +27,4 @@ npm run dev            # wrangler dev: dist/ plus the Worker, as on Cloudflare
 
 ## Deploying
 
-Cloudflare runs `wrangler deploy` (or `wrangler preview` for pull requests). Wrangler runs `npm run build` first (the `build` block in `wrangler.jsonc`), then uploads `dist/` and the Worker. The beta site on GitHub Pages publishes the same `dist/` without the Worker (`docs/beta-site.md`).
-
-Every path in the built site must be relative, because the beta site is served from `/prashna/`.
+Cloudflare runs `wrangler deploy` (or `wrangler preview` for pull requests). Wrangler runs `npm run build` first (the `build` block in `wrangler.jsonc`), then uploads `dist/` and the Worker. See `docs/hosting.md`.
