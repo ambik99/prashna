@@ -30,7 +30,7 @@ npm test
 
 `offline.spec.mjs` visits the app once, turns the network off and checks the app still works. It also checks that every file of the built app (`dist/app/`) is in the offline cache. The build writes that list into the service worker (`apps/app/src/sw.ts`, through `vite-plugin-pwa`), so new files are covered automatically.
 
-`update-notice.spec.mjs` simulates a new deployment by changing what the server answers for the app page (`context.route`), then checks the "New version available" notice appears without the app reloading itself.
+`update-notice.spec.mjs` simulates a new deployment by changing what the server answers for the app page (`context.route`), then checks the "New version available" notice appears without the app reloading itself. A real deployment renames the hashed bundle and changes `sw.js`, which `context.route` can't change (the browser fetches a service worker's script itself). So the tests "after a real deployment" serve `dist/app/` from their own server whose files change. They check that the open app's own check (`files.json`) and a new `sw.js` each find the new version alone, and that a missed message doesn't hide the notice.
 
 The app icons are generated: change `scripts/make-icons.mjs` and run `node scripts/make-icons.mjs`.
 
