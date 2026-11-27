@@ -3,7 +3,7 @@ import { PAPER_VERSION } from "@prashna/paper";
 import worker, { type Env } from "./index.ts";
 
 const assets = { fetch: async () => new Response("static file") } as unknown as Fetcher;
-const env: Env = { ASSETS: assets };
+const env = { ASSETS: assets } as Env;
 const call = (path: string) =>
   worker.fetch(new Request(`https://prashna.example${path}`) as Parameters<typeof worker.fetch>[0], env);
 

@@ -48,7 +48,7 @@ test("the Landing Page has every section, in order", async ({ page }) => {
   expect(headings.map((h) => h.trim())).toEqual([
     "Everything a CBSE Paper needs, in one place.",
     "Print it, or take it to Word.",
-    "Your papers never leave your device.",
+    "Your papers stay on your device.",
     "Made by a teacher",
     "Questions teachers ask",
     "Set your next Paper in minutes.",

@@ -22,6 +22,7 @@ interface Props {
   setMoreOpen: (open: boolean, options?: { returnFocus?: boolean }) => void;
   showMarkingScheme: boolean;
   onTemplate: (key: string, name: string) => void;
+  onGenerate: () => void;
   onSavePaper: () => void;
   onLoadPaper: (event: ChangeEvent<HTMLInputElement>) => void;
   onReset: () => void;
@@ -148,6 +149,9 @@ export function Header(props: Props) {
                   </option>
                 ))}
               </select>
+              <button type="button" id="generateBtn" className="more-item" onClick={props.onGenerate}>
+                Generate a Paper (AI)
+              </button>
             </div>
             <div className="more-group">
               <span className="more-label">Paper file</span>
