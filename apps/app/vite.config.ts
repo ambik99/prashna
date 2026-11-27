@@ -1,6 +1,20 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
+
+const OUT_DIR = "dist";
+
+// The open app checks for a new version by reading the deployed app's file
+// list from files.json (see src/sw.ts). It is the exact list written into
+// sw.js, saved as the manifest is built, so the two can never disagree.
+// files.json itself is not part of the offline copy.
+async function writeFileList(entries: Array<{ url: string }>) {
+  const outDir = fileURLToPath(new URL(`./${OUT_DIR}/`, import.meta.url));
+  await mkdir(outDir, { recursive: true });
+  await writeFile(`${outDir}files.json`, JSON.stringify(entries.map(({ url }) => url)));
+}
 
 // Every built path is relative ("./"), so the app works wherever /app/ is served.
 export default defineConfig({
@@ -18,11 +32,17 @@ export default defineConfig({
       manifest: false,
       injectManifest: {
         globPatterns: ["**/*"],
-        globIgnores: ["sw.js"],
+        globIgnores: ["sw.js", "files.json"],
         rollupFormat: "iife",
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        manifestTransforms: [
+          async (manifest) => {
+            await writeFileList(manifest);
+            return { manifest };
+          },
+        ],
       },
     }),
   ],
-  build: { outDir: "dist", emptyOutDir: true },
+  build: { outDir: OUT_DIR, emptyOutDir: true },
 });

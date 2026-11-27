@@ -4,13 +4,14 @@ import { fileURLToPath } from "node:url";
 import { TEMPLATES, addQuestion, loadTemplate, moreMenuButton, preview, readManifest, waitForOfflineCopy } from "./helpers.mjs";
 
 // Every file the built app is made of (dist/app/, from `npm run build`), as
-// URLs under /app/. The service worker script itself is left out: the
-// browser always checks it on the network.
+// URLs under /app/. The service worker script and the file list it reads
+// to check for a new version (files.json) are left out: both are only ever
+// read from the network.
 async function appFiles() {
   const root = fileURLToPath(new URL("../dist/app/", import.meta.url));
   const entries = await readdir(root, { recursive: true, withFileTypes: true });
   return entries
-    .filter((entry) => entry.isFile() && entry.name !== "sw.js")
+    .filter((entry) => entry.isFile() && !["sw.js", "files.json"].includes(entry.name))
     .map((entry) => {
       const relative = `${entry.parentPath}/${entry.name}`.slice(root.length).replaceAll("\\", "/");
       return `/app/${relative.replace(/^\//, "")}`;

@@ -4,21 +4,29 @@
 // by itself, so nothing a teacher is typing is lost, and until then it keeps
 // running on the files it started with. The new version opens when they
 // choose Refresh, or the next time they open Prashna.
+//
+// The offline copy tells the app again on every check while a new version
+// waits, in case the first message was missed. Later puts away the version
+// waiting now; only a version downloaded after that brings the notice back.
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // How often an app left open on screen looks for a new version.
 const CHECK_EVERY_MS = 60 * 60 * 1000;
 
 export function UpdateNotice() {
   const [shown, setShown] = useState(false);
+  // Whether the teacher chose Later for the version waiting now.
+  const putAway = useRef(false);
 
   useEffect(() => {
     if (!("serviceWorker" in navigator)) return;
     const offlineCopy = navigator.serviceWorker;
 
     const onMessage = (event: MessageEvent) => {
-      if (event.data?.type === "new-version-available") setShown(true);
+      if (event.data?.type !== "new-version-available") return;
+      if (event.data.fresh) putAway.current = false;
+      if (!putAway.current) setShown(true);
     };
 
     // Only an app on screen that already runs from its offline copy checks: on
@@ -50,7 +58,10 @@ export function UpdateNotice() {
       {shown && (
         <>
           <span className="update-notice-text">New version available</span>
-          <button type="button" className="update-notice-later" onClick={() => setShown(false)}>
+          <button type="button" className="update-notice-later" onClick={() => {
+              putAway.current = true;
+              setShown(false);
+            }}>
             Later
           </button>
           <button type="button" className="update-notice-refresh" onClick={() => location.reload()}>
