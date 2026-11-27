@@ -33,7 +33,16 @@ TURNSTILE_HOSTNAMES=localhost,example.com
 
 (The test secret reports the hostname `example.com` and no action; the Worker lets that through only for the test secret's results.)
 
-Each attempt is logged with its cost (`npx wrangler tail`), so the cost per Paper can be read off real generations.
+Each attempt is logged with its cost, so the cost per Paper can be read off real generations.
+
+## Logs
+
+Workers Logs are on (`observability` in `wrangler.jsonc`, so a deploy keeps them on). Read them in the Cloudflare dashboard under the Worker's Observability tab, or live with `npx wrangler tail`. They hold:
+
+- the Worker's own `generate attempt` lines: the attempt number, its cost, the model's finish reason, and the marks of the Paper it returned, or the error. No Paper text or IP address is logged.
+- Cloudflare's invocation log for each `/api/*` request: the request and response and their metadata.
+
+Static files (the Landing Page and the app) are served without running the Worker, so they aren't logged.
 
 ## The old beta address
 

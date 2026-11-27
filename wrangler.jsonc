@@ -19,6 +19,14 @@
     "not_found_handling": "none",
     "run_worker_first": ["/api/*"]
   },
+  // Workers Logs, kept here so a deploy doesn't turn them off: the Worker's
+  // own lines and Cloudflare's log of each /api/* request (docs/hosting.md).
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    }
+  },
   // Counts AI requests and spending for the cost controls (worker/src/limits.ts).
   "durable_objects": {
     "bindings": [{ "name": "LIMITS", "class_name": "LimitsObject" }]
