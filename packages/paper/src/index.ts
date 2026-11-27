@@ -7,6 +7,8 @@
 
 import { z } from "zod";
 
+export * from "./blueprints.ts";
+
 /** The current version of the Paper format. Bump it with an upgrade step. */
 export const PAPER_VERSION = 1;
 

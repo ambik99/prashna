@@ -47,6 +47,8 @@ test("the More menu works from the keyboard", async ({ page }) => {
   // Focus moves into the menu, starting with the Template choice.
   await expect(page.getByLabel("Load CBSE Template")).toBeFocused();
   await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Generate a Paper (AI)" })).toBeFocused();
+  await page.keyboard.press("Tab");
   await expect(page.getByRole("button", { name: "Save Paper (.json)" })).toBeFocused();
 
   // Escape closes it and puts focus back on More.

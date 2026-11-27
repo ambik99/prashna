@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@prashna/paper": "^0.0.0"
+    "@prashna/paper": "^0.0.0",
+    "zod": "^4.6.7"
   }
 }

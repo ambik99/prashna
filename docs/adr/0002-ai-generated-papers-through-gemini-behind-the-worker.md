@@ -12,9 +12,11 @@ The endpoint is free and has no accounts, so anyone could script it. It is prote
 
 - Cloudflare Turnstile on every request;
 - a limit of 3 Papers an hour for each IP address;
-- a global daily budget of $3, after which teachers are told to try again tomorrow;
+- a global daily budget of $3 (the day in India), after which teachers are told to try again tomorrow;
 - a maximum of about 16k output tokens;
 - the cheapest model that writes good enough Papers (Gemini 3.5 Flash-Lite, with low thinking), at about $0.03 to $0.05 a Paper when this was decided.
+
+Both limits are counted in one Durable Object (`worker/src/limits.ts`), so every request sees the same numbers. Cloudflare's rate-limit binding was the first idea for the hourly limit, but its window is at most 60 seconds. IP addresses are stored only as hashes, and only for the hour they count. The spending is worked out from the token counts Gemini reports for each call.
 
 When the marks do not add up to the Blueprint's total, the Worker retries once (the retry counts towards the budget). If they still do not add up, the Paper loads anyway and Target Marks shows the gap. It never fails silently.
 

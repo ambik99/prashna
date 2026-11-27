@@ -8,6 +8,7 @@ import { flushSync } from "react-dom";
 import { fromBankItem, toBankItem, type Bank, type BankItem } from "./bank.ts";
 import { BankPanel } from "./components/BankPanel.tsx";
 import { useConfirm } from "./components/ConfirmDialog.tsx";
+import { GenerateDialog, type GeneratedPaper } from "./components/GenerateDialog.tsx";
 import { Header, type SaveStatus } from "./components/Header.tsx";
 import { PaperPreview } from "./components/PaperPreview.tsx";
 import { PaperDetailsStep, SectionsStep } from "./components/PaperSetup.tsx";
@@ -72,6 +73,7 @@ export function App() {
   const [moreOpen, setMoreOpenState] = useState(false);
   const [bankOpen, setBankOpenState] = useState(false);
   const [addStepOpen, setAddStepOpen] = useState(true);
+  const [generateOpen, setGenerateOpen] = useState(false);
 
   const header = useRef<HTMLElement>(null);
   const bankToggle = useRef<HTMLButtonElement>(null);
@@ -158,6 +160,25 @@ export function App() {
     });
     const next = ok ? templatePaper(key) : null;
     if (next) replacePaper(next);
+  }
+
+  /** Loads an AI Generated Paper, as a Template is. The school stays the teacher's own. */
+  async function loadGenerated({ paper: generated, marks }: GeneratedPaper) {
+    const { classLevel, subject } = generated.meta;
+    const ok = await confirm({
+      title: "Load this AI Generated Paper?",
+      message: `“${classLevel} ${subject}” will replace your current Paper. Save your current Paper first if you want to keep it.`,
+      confirmLabel: "Replace Paper",
+    });
+    if (!ok) return;
+    const school = paperRef.current.meta.school;
+    setGenerateOpen(false);
+    replacePaper(
+      { ...generated, meta: { ...generated.meta, school } },
+      marks.actual === marks.expected
+        ? { text: "AI Generated Paper loaded", color: "var(--color-accent)" }
+        : { text: `AI Paper: ${marks.actual} of ${marks.expected} marks`, color: "var(--color-warning)" },
+    );
   }
 
   /** A whole new Paper (Template, file, Reset): any edit in progress ends. */
@@ -401,6 +422,7 @@ export function App() {
         setMoreOpen={setMoreOpen}
         showMarkingScheme={showMarkingScheme}
         onTemplate={(key, name) => void loadTemplate(key, name)}
+        onGenerate={() => setGenerateOpen(true)}
         onSavePaper={savePaperFile}
         onLoadPaper={loadPaperFile}
         onReset={() => void resetSample()}
@@ -455,6 +477,14 @@ export function App() {
         onInsert={insertFromBank}
         onDelete={(item) => void deleteFromBank(item)}
         onAdd={addToBank}
+      />
+
+      <GenerateDialog
+        open={generateOpen}
+        classLevel={paper.meta.classLevel}
+        subject={paper.meta.subject}
+        onClose={() => setGenerateOpen(false)}
+        onLoad={(generated) => void loadGenerated(generated)}
       />
 
       <UpdateNotice />

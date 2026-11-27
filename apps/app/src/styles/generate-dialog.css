@@ -1,0 +1,139 @@
+/* The "Generate a Paper" dialog (AI Generated Paper). It shares the
+   confirmation dialog's card, backdrop and actions. Part of the app's styles. */
+
+.generate-dialog {
+  margin: auto;
+  width: min(520px, calc(100vw - 2 * var(--space-4)));
+  max-height: calc(100dvh - 2 * var(--space-4));
+  overflow-y: auto;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-lg);
+}
+
+.generate-dialog[open] {
+  animation: dialog-in 180ms var(--ease-out);
+}
+
+.generate-dialog::backdrop {
+  background: var(--color-overlay);
+}
+
+.generate-dialog h3 {
+  font-family: var(--font-serif);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  margin-bottom: var(--space-2);
+}
+
+.generate-intro,
+.generate-privacy {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: var(--leading-normal);
+  margin-bottom: var(--space-4);
+}
+
+.generate-privacy {
+  margin: var(--space-4) 0 0;
+}
+
+.generate-blueprint {
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  color: var(--color-text-muted);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  margin: calc(-1 * var(--space-2)) 0 var(--space-4);
+}
+
+.generate-blueprint strong {
+  color: var(--color-text);
+}
+
+.generate-dialog fieldset:disabled {
+  opacity: 0.7;
+}
+
+.generate-messages:empty {
+  display: none;
+}
+
+.generate-note,
+.generate-error,
+.generate-progress {
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}
+
+.generate-note {
+  color: var(--color-warning);
+  background: var(--color-warning-soft);
+  border: 1px solid var(--color-warning-border);
+}
+
+.generate-error {
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+  border: 1px solid currentColor;
+}
+
+.generate-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+}
+
+.generate-seconds {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+.generate-spinner {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border-strong);
+  border-top-color: var(--color-accent);
+  animation: generate-spin 800ms linear infinite;
+}
+
+@keyframes generate-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .generate-spinner {
+    animation-duration: 2400ms;
+  }
+}
+
+.generate-ready p[role="status"] {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  margin-bottom: var(--space-3);
+}
+
+.generate-ready .generate-note {
+  margin-bottom: var(--space-3);
+}
+
+.generate-bot-check:empty {
+  display: none;
+}
+
+.generate-bot-check {
+  margin-top: var(--space-3);
+}
